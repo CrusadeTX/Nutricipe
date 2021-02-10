@@ -37,6 +37,20 @@ public class UserBean {
     		inverseJoinColumns = @JoinColumn(name="role_id")
     		)
     private Set<RoleBean> roles;
+	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="user_category",
+    		joinColumns = @JoinColumn(name="account_id"), 
+    		inverseJoinColumns = @JoinColumn(name="category_id")
+    		)
+    private Set<CategoryBean> categories;
+	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="user_diet",
+    		joinColumns = @JoinColumn(name="user_id"), 
+    		inverseJoinColumns = @JoinColumn(name="diet_id")
+    		)
+    private Set<DietBean> Diets;
+	
+
     public UserBean() {};
     public UserBean(String username, String email) {
     	this.username = username;
@@ -78,7 +92,20 @@ public class UserBean {
 	}
 	public void setRoles(Set<RoleBean> roles) {
 		this.roles = roles;
+	}
+	public Set<CategoryBean> getCategories() {
+		return categories;
+	}
+	public void setCategories(Set<CategoryBean> categories) {
+		this.categories = categories;
+	}
+	public Set<DietBean> getDiets() {
+		return Diets;
+	}
+	public void setDiets(Set<DietBean> diets) {
+		Diets = diets;
 	};
+	
     
 
 }
