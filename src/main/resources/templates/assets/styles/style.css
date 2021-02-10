@@ -1,0 +1,39 @@
+.result-container {
+    border: 6px dotted white;
+    border-radius: 60px 60px 60px 60px;
+}
+
+.card-quote {
+    width: 14rem;
+    min-height: 14rem;
+    
+}
+
+.thumbnail{
+    
+    max-width: 6rem;
+    max-height: 6rem;
+    margin: 1rem;
+}
+.img-full-size{
+    max-width: 14rem;
+    height: 14rem;
+}
+.hide-quote{
+    display: none;
+}
+/*input:invalid {
+    border: 2px dashed red;
+  }
+  
+input:valid {
+    border: 2px solid green;
+  }*/
+
+  a:hover {
+  background-color: darkred;
+}
+
+#quote-container{
+	height: fit-content !important;
+}
