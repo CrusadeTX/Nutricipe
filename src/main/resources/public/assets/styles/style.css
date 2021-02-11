@@ -37,3 +37,9 @@ input:valid {
 #quote-container{
 	height: fit-content !important;
 }
+.fixed-header{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}

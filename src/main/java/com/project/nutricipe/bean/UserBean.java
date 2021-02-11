@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,12 +44,8 @@ public class UserBean {
     		inverseJoinColumns = @JoinColumn(name="category_id")
     		)
     private Set<CategoryBean> categories;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="user_diet",
-    		joinColumns = @JoinColumn(name="user_id"), 
-    		inverseJoinColumns = @JoinColumn(name="diet_id")
-    		)
-    private Set<DietBean> Diets;
+	@ManyToOne( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private DietBean Diet;
 	
 
     public UserBean() {};
@@ -99,11 +96,11 @@ public class UserBean {
 	public void setCategories(Set<CategoryBean> categories) {
 		this.categories = categories;
 	}
-	public Set<DietBean> getDiets() {
-		return Diets;
+	public DietBean getDiet() {
+		return Diet;
 	}
-	public void setDiets(Set<DietBean> diets) {
-		Diets = diets;
+	public void setDiets(DietBean diet) {
+		Diet = diet;
 	};
 	
     

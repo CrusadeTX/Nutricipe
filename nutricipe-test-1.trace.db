@@ -104,3 +104,6 @@ Caused by: org.h2.jdbc.JdbcSQLInvalidAuthorizationSpecException: Wrong user name
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:461)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 100 more
+2021-02-10 22:02:37 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM INFORMATION_SCHEMA.VIEWS INFORMATION_SCHEMA.[*]TABLE_TYPES"; SQL statement:
+SELECT * FROM INFORMATION_SCHEMA.VIEWS INFORMATION_SCHEMA.TABLE_TYPES [42000-200]
