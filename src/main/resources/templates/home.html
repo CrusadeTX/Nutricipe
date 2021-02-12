@@ -408,11 +408,14 @@ $(document).ready(function () {
     function hideAdminElements(user){
         var isAdmin = false;
         for (i = 0; i < user.roles.length; i++) {
-            if(user.roles[i].code==="ROLE_AMIN"){
+            console.log(user.roles[i].code)
+            if(user.roles[i].code == "ROLE_ADMIN"){
+                
                 isAdmin = true;
             }
 
     }
+    console.log(isAdmin);
     if(!isAdmin){
         $("#users-link").remove();
     }
