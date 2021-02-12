@@ -24,11 +24,12 @@ public class RoleBean {
 	private String code;
 	@Column(name="description", nullable=true)
 	private String description;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JoinTable(name="account_role",
-	    		joinColumns = @JoinColumn(name="role_id"), 
-	    		inverseJoinColumns = @JoinColumn(name="account_id")
-	    		)
+	//@ManyToMany( fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	//@JoinTable(name="account_role",
+	    		//joinColumns = @JoinColumn(name="role_id"), 
+	    		//inverseJoinColumns = @JoinColumn(name="account_id")
+	    		//)
+    @ManyToMany(mappedBy = "roles")
 	private Set<UserBean> Users;
 	public int getId() {
 		return id;
@@ -47,6 +48,19 @@ public class RoleBean {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public void addUser(UserBean user) {
+		Users.add(user);
+		
+	}
+	public void removeUser(UserBean user) {
+		for(UserBean foundUser : Users) {
+			if(foundUser.getId()== user.getId()) {
+				Users.remove(user);
+			}
+		}
+		
+		
 	}
 	
 	

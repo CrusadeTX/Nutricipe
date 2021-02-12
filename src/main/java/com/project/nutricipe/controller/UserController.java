@@ -245,7 +245,9 @@ public class UserController {
 		}
 		Optional<UserBean> optionalUser = userRepo.findById(id);
 		if (optionalUser.isPresent()) {
+			System.out.println(optionalUser.get().getUsername());
 			UserBean user = optionalUser.get();
+			//user.removeRole(roleRepo.getOne(2));
 			userRepo.delete(user);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else {

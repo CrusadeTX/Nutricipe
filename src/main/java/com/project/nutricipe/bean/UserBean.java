@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -103,6 +104,16 @@ public class UserBean {
 		Diet = diet;
 	};
 	
+	public void addRole(RoleBean role) {
+		roles.add(role);
+	}
+	@PreRemove
+	public void removeRole() {
+		roles.forEach(role -> role.removeUser(this));
+		}
+		
+	}
+	
     
 
-}
+

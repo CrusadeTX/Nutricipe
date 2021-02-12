@@ -27,21 +27,28 @@
 
 <body>
 	<div class="container-lg container-fluid ">
-		<div class="row bg-danger shadow py-4">
-			<div class="col text-white">
-				<h1 class="text-center mb-0">Chuck Quotis</h1>
-				<div class="text-center">
-					<span>The ultimate Chuck Norris Quotes collection</span>
-				</div>
-			</div>
-		</div>
-		<div class="row bg-danger justify-content-center">
-			<a class="nav-item nav-link text-white" href="/home">Home</a>
-			<a class="nav-item nav-link text-white" href="profile.html">Profile</a>
-			<a class="nav-item nav-link text-white" href="users.html">Users</a>
-			<a class="nav-item nav-link text-white" href="posts.html">Posts</a>
-			<a class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
-		</div>
+        <div class="fixed-header">
+            <div class="row bg-danger shadow py-4">
+                <div class="col text-white">
+                    <h1 class="text-center mb-0">Nutricipe</h1>
+                    <div class="text-center">
+                        <span>Nutricious Recipes galore</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-danger justify-content-center">
+                <span class="bg-white text-danger rounded text-white px-2 py-1 m-2">Name</span>
+                <a class="nav-item nav-link active text-white" href="/home">Home</a>
+                <a class="nav-item nav-link text-white" href="profile.html">Profile</a>
+                <a class="nav-item nav-link text-white" href="users.html">Users</a>
+                <a class="nav-item nav-link text-white" href="products.html">Products</a>
+                <a class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+                <a class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+                <a class="nav-item nav-link text-white" href="diets.html">Diets</a>
+                <a class="nav-item nav-link text-white" href="categories.html">Categories</a>
+                <a class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
+            </div>
+        </div>
 		<div class="container">
 
 
@@ -123,41 +130,11 @@
 </body>
 <script>
 	$(document).ready(function () {
-		//getCurrentUser();
-		//fetchUserQuotes();
 		clearFields();
 		fetchAllUsers();
 		$('#update-user').attr("disabled", true);
 		$('#update-user').hide();
 		$('#submit-user').show();
-		function fetchUserQuotes() {
-
-			$.ajax({
-				url: "/quote/alluserquotes",
-				method: "GET",
-				success: function (response) {
-					if (response == null) {
-						alert("No logged in user")
-						windows.location.href = "/login?logout";
-					}
-					else {
-						for (i = 0; i < response.length; i++) {
-							(function (i) { populateDropDown(response[i]) })(i);
-						}
-					}
-				},
-				fail: function () {
-					windows.location.href = "/login?logout";
-				}
-			})
-
-
-		}
-
-		//function populateDropDown(quote){
-		// var dropDown = $('#select-quote');
-		// dropDown.append('<option value=' + quote.id + '>' + quote.text + '</option>');
-		// }
 		function fetchAllUsers() {
 			$.ajax({
 				url: "/user/all",
@@ -328,10 +305,10 @@
 						template.remove();
 					}
 					if (data.status == 401) {
-						alert("Delete Failed!!! You cant delete other people's quotes")
+						alert("Delete Failed!!!")
 					}
 					if (data.status == 404) {
-						alert("Delete Failed!!! No such comment exists")
+						alert("Delete Failed!!! No such user exists")
 					}
 				}
 			})
