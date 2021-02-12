@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="row bg-danger justify-content-center">
-                <span class="bg-white text-danger rounded text-white px-2 py-1 m-2">Name</span>
+                <span id="current-user-username" class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
                 <a class="nav-item nav-link active text-white" href="/home">Home</a>
                 <a class="nav-item nav-link text-white" href="profile.html">Profile</a>
                 <a class="nav-item nav-link text-white" href="users.html">Users</a>
@@ -105,7 +105,7 @@
 					<div class="panel-heading">
 						<h3 class="text-center text-danger">Users:</h3>
 					</div>
-					<div id="user-container" style="" class="d-flex flex-wrap justify-content-center">
+					<div id="user-container" class="d-flex flex-wrap justify-content-center">
 
 
 
@@ -130,6 +130,7 @@
 </body>
 <script>
 	$(document).ready(function () {
+		getCurrentUser();
 		clearFields();
 		fetchAllUsers();
 		$('#update-user').attr("disabled", true);
@@ -325,6 +326,7 @@
 				success: function (data) {
 					if (data != null) {
 						visualiseCurrentUser(data);
+						//showLoggedUsername(user.username);
 					}
 				}
 			})
@@ -392,9 +394,14 @@
 				}
 			})
 		}
+		function showLoggedUsername (username){
+			$('#logged-user-name').text(username);
+
+		}
 
 
 	})
+
 
 
 
