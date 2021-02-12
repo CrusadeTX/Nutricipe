@@ -385,27 +385,42 @@
 
 </body>
 <script>
-$(document).ready(function () {
-	getCurrentUser();
-	function getCurrentUser() {
-		$.ajax({
-			url: "/user/current",
-			method: "GET",
-			success: function (data) {
-				if (data != null) {
-					visualiseCurrentUser(data);
-				}
-			}
-		})
-
-	}
-	function visualiseCurrentUser(user) {
-		$('#current-user-username').text(user.username)
-		$('#current-user').val(user.id)
-	}
-})
-
-
-</script>
+    $(document).ready(function () {
+        getCurrentUser();
+        function getCurrentUser() {
+            $.ajax({
+                url: "/user/current",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        visualiseCurrentUser(data);
+                        hideAdminElements(data);
+                    }
+                }
+            })
+    
+        }
+        function visualiseCurrentUser(user) {
+            $('#current-user-username').text(user.username)
+            console.log(user)
+            $('#current-user').val(user.id)
+        }
+        function hideAdminElements(user){
+            var isAdmin = false;
+            for (i = 0; i < user.roles.length; i++) {
+                if(user.roles[i].code==="ROLE_AMIN"){
+                    isAdmin = true;
+                }
+    
+        }
+        if(!isAdmin){
+            $("#users-link").remove();
+        }
+     
+    }
+    })
+    
+    
+    </script>
 
 </html>
