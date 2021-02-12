@@ -44,7 +44,7 @@ public class UserBean {
     		inverseJoinColumns = @JoinColumn(name="category_id")
     		)
     private Set<CategoryBean> categories;
-	@ManyToOne( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne()
     private DietBean Diet;
 	
 

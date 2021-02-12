@@ -3,12 +3,15 @@ package com.project.nutricipe.bean;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,7 +30,7 @@ public class DietBean {
 	private Set<CategoryBean> Categories;
 	@ManyToMany(mappedBy = "Diets")
 	private Set<ProductBean> Products;
-	@ManyToMany(mappedBy = "Diets")
+	@OneToMany(mappedBy = "Diet",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<UserBean> Users;
 	@ManyToMany(mappedBy = "Diets")
 	private Set<RecipeBean> Recipies;
