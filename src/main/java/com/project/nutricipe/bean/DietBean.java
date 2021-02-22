@@ -15,25 +15,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="recipe")
+@Table(name="DIET")
 public class DietBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="name", nullable=false, unique=true, length = 40)
+	@Column(name="NAME", nullable=false, unique=true, length = 255)
 	private String name;
-	@Column(name="reccalories")
+	@Column(name="REC_CALORIES")
 	private double recomendedCalories;
-	@Column(name="presentcalories")
-	private double presentCalories;
-	@ManyToMany(mappedBy = "Diets")
-	private Set<CategoryBean> Categories;
-	@ManyToMany(mappedBy = "Diets")
-	private Set<ProductBean> Products;
-	@OneToMany(mappedBy = "Diet",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	private Set<UserBean> Users;
-	@ManyToMany(mappedBy = "Diets")
-	private Set<RecipeBean> Recipies;
+	@ManyToMany(mappedBy = "diets")
+	private Set<CategoryBean> categories;
+	@OneToMany(mappedBy = "diet",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	private Set<UserBean> users;
 	public int getId() {
 		return id;
 	}
@@ -52,36 +46,19 @@ public class DietBean {
 	public void setRecomendedCalories(double recomendedCalories) {
 		this.recomendedCalories = recomendedCalories;
 	}
-	public double getPresentCalories() {
-		return presentCalories;
-	}
-	public void setPresentCalories(double presentCalories) {
-		this.presentCalories = presentCalories;
-	}
 	public Set<CategoryBean> getCategories() {
-		return Categories;
+		return categories;
 	}
 	public void setCategories(Set<CategoryBean> categories) {
-		Categories = categories;
-	}
-	public Set<ProductBean> getProducts() {
-		return Products;
-	}
-	public void setProducts(Set<ProductBean> products) {
-		Products = products;
+		this.categories = categories;
 	}
 	public Set<UserBean> getUsers() {
-		return Users;
+		return users;
 	}
 	public void setUsers(Set<UserBean> users) {
-		Users = users;
+		this.users = users;
 	}
-	public Set<RecipeBean> getRecipies() {
-		return Recipies;
-	}
-	public void setRecipies(Set<RecipeBean> recipies) {
-		Recipies = recipies;
-	}
+
 	
 	
 

@@ -16,37 +16,27 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="category")
+@Table(name="CATEGORY")
 public class CategoryBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="name", nullable=false, unique=true, length = 40)
+	@Column(name="name", nullable=false, unique=true, length = 255)
 	private String name;
-	@Column(name="type", nullable=false, unique=false, length = 40)
+	@Column(name="type", nullable=false, unique=false, length = 255)
 	private String type;
-	@Column(name="description", nullable=false, unique=false, length = 255)
-	private String description;
-	@ManyToMany(mappedBy = "categories")
-	private Set<UserBean> users;
 	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="product_category",
-	joinColumns = @JoinColumn(name="category_id"), 
-	inverseJoinColumns = @JoinColumn(name="product_id")
+    @JoinTable(name="RECIPE_CATEGORY",
+	joinColumns = @JoinColumn(name="CATEGORY_ID"), 
+	inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
 	)
-	private Set<ProductBean> Products;
+	private Set<RecipeBean> recipes;
 	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="recipe_category",
-	joinColumns = @JoinColumn(name="category_id"), 
-	inverseJoinColumns = @JoinColumn(name="recipe_id")
+    @JoinTable(name="DIET_CATEGORY",
+	joinColumns = @JoinColumn(name="CATEGORY_ID"), 
+	inverseJoinColumns = @JoinColumn(name="DIET_ID")
 	)
-	private Set<RecipeBean> Recipies;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="diet_category",
-	joinColumns = @JoinColumn(name="category_id"), 
-	inverseJoinColumns = @JoinColumn(name="diet_id")
-	)
-	private Set<DietBean> Diets;
+	private Set<DietBean> diets;
 	public int getId() {
 		return id;
 	}
@@ -65,35 +55,18 @@ public class CategoryBean {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getDescription() {
-		return description;
+	public Set<RecipeBean> getRecipes() {
+		return recipes;
 	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public Set<UserBean> getUsers() {
-		return users;
-	}
-	public void setUsers(Set<UserBean> users) {
-		this.users = users;
-	}
-	public Set<ProductBean> getProducts() {
-		return Products;
-	}
-	public void setProducts(Set<ProductBean> products) {
-		Products = products;
-	}
-	public Set<RecipeBean> getRecipies() {
-		return Recipies;
-	}
-	public void setRecipies(Set<RecipeBean> recipies) {
-		Recipies = recipies;
+	public void setRecipes(Set<RecipeBean> recipes) {
+		this.recipes = recipes;
 	}
 	public Set<DietBean> getDiets() {
-		return Diets;
+		return diets;
 	}
 	public void setDiets(Set<DietBean> diets) {
-		Diets = diets;
+		this.diets = diets;
 	}
+
 	
 }

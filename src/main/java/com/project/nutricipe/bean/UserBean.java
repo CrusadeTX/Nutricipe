@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
@@ -21,32 +22,29 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
-@Table(name="user")
+@Table(name="USER")
 //@JsonIgnoreProperties({"diet"})
 public class UserBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="username", nullable=false, unique=true, length = 40)
+	@Column(name="username", nullable=false, unique=true, length = 255)
 	private String username;
 	@Column(name="password", nullable=false, length=60)
 	private String password;
-	@Column(name="email", nullable=false, unique=true, length=256)
+	@Column(name="email", nullable=false, unique=true, length=255)
 	private String email;
     @ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="account_role",
-    		joinColumns = @JoinColumn(name="account_id"), 
-    		inverseJoinColumns = @JoinColumn(name="role_id")
+    @JoinTable(name="USER_ROLE",
+    		joinColumns = @JoinColumn(name="USER_ID"), 
+    		inverseJoinColumns = @JoinColumn(name="ROLE_ID")
     		)
     private Set<RoleBean> roles;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="user_category",
-    		joinColumns = @JoinColumn(name="account_id"), 
-    		inverseJoinColumns = @JoinColumn(name="category_id")
-    		)
-    private Set<CategoryBean> categories;
 	@ManyToOne()
-    private DietBean Diet;
+    private DietBean diet;
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "FRIDGE_ID", referencedColumnName = "ID")
+	private FridgeBean fridge;
 	
 
     public UserBean() {};
@@ -91,21 +89,21 @@ public class UserBean {
 	public void setRoles(Set<RoleBean> roles) {
 		this.roles = roles;
 	}
-	public Set<CategoryBean> getCategories() {
-		return categories;
-	}
-	public void setCategories(Set<CategoryBean> categories) {
-		this.categories = categories;
-	}
 	public DietBean getDiet() {
-		return Diet;
+		return diet;
 	}
-	public void setDiets(DietBean diet) {
-		Diet = diet;
-	};
-	
 	public void addRole(RoleBean role) {
 		roles.add(role);
+	}
+	
+	public FridgeBean getFridge() {
+		return fridge;
+	}
+	public void setFridge(FridgeBean fridge) {
+		this.fridge = fridge;
+	}
+	public void setDiet(DietBean diet) {
+		this.diet = diet;
 	}
 	@PreRemove
 	public void removeRole() {

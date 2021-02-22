@@ -16,43 +16,39 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="product")
+@Table(name="PRODUCT")
 public class ProductBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="name", nullable=false, unique=true, length = 40)
+	@Column(name="NAME", nullable=false, unique=true, length = 40)
 	private String name;
-	@Column(name="description", nullable=false, unique=false, length = 255)
+	@Column(name="DESCRIPTION", nullable=false, unique=false, length = 255)
 	private String description;
-	@Column(name="fatpercentage")
-	private double fatPercentage;
-	@Column(name="proteinpercentage")
-	private double proteinPercentage;
-	@Column(name="carbPercentage")
-	private double carbPercentage;
-	@Column(name="weight")
-	private double servingWeight;
-	@Column(name="calories")
+	@Column(name="IMAGE_PATH", nullable=false, unique=false, length = 255)
+	private String imagePath;
+	@Column(name="FATS")
+	private double fats;
+	@Column(name="PROTEINS")
+	private double proteins;
+	@Column(name="CARBOHYDRATES")
+	private double carbohydrates;
+	@Column(name="WEIGHT")
+	private double weight;
+	@Column(name="CALORIES")
 	private double calories;
-	@Column(name="imgpath")
-	private String imgPath;
-	@ManyToMany(mappedBy = "Products")
-	private Set<NutrientBean> Nutrients;
 	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(name="product_recipe",
-    		joinColumns = @JoinColumn(name="product_id"), 
-    		inverseJoinColumns = @JoinColumn(name="recipe_id")
+    		joinColumns = @JoinColumn(name="PRODUCT_ID"), 
+    		inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
     		)
-    private Set<RecipeBean> Recipies;
-	@ManyToMany(mappedBy = "Products")
-	private Set<CategoryBean> Categories;
+    private Set<RecipeBean> recipes;
 	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="product_diet",
-    		joinColumns = @JoinColumn(name="product_id"), 
-    		inverseJoinColumns = @JoinColumn(name="diet_id")
+    @JoinTable(name="PRODUCT_FRIDGE",
+    		joinColumns = @JoinColumn(name="PRODUCT_ID"), 
+    		inverseJoinColumns = @JoinColumn(name="FRIDGE_ID")
     		)
-    private Set<DietBean> Diets;
+    private Set<FridgeBean> fridges;
 	public int getId() {
 		return id;
 	}
@@ -71,29 +67,35 @@ public class ProductBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public double getFatPercentage() {
-		return fatPercentage;
+	public String getImagePath() {
+		return imagePath;
 	}
-	public void setFatPercentage(double fatPercentage) {
-		this.fatPercentage = fatPercentage;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
-	public double getProteinPercentage() {
-		return proteinPercentage;
+	public double getFats() {
+		return fats;
 	}
-	public void setProteinPercentage(double proteinPercentage) {
-		this.proteinPercentage = proteinPercentage;
+	public void setFats(double fats) {
+		this.fats = fats;
 	}
-	public double getCarbPercentage() {
-		return carbPercentage;
+	public double getProteins() {
+		return proteins;
 	}
-	public void setCarbPercentage(double carbPercentage) {
-		this.carbPercentage = carbPercentage;
+	public void setProteins(double proteins) {
+		this.proteins = proteins;
 	}
-	public double getServingWeight() {
-		return servingWeight;
+	public double getCarbohydrates() {
+		return carbohydrates;
 	}
-	public void setServingWeight(double servingWeight) {
-		this.servingWeight = servingWeight;
+	public void setCarbohydrates(double carbohydrates) {
+		this.carbohydrates = carbohydrates;
+	}
+	public double getWeight() {
+		return weight;
+	}
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 	public double getCalories() {
 		return calories;
@@ -101,36 +103,20 @@ public class ProductBean {
 	public void setCalories(double calories) {
 		this.calories = calories;
 	}
-	public String getImgPath() {
-		return imgPath;
+	public Set<RecipeBean> getRecipes() {
+		return recipes;
 	}
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
+	public void setRecipes(Set<RecipeBean> recipes) {
+		this.recipes = recipes;
 	}
-	public Set<NutrientBean> getNutrients() {
-		return Nutrients;
+	public Set<FridgeBean> getFridges() {
+		return fridges;
 	}
-	public void setNutrients(Set<NutrientBean> nutrients) {
-		Nutrients = nutrients;
+	public void setFridges(Set<FridgeBean> fridges) {
+		this.fridges = fridges;
 	}
-	public Set<RecipeBean> getRecipies() {
-		return Recipies;
-	}
-	public void setRecipies(Set<RecipeBean> recipies) {
-		Recipies = recipies;
-	}
-	public Set<CategoryBean> getCategories() {
-		return Categories;
-	}
-	public void setCategories(Set<CategoryBean> categories) {
-		Categories = categories;
-	}
-	public Set<DietBean> getDiets() {
-		return Diets;
-	}
-	public void setDiets(Set<DietBean> diets) {
-		Diets = diets;
-	}
+	
+
 	
 	
 }

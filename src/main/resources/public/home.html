@@ -11,14 +11,14 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/styles/style.css">
     <script src="assets/js/jquery/jquery-3.5.1.js"></script>
-	<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -28,21 +28,22 @@
                 <div class="col text-white">
                     <h1 class="text-center mb-0">Nutricipe</h1>
                     <div class="text-center">
-                        <span>Nutricious Recipes galore</span>
+                        <span>Nutricious Recipes Galore</span>
                     </div>
                 </div>
             </div>
             <div class="row bg-danger justify-content-center">
-                <span id="current-user-username" class="bg-white text-danger rounded text-white px-2 py-1 m-2">Name</span>
-                <a class="nav-item nav-link active text-white" href="/home">Home</a>
-                <a class="nav-item nav-link text-white" href="profile.html">Profile</a>
-                <a class="nav-item nav-link text-white" href="users.html">Users</a>
-                <a class="nav-item nav-link text-white" href="products.html">Products</a>
-                <a class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
-                <a class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
-                <a class="nav-item nav-link text-white" href="diets.html">Diets</a>
-                <a class="nav-item nav-link text-white" href="categories.html">Categories</a>
-                <a class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
+                <span id="current-user-username"
+                    class="bg-white text-danger rounded text-white px-2 py-1 m-2">Name</span>
+                <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
+                <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
+                <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
+                <a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+                <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+                <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+                <a id="diets-link" class="nav-item nav-link text-white" href="diets.html">Diets</a>
+                <a id="categories-link" class="nav-item nav-link text-white" href="categories.html">Categories</a>
+                <a id="logout-link" class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
             </div>
             <div class="row shadow p-2 bg-light">
                 <div class="d-flex align-items-center col-lg-2 col-12">
@@ -82,53 +83,33 @@
                     <div class="row">
                         <div id="products" class="d-flex flex-wrap">
                             <div id="card-template" class="card shadow m-2 card-quote">
-                                <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                <img class="card-img-top img-full-size" src="./assets/images/Tomato.jpg" alt="Card image cap">
                                 <div class="card-body">
-                                    <span class="card-text">Some quick example text to build on the card title and make
-                                        up the bulk of the
-                                        card's content.</span>
+                                    <span class="card-text">Tomato</span>
                                 </div>
                                 <div class="text-center">
-                                    <button class="btn btn-success btn-act mb-3 mx-2" type="button">Add</button>
+                                    <button class="btn btn-danger btn-act mb-3 mx-2" type="button">Remove</button>
                                     <button class="btn btn-primary   mb-3 mx-2" type="button">More</button>
                                 </div>
                             </div>
 
                             <div class="d-flex flex-wrap">
                                 <div id="card-template" class="card shadow m-2 card-quote">
-                                    <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                    <img class="card-img-top img-full-size" src="./assets/images/cheese.jpeg" alt="Card image cap">
                                     <div class="card-body">
-                                        <span class="card-text">Some quick example text to build on the card title and
-                                            make up the bulk of the
-                                            card's content.</span>
+                                        <span class="card-text">Cheese</span>
                                     </div>
                                     <div class="text-center">
-                                        <button class="btn btn-success btn-act mb-3 mx-2" type="button">Add</button>
+                                        <button class="btn btn-danger btn-act mb-3 mx-2" type="button">Remove</button>
                                         <button class="btn btn-primary   mb-3 mx-2" type="button">More</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex flex-wrap">
                                 <div id="card-template" class="card shadow m-2 card-quote">
-                                    <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                    <img class="card-img-top img-full-size" src="./assets/images/milk.jpg" alt="Card image cap">
                                     <div class="card-body">
-                                        <span class="card-text">Some quick example text to build on the card title and
-                                            make up the bulk of the
-                                            card's content.</span>
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-success btn-act mb-3 mx-2" type="button">Add</button>
-                                        <button class="btn btn-primary   mb-3 mx-2" type="button">More</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-wrap">
-                                <div id="card-template" class="card shadow m-2 card-quote">
-                                    <img class="card-img-top img-full-size" src="" alt="Card image cap">
-                                    <div class="card-body">
-                                        <span class="card-text">Some quick example text to build on the card title and
-                                            make up the bulk of the
-                                            card's content.</span>
+                                        <span class="card-text">Milk</span>
                                     </div>
                                     <div class="text-center">
                                         <button class="btn btn-success btn-act mb-3 mx-2" type="button">Add</button>
@@ -149,7 +130,7 @@
                     <div class="row">
                         <div id="recipes" class="d-flex flex-wrap">
                             <div id="card-template" class="card shadow m-2 card-quote">
-                                <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                <img class="card-img-top img-full-size" src="./assets/images/tarator.jpg" alt="Card image cap">
                                 <div class="card-body">
                                     <span class="card-text">Some quick example text to build on the card title and make
                                         up the bulk of the
@@ -163,7 +144,7 @@
 
                             <div class="d-flex flex-wrap">
                                 <div id="card-template" class="card shadow m-2 card-quote">
-                                    <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                    <img class="card-img-top img-full-size" src="./assets/images/french-fries.jpg" alt="Card image cap">
                                     <div class="card-body">
                                         <span class="card-text">Some quick example text to build on the card title and
                                             make up the bulk of the
@@ -177,7 +158,7 @@
                             </div>
                             <div class="d-flex flex-wrap">
                                 <div id="card-template" class="card shadow m-2 card-quote">
-                                    <img class="card-img-top img-full-size" src="" alt="Card image cap">
+                                    <img class="card-img-top img-full-size" src="./assets/images/lasagna.jpg" alt="Card image cap">
                                     <div class="card-body">
                                         <span class="card-text">Some quick example text to build on the card title and
                                             make up the bulk of the
@@ -285,42 +266,38 @@
                     <div class="row">
                         <div class="col">
                             <div class="p-3 bg-light">
-                            <div class="row justify-content-center">
-                            <h3 class="text-center text-danger">Fridge</h3>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3">Target Calories:</span>
-                                <span id="target-calories" class="text-center text-danger ml-2"> 2000</span>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3">Current Calories:</span>
-                                <span id="current-calories" class="text-center text-danger ml-2"> 1000</span>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3 mb-2">Risk Factors: </span>
-                                <div id="risk-factors-container">
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> Lactose</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> Allergies</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
+                                <div class="row justify-content-center">
+                                    <h3 class="text-center text-danger">Fridge</h3>
                                 </div>
-                            </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3">Target Calories:</span>
+                                    <span id="target-calories" class="text-center text-danger ml-2"> 2000</span>
+                                </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3">Current Calories:</span>
+                                    <span id="current-calories" class="text-center text-danger ml-2"> 1000</span>
+                                </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3 mb-2">Risk Factors: </span>
+                                    <div id="risk-factors-container">
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            Lactose</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            Allergies</span>
+                                    </div>
+                                </div>
                             </div>
                             <div id="fridge-elements-container">
                                 <div id="fridge-element-template" class="border-top w-100">
                                     <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
+                                        <img class="card-img-top thumbnail" src="assets/images/onion.png"
                                             alt="Card image cap">
                                         <div id="card-body " class="mt-2">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="card-text">Name</span>
+                                                    <span class="card-text">Onion</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -334,12 +311,12 @@
                                 </div>
                                 <div id="fridge-element-template" class="border-top w-100">
                                     <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
+                                        <img class="card-img-top thumbnail" src="assets/images/cheese.jpeg"
                                             alt="Card image cap">
                                         <div id="card-body " class="mt-2">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="card-text">Name</span>
+                                                    <span class="card-text">Cheese</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -353,12 +330,12 @@
                                 </div>
                                 <div id="fridge-element-template" class="border-top w-100">
                                     <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
+                                        <img class="card-img-top thumbnail" src="assets/images/Tomato.jpg"
                                             alt="Card image cap">
                                         <div id="card-body " class="mt-2">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span class="card-text">Name fsdfdgfdgfdgfd sdfsdgd</span>
+                                                    <span class="card-text">Tomato</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -398,29 +375,32 @@
                     }
                 }
             })
-    
+
         }
         function visualiseCurrentUser(user) {
             $('#current-user-username').text(user.username)
             console.log(user)
             $('#current-user').val(user.id)
         }
-        function hideAdminElements(user){
+        function hideAdminElements(user) {
             var isAdmin = false;
             for (i = 0; i < user.roles.length; i++) {
-                if(user.roles[i].code==="ROLE_AMIN"){
+                console.log(user.roles[i].code)
+                if (user.roles[i].code == "ROLE_ADMIN") {
+
                     isAdmin = true;
                 }
-    
+
+            }
+            console.log(isAdmin);
+            if (!isAdmin) {
+                $("#users-link").remove();
+            }
+
         }
-        if(!isAdmin){
-            $("#users-link").remove();
-        }
-     
-    }
     })
-    
-    
-    </script>
+
+
+</script>
 
 </html>

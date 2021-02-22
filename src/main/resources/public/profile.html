@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-        <title>Chuck Quotis</title>
+        <title>Nutricipe</title>
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
         <script src="assets/js/jquery/jquery-3.5.1.js"></script>
         <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -21,19 +21,25 @@
 <div class="container-lg container-fluid ">
     <div class="row bg-danger shadow py-4">
     <div class="col text-white">
-        <h1 class="text-center mb-0">Chuck Quotis</h1>
+        <h1 class="text-center mb-0">Nutricipe</h1>
         <div class="text-center">
-            <span>The ultimate Chuck Norris Quotes collection</span>
+            <span>Nutricious Recipes Galore</span>
         </div> 
     </div> 
 </div>
 <div class="row bg-danger justify-content-center">
-    <a class="nav-item nav-link active text-white" href="/home">Home</a>
-    <a class="nav-item nav-link text-white" href="profile.html">Profile</a>
-    <a class="nav-item nav-link text-white" href="users.html">Users</a>
-    <a class="nav-item nav-link text-white" href="posts.html">Posts</a>
-    <a class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
-  </div>
+                <span id="current-user-username"
+                    class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
+                <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
+                <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
+                <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
+                <a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+                <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+                <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+                <a id="diets-link" class="nav-item nav-link text-white" href="diets.html">Diets</a>
+                <a id="categories-link" class="nav-item nav-link text-white" href="categories.html">Categories</a>
+                <a id="logout-link" class="nav-item nav-link text-white" href="/login?logout">Log Out</a>
+            </div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger">Edit Profile</h3>
@@ -70,6 +76,41 @@
 </body>
 <script>
     $(document).ready(function(){
+    	getCurrentUser();
+        function getCurrentUser() {
+            $.ajax({
+                url: "/user/current",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        visualiseCurrentUser(data);
+                        hideAdminElements(data);
+                    }
+                }
+            })
+
+        }
+        function visualiseCurrentUser(user) {
+            $('#current-user-username').text(user.username)
+            console.log(user)
+            $('#current-user').val(user.id)
+        }
+        function hideAdminElements(user) {
+            var isAdmin = false;
+            for (i = 0; i < user.roles.length; i++) {
+                console.log(user.roles[i].code)
+                if (user.roles[i].code == "ROLE_ADMIN") {
+
+                    isAdmin = true;
+                }
+
+            }
+            console.log(isAdmin);
+            if (!isAdmin) {
+                $("#users-link").remove();
+            }
+
+        }
         $('#username-error').hide();
         $('#password-error').hide();
         $('#repeat-password-error').hide();

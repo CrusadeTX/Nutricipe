@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="role")
+@Table(name="ROLE")
 public class RoleBean {
 	@Id
 	@Column(name="role_id")
@@ -30,7 +30,7 @@ public class RoleBean {
 	    		//inverseJoinColumns = @JoinColumn(name="account_id")
 	    		//)
     @ManyToMany(mappedBy = "roles")
-	private Set<UserBean> Users;
+	private Set<UserBean> users;
 	public int getId() {
 		return id;
 	}
@@ -50,13 +50,13 @@ public class RoleBean {
 		this.description = description;
 	}
 	public void addUser(UserBean user) {
-		Users.add(user);
+		users.add(user);
 		
 	}
 	public void removeUser(UserBean user) {
-		for(UserBean foundUser : Users) {
+		for(UserBean foundUser : users) {
 			if(foundUser.getId()== user.getId()) {
-				Users.remove(user);
+				users.remove(user);
 			}
 		}
 		

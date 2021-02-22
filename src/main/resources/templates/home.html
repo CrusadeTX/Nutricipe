@@ -11,14 +11,14 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/styles/style.css">
     <script src="assets/js/jquery/jquery-3.5.1.js"></script>
-	<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -33,7 +33,8 @@
                 </div>
             </div>
             <div class="row bg-danger justify-content-center">
-                <span id="current-user-username" class="bg-white text-danger rounded text-white px-2 py-1 m-2">Name</span>
+                <span id="current-user-username"
+                    class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
                 <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
                 <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
                 <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
@@ -285,32 +286,52 @@
                     <div class="row">
                         <div class="col">
                             <div class="p-3 bg-light">
-                            <div class="row justify-content-center">
-                            <h3 class="text-center text-danger">Fridge</h3>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3">Target Calories:</span>
-                                <span id="target-calories" class="text-center text-danger ml-2"> 2000</span>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3">Current Calories:</span>
-                                <span id="current-calories" class="text-center text-danger ml-2"> 1000</span>
-                            </div>
-                            <div class="row text-center">
-                                <span class="text-center text-danger ml-3 mb-2">Risk Factors: </span>
-                                <div id="risk-factors-container">
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> Lactose</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> Allergies</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
-                                <span id="risk-factor" class="text-center text-white rounded px-1  ml-2 my-1 bg-danger"> 1000</span>
+                                <div class="row justify-content-center">
+                                    <h3 class="text-center text-danger">Fridge</h3>
                                 </div>
-                            </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3">Target Calories:</span>
+                                    <span id="target-calories" class="text-center text-danger ml-2"> 2000</span>
+                                </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3">Current Calories:</span>
+                                    <span id="current-calories" class="text-center text-danger ml-2"> 1000</span>
+                                </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3 mb-2">Risk Factors: </span>
+                                    <div id="risk-factors-container">
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            Lactose</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            Allergies</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                        <span id="risk-factor"
+                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                                            1000</span>
+                                    </div>
+                                </div>
                             </div>
                             <div id="fridge-elements-container">
                                 <div id="fridge-element-template" class="border-top w-100">
@@ -385,43 +406,43 @@
 
 </body>
 <script>
-$(document).ready(function () {
-	getCurrentUser();
-	function getCurrentUser() {
-		$.ajax({
-			url: "/user/current",
-			method: "GET",
-			success: function (data) {
-				if (data != null) {
-					visualiseCurrentUser(data);
-                    hideAdminElements(data);
-				}
-			}
-		})
+    $(document).ready(function () {
+        getCurrentUser();
+        function getCurrentUser() {
+            $.ajax({
+                url: "/user/current",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        visualiseCurrentUser(data);
+                        hideAdminElements(data);
+                    }
+                }
+            })
 
-	}
-	function visualiseCurrentUser(user) {
-		$('#current-user-username').text(user.username)
-        console.log(user)
-		$('#current-user').val(user.id)
-	}
-    function hideAdminElements(user){
-        var isAdmin = false;
-        for (i = 0; i < user.roles.length; i++) {
-            console.log(user.roles[i].code)
-            if(user.roles[i].code == "ROLE_ADMIN"){
-                
-                isAdmin = true;
+        }
+        function visualiseCurrentUser(user) {
+            $('#current-user-username').text(user.username)
+            console.log(user)
+            $('#current-user').val(user.id)
+        }
+        function hideAdminElements(user) {
+            var isAdmin = false;
+            for (i = 0; i < user.roles.length; i++) {
+                console.log(user.roles[i].code)
+                if (user.roles[i].code == "ROLE_ADMIN") {
+
+                    isAdmin = true;
+                }
+
+            }
+            console.log(isAdmin);
+            if (!isAdmin) {
+                $("#users-link").remove();
             }
 
-    }
-    console.log(isAdmin);
-    if(!isAdmin){
-        $("#users-link").remove();
-    }
- 
-}
-})
+        }
+    })
 
 
 </script>

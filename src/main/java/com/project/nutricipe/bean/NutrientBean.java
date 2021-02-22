@@ -1,4 +1,4 @@
-package com.project.nutricipe.bean;
+/*package com.project.nutricipe.bean;
 
 import java.util.List;
 import java.util.Set;
@@ -72,4 +72,4 @@ public class NutrientBean {
 		Products = products;
 	}
 	
-}
+}*/
