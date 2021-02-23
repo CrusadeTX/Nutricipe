@@ -2,6 +2,7 @@ package com.project.nutricipe.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.nutricipe.bean.DietBean;
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
+import com.project.nutricipe.repo.DietRepo;
 import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.WebSecurityConfig;
@@ -30,16 +33,18 @@ public class LoginController {
 	private WebSecurityConfig webSecurityConfig;
 	private List<UserBean> foundUsers;
 	private RoleRepo roleRepo;
+	private DietRepo dietRepo;
 	
-	public LoginController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo) {
+	public LoginController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo) {
 		this.userRepo = userRepo;
 		this.webSecurityConfig = webSecurityConfig;
 		this.roleRepo = roleRepo;
+		this.dietRepo = dietRepo;
 	}
 	@PostMapping(path="/register")
 	
 	public ModelAndView register(@RequestParam(value="email")String email, @RequestParam(value="username")String username,
-			@RequestParam(value="password")String password, @RequestParam(value="repeatPassword")String repeatPassword, HttpServletRequest request) {
+			@RequestParam(value="password")String password, @RequestParam(value="repeatPassword")String repeatPassword, @RequestParam(value="diet")int dietId, HttpServletRequest request) {
 		 boolean usernameExists = false;
 		 boolean emailExists = false;
 		if(password.equals(repeatPassword)) {
@@ -75,6 +80,10 @@ public class LoginController {
 				return model;
 			}
 			else {
+				Optional<DietBean> diet = dietRepo.findById(dietId);
+				if(diet.isPresent()) {
+					user.setDiet(diet.get());
+				}
 				userRepo.saveAndFlush(user);
 				ModelAndView model = new ModelAndView("redirect:/login");
 				model.addObject("user",user);
