@@ -9,10 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="FRIDGE")
+@JsonIgnoreProperties({"products","user"})
 public class FridgeBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

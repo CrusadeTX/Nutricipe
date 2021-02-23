@@ -66,6 +66,12 @@
                             required placeholder="">
 
                     </div>
+                    <div class="form-group">
+                        <label id="select-diet-label" for="select-diet">Diet:</label>
+                        <select id="select-diet" class="form-control">
+                            <option value='' selected>No preference</option>
+                        </select>
+                    </div>
                     <div class="text-center">
                         <input type="hidden" name="action" value="register">
                         <button type="submit" class="btn btn-success">Register</button>
@@ -76,3 +82,33 @@
 
         </div>
     </div>
+</body>
+<script>
+    $(document).ready(function () {
+        getDiets();
+        function getDiets(){
+            $.ajax({
+				url: "/diet/all",
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        for(i=0;i<data.length;i++){
+							(function(i){populateDietDropdown(data[i])})(i);
+                          }
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+		}
+
+        function populateDietDropdown(diet){
+            var dropDown = $('#select-diet');
+            dropDown.append('<option value=' + diet.id + '>' + diet.name + '</option>');
+        }
+
+    })
+</script>
+</html>
