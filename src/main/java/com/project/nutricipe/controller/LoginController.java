@@ -44,9 +44,14 @@ public class LoginController {
 	@PostMapping(path="/register")
 	
 	public ModelAndView register(@RequestParam(value="email")String email, @RequestParam(value="username")String username,
-			@RequestParam(value="password")String password, @RequestParam(value="repeatPassword")String repeatPassword, @RequestParam(value="diet")int dietId, HttpServletRequest request) {
+			@RequestParam(value="password")String password, @RequestParam(value="repeatPassword")String repeatPassword, @RequestParam(value="diet")String diet_Id, HttpServletRequest request) {
 		 boolean usernameExists = false;
 		 boolean emailExists = false;
+			int dietId = 0;
+		 if(tryParseInt(diet_Id)) {
+			 dietId = Integer.parseInt(diet_Id);
+		 }
+		 
 		if(password.equals(repeatPassword)) {
 			UserBean user = new UserBean(username.trim(),passwordEncoder.encode(password),email.trim().toLowerCase());
 			Set<RoleBean> roles = new HashSet<RoleBean>();
@@ -80,14 +85,19 @@ public class LoginController {
 				return model;
 			}
 			else {
+				if(dietId!=0) {
+					
+				
 				Optional<DietBean> diet = dietRepo.findById(dietId);
 				if(diet.isPresent()) {
 					user.setDiet(diet.get());
+				}
 				}
 				userRepo.saveAndFlush(user);
 				ModelAndView model = new ModelAndView("redirect:/login");
 				model.addObject("user",user);
 				return model;
+			
 			}
 			
 			//ModelAndView model = new ModelAndView("redirect:/home.html");
@@ -153,6 +163,14 @@ public class LoginController {
 		model.setViewName("home.html");
 		return model;
 		
+	}
+	boolean tryParseInt(String value) {  
+	     try {  
+	         Integer.parseInt(value);  
+	         return true;  
+	      } catch (NumberFormatException e) {  
+	         return false;  
+	      }  
 	}
 
 }
