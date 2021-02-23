@@ -1,0 +1,42 @@
+INSERT INTO CATEGORY (ID, NAME, TYPE) VALUES
+  (1,'Lactose Intolerance', 'Adverse Effects'),
+  (2,'Inflammation', 'Adverse Effects'),
+  (3,'Main Dish', 'Food Types'),
+  (4,'Salad', 'Food Types'),
+  (5,'Strengthens Teeth', 'Benefit'),
+  (6,'Cardio Vascular Health', 'Benefit'),
+  (7,'Vegeterian', 'Food Types');
+  
+ INSERT INTO DIET (ID, NAME, REC_CALORIES) VALUES
+  (1,'Protein Diet', 2500),
+  (2,'Vegeterian Diet', 2000),
+  (3,'Carnivore Diet', 2200);
+  
+ INSERT INTO PRODUCT (ID, CALORIES, CARBOHYDRATES, DESCRIPTION, FATS, IMAGE_PATH, NAME, PROTEINS, WEIGHT) VALUES
+  (1,18, 3.9, 'Contains mostly water, excelent for people on a diet',0.2,'/assets/images/Tomato.jpg','Tomato',0.9,130),
+  (2,146, 11.7, 'Milk is a highly nutritious liquid formed in the mammary glands of mammals to sustain their newborns during their first months of life',8,'/assets/images/milk.jpeg','Milk',7.7,240),
+  (3,100, 1, 'Cheese is a great source of calcium, fat, and protein. It also contains high amounts of vitamins A and B-12, along with zinc, phosphorus, and riboflavin.',9,'/assets/images/cheese.jpeg','Cheese',5,28);
+ INSERT INTO RECIPE (ID, CALORIES, CARBOHYDRATES, DESCRIPTION, FATS, IMAGE_PATH, NAME, PROTEINS, WEIGHT) VALUES
+  (1,118, 4.9, 'A salad made of one serving of tomatoes and one serving of cheese',9.2,'/assets/images/tomatoAndCheeseSalad.jpg','Tomato Salad',5.9,158),
+  (2,166, 11.7, 'Made of the best dough and minced meat a delight for a wide variety of people',8,'/assets/images/lasagna.jpeg','Lasagna',7.7,240);
+  
+  INSERT INTO DIET_CATEGORY (CATEGORY_ID, DIET_ID) VALUES
+  (7,2),
+  (4,2),
+  (3,2),
+  (3,1),
+  (4,1);
+  INSERT INTO PRODUCT_RECIPE (PRODUCT_ID, RECIPE_ID) VALUES
+  (1,1),
+  (3,1),
+  (1,2),
+  (2,2),
+  (3,2);
+   INSERT INTO RECIPE_CATEGORY (CATEGORY_ID, RECIPE_ID) VALUES
+  (4,1),
+  (3,1),
+  (1,1),
+  (7,1),
+  (1,2),
+  (6,2),
+  (3,2);
