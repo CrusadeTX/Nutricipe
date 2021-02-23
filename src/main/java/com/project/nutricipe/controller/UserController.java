@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.nutricipe.bean.DietBean;
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
+import com.project.nutricipe.repo.DietRepo;
 import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
@@ -32,11 +34,13 @@ public class UserController {
 	private WebSecurityConfig webSecurityConfig;
 	private List<UserBean> foundUsers;
 	private RoleRepo roleRepo;
+	private DietRepo dietRepo;
 
-	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo) {
+	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo) {
 		this.userRepo = userRepo;
 		this.webSecurityConfig = webSecurityConfig;
 		this.roleRepo = roleRepo;
+		this.dietRepo = dietRepo;
 	}
 
 	@GetMapping(path = "/user/all")
@@ -66,7 +70,7 @@ public class UserController {
 
 	public List<String> updateUser(@RequestParam(value = "id") int id, @RequestParam(value = "email") String email,
 			@RequestParam(value = "username") String username, @RequestParam(value = "password") String password,
-			@RequestParam(value = "repeatPassword") String repeatPassword,
+			@RequestParam(value = "repeatPassword") String repeatPassword,@RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 		UserBean user = loggedUser;
@@ -74,6 +78,10 @@ public class UserController {
 		if (loggedUser.getId() == id) {
 			boolean usernameExists = false;
 			boolean emailExists = false;
+			int dietId = 0;
+		 if(tryParseInt(diet_Id)) {
+			 dietId = Integer.parseInt(diet_Id);
+		 }
 			if (password.equals(repeatPassword)) {
 				user.setEmail(email.trim().toLowerCase());
 				user.setPassword(passwordEncoder.encode(password));
@@ -97,6 +105,14 @@ public class UserController {
 					return result;
 
 				} else {
+					if(dietId!=0) {
+						
+						
+						Optional<DietBean> diet = dietRepo.findById(dietId);
+						if(diet.isPresent()) {
+							user.setDiet(diet.get());
+						}
+						}
 					userRepo.saveAndFlush(user);
 
 					result.add("User has been successfully updated!");
@@ -120,6 +136,7 @@ public class UserController {
 			@RequestParam(value = "email") String email, @RequestParam(value = "username") String username,
 			@RequestParam(value = "password") String password,
 			@RequestParam(value = "repeatPassword") String repeatPassword,
+			@RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 		List<String> result = new ArrayList<String>();
@@ -128,6 +145,10 @@ public class UserController {
 
 			boolean usernameExists = false;
 			boolean emailExists = false;
+			int dietId = 0;
+		 if(tryParseInt(diet_Id)) {
+			 dietId = Integer.parseInt(diet_Id);
+		 }
 			if (password.equals(repeatPassword)) {
 				user.setEmail(email.trim().toLowerCase());
 				user.setPassword(passwordEncoder.encode(password));
@@ -151,6 +172,14 @@ public class UserController {
 					return result;
 
 				} else {
+					if(dietId!=0) {
+						
+						
+						Optional<DietBean> diet = dietRepo.findById(dietId);
+						if(diet.isPresent()) {
+							user.setDiet(diet.get());
+						}
+						}
 					userRepo.saveAndFlush(user);
 
 					result.add("User has been successfully updated!");
@@ -173,6 +202,7 @@ public class UserController {
 	public List<String> addUser(@RequestParam(value = "email") String email,
 			@RequestParam(value = "username") String username, @RequestParam(value = "password") String password,
 			@RequestParam(value = "repeatPassword") String repeatPassword,
+			@RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 
@@ -182,6 +212,10 @@ public class UserController {
 				if (givenRole.getCode().equals("ROLE_ADMIN")) {
 					boolean usernameExists = false;
 					boolean emailExists = false;
+					int dietId = 0;
+					 if(tryParseInt(diet_Id)) {
+						 dietId = Integer.parseInt(diet_Id);
+					 }
 					if (password.equals(repeatPassword)) {
 						UserBean user = new UserBean(username.trim(), passwordEncoder.encode(password),
 								email.trim().toLowerCase());
@@ -214,6 +248,14 @@ public class UserController {
 							return result;
 
 						} else {
+							if(dietId!=0) {
+								
+								
+								Optional<DietBean> diet = dietRepo.findById(dietId);
+								if(diet.isPresent()) {
+									user.setDiet(diet.get());
+								}
+								}
 							userRepo.saveAndFlush(user);
 
 							result.add("User has been successfully created!");
@@ -254,6 +296,14 @@ public class UserController {
 			return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
 		}
 
+	}
+	boolean tryParseInt(String value) {  
+	     try {  
+	         Integer.parseInt(value);  
+	         return true;  
+	      } catch (NumberFormatException e) {  
+	         return false;  
+	      }  
 	}
 
 }

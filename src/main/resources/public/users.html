@@ -88,6 +88,12 @@
 										name="repeatPassword" required placeholder="">
 
 								</div>
+								<div class="form-group">
+									<label id="select-diet-label" for="select-diet">Diet:</label>
+									<select id="select-diet" class="form-control">
+										<option value='' selected>No preference</option>
+									</select>
+								</div>
 								<div class="text-center">
 									<input type="hidden" name="action" value="register">
 									<input type="hidden" id="user-id" name="User-current">
@@ -134,9 +140,33 @@
 		getCurrentUser();
 		clearFields();
 		fetchAllUsers();
+		getDiets();
 		$('#update-user').attr("disabled", true);
 		$('#update-user').hide();
 		$('#submit-user').show();
+	
+        function getDiets(){
+            $.ajax({
+				url: "/diet/all",
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        for(i=0;i<data.length;i++){
+							(function(i){populateDietDropdown(data[i])})(i);
+                          }
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+		}
+
+        function populateDietDropdown(diet){
+            var dropDown = $('#select-diet');
+            dropDown.append('<option value=' + diet.id + '>' + diet.name + '</option>');
+        }
 		function fetchAllUsers() {
 			$.ajax({
 				url: "/user/all",
@@ -201,7 +231,7 @@
 			template.show();
 		}
 
-		function addUser(email, username, password, repeatPassword) {
+		function addUser(email, username, password, repeatPassword, dietId) {
 			if (username != '' && email != '' && password != '' && repeatPassword != '') {
 				$.ajax({
 					url: "/register",
@@ -211,6 +241,7 @@
 						username: username,
 						password: password,
 						repeatPassword: repeatPassword,
+						diet: dietId,
 					},
 					success: function (response) {
 						if (response.includes("Error")) {
@@ -249,6 +280,7 @@
 			var email = $('#register-email').val();
 			var password = $('#register-pass').val();
 			var repeatPassword = $('#confirm-register-pass').val();
+			var dietId = $('#select-diet').val();
 
 
 			if (username === "" || email === "" || password === "" || repeatPassword === "") {
@@ -265,7 +297,7 @@
 				return
 			}
 
-			addUser(email, username, password, repeatPassword);
+			addUser(email, username, password, repeatPassword,dietId);
 
 
 
@@ -292,6 +324,7 @@
 			$('#update-user').hide();
 			$('#submit-user').removeAttr("disabled");
 			$('#submit-user').show();
+			$('#select-diet').val('');
 
 
 
@@ -346,6 +379,7 @@
 			var email = $('#register-email').val();
 			var password = $('#register-pass').val();
 			var repeatPassword = $('#confirm-register-pass').val();
+			var dietId = $('#select-diet').val();
 			if (username === "" || email === "" || password === "" || repeatPassword === "") {
 				alert("Please fill in the requested fields");
 				return
@@ -369,6 +403,7 @@
 					email: email,
 					password: password,
 					repeatPassword: repeatPassword,
+					diet: dietId
 				},
 				success: function (response) {
 					if (response.includes("Error")) {
