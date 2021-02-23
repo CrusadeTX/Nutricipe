@@ -64,6 +64,12 @@
                     <input type="password" class="form-control" id="confirm-register-pass" name="repeatPassword" required placeholder="">
 
                 </div>
+                <div class="form-group">
+                    <label id="select-diet-label" for="select-diet">Diet:</label>
+                    <select id="select-diet" class="form-control">
+                        <option value='' selected>No preference</option>
+                    </select>
+                </div>
                 <div class="text-center">
                 <input type="hidden" name="action" value="register">
                 <button id="user-submit" type="button" class="btn btn-success">Submit Changes</button>
@@ -77,6 +83,29 @@
 <script>
     $(document).ready(function(){
     	getCurrentUser();
+        getDiets();
+        function getDiets(){
+            $.ajax({
+				url: "/diet/all",
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        for(i=0;i<data.length;i++){
+							(function(i){populateDietDropdown(data[i])})(i);
+                          }
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+		}
+
+        function populateDietDropdown(diet){
+            var dropDown = $('#select-diet');
+            dropDown.append('<option value=' + diet.id + '>' + diet.name + '</option>');
+        }
         function getCurrentUser() {
             $.ajax({
                 url: "/user/current",
@@ -144,6 +173,7 @@
                 var password = $('#register-pass').val().trim();
                 var repeatPassword = $('#confirm-register-pass').val().trim();
                 var email = $('#register-email').val().trim();
+                var dietId = $('#select-diet').val();
                 if(username==="" || email==="" || password ==="" || repeatPassword==="")
                 {
                 	alert("Please fill in the requested fields");
@@ -167,7 +197,8 @@
                     username : username,
                     password : password,
                     repeatPassword : repeatPassword,
-                    email : email
+                    email : email,
+                    diet : dietId,
                 },
     			success: function (data){
                     data.forEach(element => {

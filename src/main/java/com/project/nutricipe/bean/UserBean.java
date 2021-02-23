@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="USER")
-@JsonIgnoreProperties({"diet","fridge","roles"})
+@JsonIgnoreProperties({"diet","fridge",})
 public class UserBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,11 +106,12 @@ public class UserBean {
 		this.diet = diet;
 	}
 	@PreRemove
-	public void removeRole() {
+	public void removeRelations() {
 		roles.forEach(role -> role.removeUser(this));
 		}
-		
-	}
+	
+}
+
 	
     
 
