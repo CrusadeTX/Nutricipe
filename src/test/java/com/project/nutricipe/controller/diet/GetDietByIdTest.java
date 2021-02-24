@@ -58,7 +58,7 @@ public class GetDietByIdTest {
 		doReturn(Optional.of(diet)).when(dietRepo).findById(id);
 		}
 		else {
-		doReturn(null).when(dietRepo).findById(id);
+		doReturn(Optional.empty()).when(dietRepo).findById(id);
 		}
 		dietController = new DietController(dietRepo, null);
 	}

@@ -36,15 +36,13 @@ public class DietController {
 	@GetMapping(path = "/diet/{id}")
 	public DietBean getDietById(@PathVariable int id) {
 		Optional<DietBean> diet = dietRepo.findById(id);
-		if(diet!=null) {
 		if (diet.isPresent()) {
 			return diet.get();
 		} else {
 			return null;
 		}
 
-	}
-		return null;
+
 	}
 
 }
