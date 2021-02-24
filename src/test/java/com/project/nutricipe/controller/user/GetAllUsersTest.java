@@ -21,6 +21,8 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
@@ -46,6 +48,7 @@ public class GetAllUsersTest {
 	private UserController userController;
 	private UserRepo userRepo;
 	private UserPrincipal principal;
+	private PasswordEncoder encoder = new BCryptPasswordEncoder();
 	@Rule
 	public ErrorCollector collector = new ErrorCollector();
 	@Before
@@ -70,7 +73,7 @@ public class GetAllUsersTest {
 		users.add(user1);
 		users.add(user2);	
 		doReturn(users).when(userRepo).findAll();
-		userController = new UserController(userRepo, null,null,null);
+		userController = new UserController(userRepo, null,null,null,encoder);
 	}
 	@Test
 	public void testGetAllUsers() {

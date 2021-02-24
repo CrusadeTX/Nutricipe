@@ -20,6 +20,8 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.project.nutricipe.bean.DietBean;
 import com.project.nutricipe.bean.RoleBean;
@@ -51,6 +53,7 @@ public class DeleteUserByIdTest {
 	private UserController userController;
 	private UserRepo userRepo;
 	private UserPrincipal principal;
+	private PasswordEncoder encoder = new BCryptPasswordEncoder();
 	//private RoleRepo roleRepo;
 	//private DietRepo dietRepo;
 	@Rule
@@ -80,7 +83,7 @@ public class DeleteUserByIdTest {
 		else {
 		doReturn(Optional.empty()).when(userRepo).findById(id);
 		}
-		userController = new UserController(userRepo, null,null,null);
+		userController = new UserController(userRepo, null,null,null,encoder);
 	}
 	@Test
 	public void testDeleteUserById() {

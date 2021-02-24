@@ -36,11 +36,12 @@ public class UserController {
 	private RoleRepo roleRepo;
 	private DietRepo dietRepo;
 
-	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo) {
+	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo,PasswordEncoder passwordEncoder) {
 		this.userRepo = userRepo;
 		this.webSecurityConfig = webSecurityConfig;
 		this.roleRepo = roleRepo;
 		this.dietRepo = dietRepo;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping(path = "/user/all")
@@ -204,9 +205,15 @@ public class UserController {
 			@RequestParam(value = "repeatPassword") String repeatPassword,
 			@RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
+		List<String> result = new ArrayList<String>();
+		if(email == null || username == null || password==null||repeatPassword==null||diet_Id==null) {
+			result.add("Input parameters cant be null!");
+			return result;
+		}
+	
 		UserBean loggedUser = principal.getLoggedInUser();
 
-		List<String> result = new ArrayList<String>();
+		
 		if (loggedUser != null) {
 			for (RoleBean givenRole : loggedUser.getRoles()) {
 				if (givenRole.getCode().equals("ROLE_ADMIN")) {
