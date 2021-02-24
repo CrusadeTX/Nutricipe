@@ -20,6 +20,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name="DIET")
 @JsonIgnoreProperties({"users","categories"})
 public class DietBean {
+	public DietBean() {
+		
+	}
+	public DietBean(int id, String name, double recomendedCalories) {
+		this.id = id;
+		this.name=name;
+		this.recomendedCalories = recomendedCalories;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
