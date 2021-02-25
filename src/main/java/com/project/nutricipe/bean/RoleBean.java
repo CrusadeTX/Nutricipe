@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="ROLE")
-@JsonIgnoreProperties({"users"})
+//@JsonIgnoreProperties({"users"})
 public class RoleBean {
 	@Id
 	@Column(name="role_id")

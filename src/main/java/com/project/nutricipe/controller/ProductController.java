@@ -1,5 +1,6 @@
 package com.project.nutricipe.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,26 @@ public class ProductController {
 		Optional<ProductBean> product = productRepo.findById(id);
 		if (product.isPresent()) {
 			return product.get();
+		} else {
+			return null;
+		}
+	}
+	@GetMapping(path = "/product/lastfive")
+	public List<ProductBean> getLastFiveProducts(@AuthenticationPrincipal UserPrincipal principal) {
+		List<ProductBean> result = new ArrayList<ProductBean>();
+		List<ProductBean> products;
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			products = productRepo.findAll();
+			if(products.size()<=5) {
+				return products;
+			}
+			else {
+				for (int i=0; i<5;i++) {
+					result.add(products.get(products.size()-i+1));
+				}
+				return result;
+			}
 		} else {
 			return null;
 		}

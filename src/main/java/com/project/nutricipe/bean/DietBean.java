@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="DIET")
-@JsonIgnoreProperties({"users","categories"})
+//@JsonIgnoreProperties({"users","categories"})
+@JsonIgnoreProperties({"users"})
 public class DietBean {
 	public DietBean() {
 		
@@ -35,7 +36,7 @@ public class DietBean {
 	private String name;
 	@Column(name="REC_CALORIES")
 	private double recomendedCalories;
-	@ManyToMany(mappedBy = "diets")
+	@ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER)
 	private Set<CategoryBean> categories;
 	@OneToMany(mappedBy = "diet",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<UserBean> users;

@@ -15,8 +15,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="CATEGORY")
+@JsonIgnoreProperties({"recipes","diets"})
 public class CategoryBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

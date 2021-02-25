@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="FRIDGE")
-@JsonIgnoreProperties({"products","user"})
+//@JsonIgnoreProperties({"products","user"})
 public class FridgeBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

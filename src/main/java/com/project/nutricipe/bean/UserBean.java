@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="USER")
-@JsonIgnoreProperties({"diet","fridge",})
+//@JsonIgnoreProperties({"diet","fridge",})
 public class UserBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +42,7 @@ public class UserBean {
     private Set<RoleBean> roles;
 	@ManyToOne()
     private DietBean diet;
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "FRIDGE_ID", referencedColumnName = "ID")
 	private FridgeBean fridge;
 	
