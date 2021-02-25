@@ -109,11 +109,12 @@ public class AddUserTest {
 	}
 
 	@Test
-	public void testGetAllUsers() {
+	public void testAddUser() {
 		final List<String> result = userController.addUser(email, username, password, repeatPassword, dietId,
 				principal);
 		collector.checkThat(result.get(0), IsEqual.equalTo(expectedResult));
 
 	}
+
 
 }

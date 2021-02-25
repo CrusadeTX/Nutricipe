@@ -18,17 +18,21 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.controller.UserController;
+import com.project.nutricipe.repo.DietRepo;
+import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
-
 @RunWith(Parameterized.class)
-public class UpdateUserAsAdminTest {
+public class UpdateUserTest {
 	@Parameters(name = "{index}: with id = {0} , email = {1}, username = {2}, password = {3}, repeatPassword = {4}, dietId = {5}, loggedUser = {6}, role= {7} and expected result={8}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
@@ -38,17 +42,17 @@ public class UpdateUserAsAdminTest {
 						"User has been successfully updated!" },
 				{ 1,"email6@mail.com", "username2", "pass3", "pass3", "0",
 							null, "ROLE_USER",
-							"Error: Unauthorized!" },
+							"Error Unauthenticated!" },
 				{ 1,"email5@mail.com", "username", "pass", "pass2", "0",
 						new UserBean("username", "password", "email@email.com"), "ROLE_ADMIN",
-						"Error: Password mismatch!" },
+						"Error Password mismatch!" },
 				{ 1,"email3@email.com", "username", "pass", "pass", "0",
-						new UserBean("username", "password", "email@email.com"), "ROLE_USER", "Error: Email exists!" },
+						new UserBean("username", "password", "email@email.com"), "ROLE_USER", "Error Email exists!" },
 				{1,"email5@mail.com", "name2", "pass", "pass", "0",
 						new UserBean("username", "password", "email@email.com"), "ROLE_USER",
-						"Error: Username exists!" },
+						"Error Username exists!" },
 				{ 2,"email5@mail.com", "name", "pass", "pass", "0",
-						new UserBean("username", "password", "email@email.com"), "ROLE_USER", "Error: Username exists!" }, });
+						new UserBean("username", "password", "email@email.com"), "ROLE_USER", "Error Unauthorized!" }, });
 	}
 	@Parameter(0)
 	public int id;
@@ -106,18 +110,19 @@ public class UpdateUserAsAdminTest {
 		users.add(user1);
 		users.add(user2);
 		doReturn(users).when(userRepo).findAll();
-		doReturn(user1).when(userRepo).getOne(id);
 		//doReturn(role).when(roleRepo).findRoleByCode("ROLE_USER");
 		userController = new UserController(userRepo, null, null, null, encoder);
 	}
 
 	@Test
 	public void testUpdateUser() {
-		final List<String> result = userController.updateUserAsAdmin(id,email, username, password, repeatPassword, dietId,
+		final List<String> result = userController.updateUser(id,email, username, password, repeatPassword, dietId,
 				principal);
 		collector.checkThat(result.get(0), IsEqual.equalTo(expectedResult));
 
 	}
 
 }
+
+
 

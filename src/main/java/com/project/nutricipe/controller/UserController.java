@@ -77,6 +77,14 @@ public class UserController {
 		UserBean loggedUser = principal.getLoggedInUser();
 		UserBean user = loggedUser;
 		List<String> result = new ArrayList<String>();
+		if (email == null || username == null || password == null || repeatPassword == null || diet_Id == null) {
+			result.add("Input parameters cant be null!");
+			return result;
+		}
+		if(loggedUser == null) {
+			result.add("Error Unauthenticated!");
+			return result;
+		}
 		if (loggedUser.getId() == id) {
 			boolean usernameExists = false;
 			boolean emailExists = false;
@@ -140,6 +148,10 @@ public class UserController {
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 		List<String> result = new ArrayList<String>();
+		if (email == null || username == null || password == null || repeatPassword == null || diet_Id == null) {
+			result.add("Input parameters cant be null!");
+			return result;
+		}
 		if (loggedUser != null) {
 			UserBean user = userRepo.getOne(id);
 
@@ -167,7 +179,7 @@ public class UserController {
 						result.add("Error: Username exists!");
 					}
 					if (emailExists) {
-						result.add(" Error: Email exists!");
+						result.add("Error: Email exists!");
 					}
 					return result;
 
