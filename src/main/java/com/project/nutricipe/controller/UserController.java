@@ -36,7 +36,8 @@ public class UserController {
 	private RoleRepo roleRepo;
 	private DietRepo dietRepo;
 
-	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo,PasswordEncoder passwordEncoder) {
+	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo,
+			PasswordEncoder passwordEncoder) {
 		this.userRepo = userRepo;
 		this.webSecurityConfig = webSecurityConfig;
 		this.roleRepo = roleRepo;
@@ -71,7 +72,7 @@ public class UserController {
 
 	public List<String> updateUser(@RequestParam(value = "id") int id, @RequestParam(value = "email") String email,
 			@RequestParam(value = "username") String username, @RequestParam(value = "password") String password,
-			@RequestParam(value = "repeatPassword") String repeatPassword,@RequestParam(value = "diet") String diet_Id,
+			@RequestParam(value = "repeatPassword") String repeatPassword, @RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 		UserBean user = loggedUser;
@@ -80,9 +81,9 @@ public class UserController {
 			boolean usernameExists = false;
 			boolean emailExists = false;
 			int dietId = 0;
-		 if(tryParseInt(diet_Id)) {
-			 dietId = Integer.parseInt(diet_Id);
-		 }
+			if (tryParseInt(diet_Id)) {
+				dietId = Integer.parseInt(diet_Id);
+			}
 			if (password.equals(repeatPassword)) {
 				user.setEmail(email.trim().toLowerCase());
 				user.setPassword(passwordEncoder.encode(password));
@@ -106,14 +107,13 @@ public class UserController {
 					return result;
 
 				} else {
-					if(dietId!=0) {
-						
-						
+					if (dietId != 0) {
+
 						Optional<DietBean> diet = dietRepo.findById(dietId);
-						if(diet.isPresent()) {
+						if (diet.isPresent()) {
 							user.setDiet(diet.get());
 						}
-						}
+					}
 					userRepo.saveAndFlush(user);
 
 					result.add("User has been successfully updated!");
@@ -136,8 +136,7 @@ public class UserController {
 	public List<String> updateUserAsAdmin(@RequestParam(value = "id") int id,
 			@RequestParam(value = "email") String email, @RequestParam(value = "username") String username,
 			@RequestParam(value = "password") String password,
-			@RequestParam(value = "repeatPassword") String repeatPassword,
-			@RequestParam(value = "diet") String diet_Id,
+			@RequestParam(value = "repeatPassword") String repeatPassword, @RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean loggedUser = principal.getLoggedInUser();
 		List<String> result = new ArrayList<String>();
@@ -147,9 +146,9 @@ public class UserController {
 			boolean usernameExists = false;
 			boolean emailExists = false;
 			int dietId = 0;
-		 if(tryParseInt(diet_Id)) {
-			 dietId = Integer.parseInt(diet_Id);
-		 }
+			if (tryParseInt(diet_Id)) {
+				dietId = Integer.parseInt(diet_Id);
+			}
 			if (password.equals(repeatPassword)) {
 				user.setEmail(email.trim().toLowerCase());
 				user.setPassword(passwordEncoder.encode(password));
@@ -173,14 +172,13 @@ public class UserController {
 					return result;
 
 				} else {
-					if(dietId!=0) {
-						
-						
+					if (dietId != 0) {
+
 						Optional<DietBean> diet = dietRepo.findById(dietId);
-						if(diet.isPresent()) {
+						if (diet.isPresent()) {
 							user.setDiet(diet.get());
 						}
-						}
+					}
 					userRepo.saveAndFlush(user);
 
 					result.add("User has been successfully updated!");
@@ -202,27 +200,25 @@ public class UserController {
 
 	public List<String> addUser(@RequestParam(value = "email") String email,
 			@RequestParam(value = "username") String username, @RequestParam(value = "password") String password,
-			@RequestParam(value = "repeatPassword") String repeatPassword,
-			@RequestParam(value = "diet") String diet_Id,
+			@RequestParam(value = "repeatPassword") String repeatPassword, @RequestParam(value = "diet") String diet_Id,
 			@AuthenticationPrincipal UserPrincipal principal) {
 		List<String> result = new ArrayList<String>();
-		if(email == null || username == null || password==null||repeatPassword==null||diet_Id==null) {
+		if (email == null || username == null || password == null || repeatPassword == null || diet_Id == null) {
 			result.add("Input parameters cant be null!");
 			return result;
 		}
-	
+
 		UserBean loggedUser = principal.getLoggedInUser();
 
-		
 		if (loggedUser != null) {
 			for (RoleBean givenRole : loggedUser.getRoles()) {
 				if (givenRole.getCode().equals("ROLE_ADMIN")) {
 					boolean usernameExists = false;
 					boolean emailExists = false;
 					int dietId = 0;
-					 if(tryParseInt(diet_Id)) {
-						 dietId = Integer.parseInt(diet_Id);
-					 }
+					if (tryParseInt(diet_Id)) {
+						dietId = Integer.parseInt(diet_Id);
+					}
 					if (password.equals(repeatPassword)) {
 						UserBean user = new UserBean(username.trim(), passwordEncoder.encode(password),
 								email.trim().toLowerCase());
@@ -255,14 +251,13 @@ public class UserController {
 							return result;
 
 						} else {
-							if(dietId!=0) {
-								
-								
+							if (dietId != 0) {
+
 								Optional<DietBean> diet = dietRepo.findById(dietId);
-								if(diet.isPresent()) {
+								if (diet.isPresent()) {
 									user.setDiet(diet.get());
 								}
-								}
+							}
 							userRepo.saveAndFlush(user);
 
 							result.add("User has been successfully created!");
@@ -296,7 +291,7 @@ public class UserController {
 		if (optionalUser.isPresent()) {
 			System.out.println(optionalUser.get().getUsername());
 			UserBean user = optionalUser.get();
-			//user.removeRole(roleRepo.getOne(2));
+			// user.removeRole(roleRepo.getOne(2));
 			userRepo.delete(user);
 			return new ResponseEntity<>(true, HttpStatus.OK);
 		} else {
@@ -304,13 +299,14 @@ public class UserController {
 		}
 
 	}
-	boolean tryParseInt(String value) {  
-	     try {  
-	         Integer.parseInt(value);  
-	         return true;  
-	      } catch (NumberFormatException e) {  
-	         return false;  
-	      }  
+
+	boolean tryParseInt(String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 }

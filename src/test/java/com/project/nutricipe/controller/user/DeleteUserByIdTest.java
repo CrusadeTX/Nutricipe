@@ -38,12 +38,15 @@ public class DeleteUserByIdTest {
 	@Parameters(name = "{index}: with user id={0}, logged on user = {1} and expected result={2}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] { //
-				 {0, null,new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED)}, //1
-				 {0, new UserBean("username","password","email@email.com"), new ResponseEntity<>(false, HttpStatus.NOT_FOUND)}, //2
-				 {1, new UserBean("username","password","email@email.com"), new ResponseEntity<>(true, HttpStatus.OK)}//3
-				 
+				{ 0, null, new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED) }, // 1
+				{ 0, new UserBean("username", "password", "email@email.com"),
+						new ResponseEntity<>(false, HttpStatus.NOT_FOUND) }, // 2
+				{ 1, new UserBean("username", "password", "email@email.com"),
+						new ResponseEntity<>(true, HttpStatus.OK) }// 3
+
 		});
 	}
+
 	@Parameter(0)
 	public int id;
 	@Parameter(1)
@@ -54,10 +57,11 @@ public class DeleteUserByIdTest {
 	private UserRepo userRepo;
 	private UserPrincipal principal;
 	private PasswordEncoder encoder = new BCryptPasswordEncoder();
-	//private RoleRepo roleRepo;
-	//private DietRepo dietRepo;
+	// private RoleRepo roleRepo;
+	// private DietRepo dietRepo;
 	@Rule
 	public ErrorCollector collector = new ErrorCollector();
+
 	@Before
 	public void setup() {
 		RoleBean role = new RoleBean();
@@ -70,27 +74,27 @@ public class DeleteUserByIdTest {
 		user1.setId(1);
 		user1.setUsername("username");
 		user1.setPassword("password");
-		//UserBean user2 = new UserBean();
-		//user1.setId(3);
-		//user1.setUsername("username2");
-		//user1.setPassword("password2");
-		//List<UserBean> users = new ArrayList<UserBean>();
-		//users.add(user1);
-		//users.add(user2);
-		if(id==1) {
-		doReturn(Optional.of(user1)).when(userRepo).findById(id);
+		// UserBean user2 = new UserBean();
+		// user1.setId(3);
+		// user1.setUsername("username2");
+		// user1.setPassword("password2");
+		// List<UserBean> users = new ArrayList<UserBean>();
+		// users.add(user1);
+		// users.add(user2);
+		if (id == 1) {
+			doReturn(Optional.of(user1)).when(userRepo).findById(id);
+		} else {
+			doReturn(Optional.empty()).when(userRepo).findById(id);
 		}
-		else {
-		doReturn(Optional.empty()).when(userRepo).findById(id);
-		}
-		userController = new UserController(userRepo, null,null,null,encoder);
+		userController = new UserController(userRepo, null, null, null, encoder);
 	}
+
 	@Test
 	public void testDeleteUserById() {
 		final ResponseEntity<Boolean> result = userController.deleteUserById(id, principal);
-		collector.checkThat(result.getStatusCode(),IsEqual.equalTo(expectedResult.getStatusCode()));
-		collector.checkThat(result.getBody(),IsEqual.equalTo(expectedResult.getBody()));
-		
+		collector.checkThat(result.getStatusCode(), IsEqual.equalTo(expectedResult.getStatusCode()));
+		collector.checkThat(result.getBody(), IsEqual.equalTo(expectedResult.getBody()));
+
 	}
 
 }
