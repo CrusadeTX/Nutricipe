@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nutricipe.bean.DietBean;
+import com.project.nutricipe.bean.FridgeBean;
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.DietRepo;
+import com.project.nutricipe.repo.FridgeRepo;
 import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
@@ -36,6 +38,7 @@ public class UserController {
 	private List<UserBean> foundUsers;
 	private RoleRepo roleRepo;
 	private DietRepo dietRepo;
+	private FridgeRepo fridgeRepo;
 
 	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo,
 			PasswordEncoder passwordEncoder) {
@@ -271,6 +274,9 @@ public class UserController {
 									user.setDiet(diet.get());
 								}
 							}
+							FridgeBean fridge = new FridgeBean();
+							fridgeRepo.saveAndFlush(fridge);
+							user.setFridge(fridge);
 							userRepo.saveAndFlush(user);
 
 							result.add("User has been successfully created!");

@@ -47,11 +47,12 @@ public class ProductBean {
     		inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
     		)
     private Set<RecipeBean> recipes;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="PRODUCT_FRIDGE",
-    		joinColumns = @JoinColumn(name="PRODUCT_ID"), 
-    		inverseJoinColumns = @JoinColumn(name="FRIDGE_ID")
-    		)
+	//@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    //@JoinTable(name="PRODUCT_FRIDGE",
+    		//joinColumns = @JoinColumn(name="PRODUCT_ID"), 
+    		//inverseJoinColumns = @JoinColumn(name="FRIDGE_ID")
+    		//)
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
     private Set<FridgeBean> fridges;
 	public int getId() {
 		return id;

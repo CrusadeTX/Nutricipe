@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="USER")
 //@JsonIgnoreProperties({"diet","fridge",})
+@JsonIgnoreProperties({"fridge"})
 public class UserBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -76,18 +76,19 @@
             <div id="main-container" class="col-lg-8 col-12 justify-content-center order-2 order-lg-1"
                 style="height: fit-content !important;">
                 <div id="product-container" class="row">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center w-100">
                         <h2>Products</h2>
                         <a class="ml-3" href="/products.html">Show more</a>
                     </div>
                     <div class="row">
                         <div id="products" class="d-flex flex-wrap">
+                            
                         </div>
                     </div>
 
                 </div>
                 <div id="recipe-container" class="row">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center w-100">
                         <h2>Recipes</h2>
                         <a class="ml-3" href="/recipes.html">Show more</a>
                     </div>
@@ -153,71 +154,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="fridge-elements-container">
-                                <div id="fridge-element-template" class="border-top w-100">
-                                    <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
-                                            alt="Card image cap">
-                                        <div id="card-body " class="mt-2">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <span class="card-text">Name</span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <button class="btn btn-danger btn-act mr-3  my-2"
-                                                        type="button">Remove</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="fridge-element-template" class="border-top w-100">
-                                    <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
-                                            alt="Card image cap">
-                                        <div id="card-body " class="mt-2">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <span class="card-text">Name</span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <button class="btn btn-danger btn-act mr-3  my-2"
-                                                        type="button">Remove</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="fridge-element-template" class="border-top w-100">
-                                    <div class="d-flex">
-                                        <img class="card-img-top thumbnail" src="assets/images/3.jpg"
-                                            alt="Card image cap">
-                                        <div id="card-body " class="mt-2">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <span class="card-text">Name fsdfdgfdgfdgfd sdfsdgd</span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col">
-                                                    <button class="btn btn-danger btn-act mr-3  my-2"
-                                                        type="button">Remove</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div id="fridge-elements-container">          
                             </div>
 
                         </div>
                     </div>
                     <div class="text-center bg-light">
                         <button class="btn btn-info btn-act my-2" type="button">Show Recipes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fridge-element-template" style="display: none;" class="border-top w-100">
+        <div class="d-flex">
+            <img class="card-img-top thumbnail" src="assets/images/3.jpg"
+                alt="Card image cap">
+            <div id="card-body " class="mt-2">
+                <div class="row">
+                    <div class="col">
+                        <span class="card-text">Name fsdfdgfdgfdgfd sdfsdgd</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-danger btn-act mr-3  my-2"
+                            type="button">Remove</button>
                     </div>
                 </div>
             </div>
@@ -236,6 +198,10 @@
             <button class="btn btn-primary   mb-3 mx-2" type="button">More</button>
         </div>
     </div>
+    <div id="empty-template">
+        <h5 class="text-center text-danger"></h5>
+    </div>
+
 
 </body>
 <script>
@@ -243,6 +209,93 @@
         getCurrentUser();
         getLastFiveProducts();
         getLastFiveRecipes();
+        getFridge();
+        function clearFridgeContainer(){
+            $('#fridge-elements-container').empty();
+        }
+        function clearRecipeContainer(){
+            $('#recipe-container').empty();
+            
+        }
+        function clearProductContainer(){
+            $('#product-container').empty();
+        }
+        function addProductToFridge(id){
+            $.ajax({
+            		url: "/fridge/product",
+            		method: "POST",
+            		data : {
+            			product_id : id,
+            		},
+            		complete : function(response){
+            			if(response.status==201){
+                            alert("Product has been added to the fridge!")
+            			}
+                        if(response.status==200){
+                            alert("Product was already present in the fridge!");
+                        }
+                        if(response.status==401){
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
+
+                        }
+            		},
+            		fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
+            	})
+        }
+        function removeProductFromFridge(){
+            
+        }
+
+
+        function getFridge(){
+            $.ajax({
+                url: "/fridge",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        console.log(data);
+                    populateFridgeSegment(data);
+                    }
+                }
+            })
+        }
+        function populateFridgeSegment(data){
+            var currentCalories =0;
+            var TotalCalories = data.TotalCalories;
+            clearFridgeContainer();
+            console.log("Populate method Data")
+            console.log(data);
+            if(data.products.length > 0){
+            for(var i=0;i<data.products.length;i++){
+                var product = data.products[i];
+                currentCalories+=product.calories;
+            var template = $('#fridge-element-template').clone();
+            template.attr('id', 'fridge-element-'+product.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(product.name);
+            var img = template.find('img');
+            img.attr("src",product.imagePath);
+            img.show();
+            $('#fridge-elements-container').append(template);
+            $('#fridge-elements-container').find("#current-calories").text(currentCalories)
+            template.show();
+
+            }
+        }
+        else{
+            
+            var template = $('#empty-template').clone();
+            template.find('h5').text("The fridge is empty!");
+            $('#fridge-elements-container').append(template);
+            template.show();
+        }
+        $('#current-calories').text(currentCalories);
+        $('#current-calories').val(currentCalories);
+
+        }
         function getLastFiveRecipes(){
             $.ajax({
                 url: "/recipe/lastfive",
@@ -290,6 +343,10 @@
             var img = template.find('img');
             img.attr("src",product.imagePath);
             img.show();
+            var button = template.find('.btn-act')
+            button.on('click',function(){
+                addProductToFridge(product.id)
+            })
             $('#products').append(template);
             template.show();
         }
