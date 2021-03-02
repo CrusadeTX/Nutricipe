@@ -295,6 +295,20 @@
                     }
                 }
             })
+            $.ajax({
+                url: "/user/current",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        console.log(data);
+                    populateFridgeDietSegment(data.diet.recomendedCalories);
+                    }
+                }
+            })
+        }
+        function populateFridgeDietSegment(recomendedCalories){
+            $('#target-calories').text(recomendedCalories);
+            $('#target-calories').val(recomendedCalories);
         }
         function populateFridgeSegment(data){
             var currentCalories =0;
