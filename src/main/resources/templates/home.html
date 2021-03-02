@@ -238,6 +238,10 @@
                             alert("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
+                        if(response.status==404){
+                            alert("Resource couldnt be found!");
+
+                        }
             		},
             		fail : function(){
             			
@@ -245,7 +249,28 @@
             		}
             	})
         }
-        function removeProductFromFridge(){
+        function removeProductFromFridge(id){
+            $.ajax({
+                url: "/fridge/product",
+                method: "DELETE",
+                data: {
+                    product_id : id,
+                },
+                complete: function (data) {
+                    if(response.status==200){
+                            alert("Product has been removed!")
+            			}
+                        if(response.status==401){
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
+
+                        }
+                },
+                fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
+
+            })
             
         }
 
@@ -276,12 +301,14 @@
             template.attr('id', 'fridge-element-'+product.id);
             //template.find('h5').text(recipe.name);
             template.find('span').text(product.name);
+            template.find
             var img = template.find('img');
             img.attr("src",product.imagePath);
             img.show();
             $('#fridge-elements-container').append(template);
             $('#fridge-elements-container').find("#current-calories").text(currentCalories)
             template.show();
+            attachFridgeOnClickEvents();
 
             }
         }
@@ -295,6 +322,17 @@
         $('#current-calories').text(currentCalories);
         $('#current-calories').val(currentCalories);
 
+        }
+        function attachFridgeOnClickEvents(){
+            //var container = $('#fridge-elements-container');
+            $('#fridge-elements-container').children().each(function () {
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+                currentElement.find('.btn-act').on('click',function(){
+                    removeProductFromFridge(numericalId);
+                })
+            })
         }
         function getLastFiveRecipes(){
             $.ajax({
