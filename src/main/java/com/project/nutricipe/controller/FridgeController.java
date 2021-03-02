@@ -56,6 +56,21 @@ public class FridgeController {
 			@RequestParam(value = "product_id") int product_id) {
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
+			boolean result = FridgeService.addProduct(product_id, user.getId());
+			if (result == true) {
+				return new ResponseEntity<>(result, HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>(result, HttpStatus.OK);
+			}
+		} else {
+			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+/*	public ResponseEntity<Boolean> addProductToFridge(@AuthenticationPrincipal UserPrincipal principal,
+			@RequestParam(value = "product_id") int product_id) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
 			FridgeBean userFridge = user.getFridge();
 			Optional<ProductBean> product = productRepo.findById(product_id);
 			if (product.isPresent()) {
@@ -72,6 +87,7 @@ public class FridgeController {
 			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
 		}
 	}
+	*/
 
 	@DeleteMapping(path = "/fridge/product")
 	public ResponseEntity<Boolean> deleteProductFromFridge(@AuthenticationPrincipal UserPrincipal principal,
@@ -80,7 +96,7 @@ public class FridgeController {
 		if (user != null) {
 			boolean result = FridgeService.removeProduct(product_id, user.getId());
 			if (result == true) {
-				return new ResponseEntity<>(result, HttpStatus.CREATED);
+				return new ResponseEntity<>(result, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(result, HttpStatus.OK);
 			}

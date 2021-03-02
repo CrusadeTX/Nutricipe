@@ -26,9 +26,9 @@ public class FridgeService {
 		this.userRepo = userRepo;
 	}
 public  static FridgeBean getUserFridge(UserBean user) {
-	
-	FridgeBean fridge = user.getFridge();
-	return fridge;
+	int id = user.getFridge().getId();
+	Optional<FridgeBean> fridge = fridgeRepo.findById(id);
+	return fridge.get();
 }	
 	
 
@@ -46,6 +46,20 @@ public  static FridgeBean getUserFridge(UserBean user) {
 		
 	
 //}
+public static boolean addProduct(int product_id, int user_id) {
+	UserBean user = userRepo.getOne(user_id);
+	FridgeBean userFridge = user.getFridge();
+	Optional<ProductBean> product = productRepo.findById(product_id);
+	if(product.isPresent()) {
+		Set<ProductBean> products = userFridge.getProducts();
+		boolean result = products.add(product.get());
+		userFridge.setProducts(products);
+		user.setFridge(userFridge);
+		userRepo.saveAndFlush(user);
+		return result;
+	}
+	return false;
+}
 public static boolean removeProduct(int product_id, int user_id) {
 	UserBean user = userRepo.getOne(user_id);
 	FridgeBean userFridge = user.getFridge();
