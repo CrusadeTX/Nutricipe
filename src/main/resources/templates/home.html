@@ -78,7 +78,7 @@
                 <div id="product-container" class="row">
                     <div class="d-flex align-items-center w-100">
                         <h2>Products</h2>
-                        <a class="ml-3" href="/products.html">Show more</a>
+                        <span id="toggle-products" class="ml-3">Hide</span>
                     </div>
                     <div class="row">
                         <div id="products" class="d-flex flex-wrap">
@@ -90,7 +90,7 @@
                 <div id="recipe-container" class="row">
                     <div class="d-flex align-items-center w-100">
                         <h2>Recipes</h2>
-                        <a class="ml-3" href="/recipes.html">Show more</a>
+                        <span id="toggle-recipes" class="ml-3">Hide</span>
                     </div>
                     <div class="row">
                         <div id="recipes" class="d-flex flex-wrap">
@@ -119,38 +119,15 @@
                                     <span id="current-calories" class="text-center text-danger ml-2"> 1000</span>
                                 </div>
                                 <div class="row text-center">
-                                    <span class="text-center text-danger ml-3 mb-2">Risk Factors: </span>
-                                    <div id="risk-factors-container">
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            Lactose</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            Allergies</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
-                                        <span id="risk-factor"
-                                            class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
-                                            1000</span>
+                                    <span class="text-center text-danger ml-3 mb-2">Categories</span>
+                                    <div id="categories-container">
+                                        
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <span class="text-center text-danger ml-3 mb-2">Unwanted Adverse Effects</span>
+                                    <div id="adverse-effects-container">
+
                                     </div>
                                 </div>
                             </div>
@@ -201,6 +178,12 @@
     <div id="empty-template">
         <h5 class="text-center text-danger"></h5>
     </div>
+    <span id="adverse-effect-template" style="display:none;"
+    class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+    Lactose</span>
+    <span id="category-template" style="display:none;"
+    class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+    Lactose</span>
 
 
 </body>
@@ -210,6 +193,46 @@
         getLastFiveProducts();
         getLastFiveRecipes();
         getFridge();
+        hoverOverLink();
+        function hoverOverLink(){
+            $('#toggle-products').hover(function(){
+                $(this).css("color","red");  
+                $(this).css('cursor', 'pointer');
+            })
+            $('#toggle-recipes').hover(function(){
+                $(this).css("color","red");  
+                $(this).css('cursor', 'pointer');
+            })
+            $('#toggle-recipes').mouseleave(function(){
+                $(this).css("color","black");
+                
+            })
+            $('#toggle-products').mouseleave(function(){
+                $(this).css("color","black");  
+               
+            })
+            $('#toggle-products').on('click',function(){
+                if($(this).text()=="Hide"){
+                $(this).text("Show");
+                $('#products').css("cssText","display: none !important;")
+                debugger
+                }
+                else{
+                    $(this).text("Hide");
+                    $('#products').css("cssText","display: flex !important;")
+                }
+                })
+            $('#toggle-recipes').on('click',function(){
+                if($(this).text()=="Hide"){
+                $(this).text("Show");
+                $('#recipes').css("cssText","display: none !important;")
+                }
+                else{
+                    $(this).text("Hide");
+                    $('#recipes').css("cssText","display: flex !important;")
+                }
+                })
+        }
         function clearFridgeContainer(){
             $('#fridge-elements-container').empty();
         }
@@ -234,7 +257,7 @@
                             getFridge();
             			}
                         if(response.status==200){
-                            alert("Product was already present in the fridge!");
+                            alert("Product has already been added to the fridge!");
                         }
                         if(response.status==401){
                             alert("You are not authorized to perform this operation. Please log in and try again!");
@@ -301,14 +324,44 @@
                 success: function (data) {
                     if (data != null) {
                         console.log(data);
-                    populateFridgeDietSegment(data.diet.recomendedCalories);
+                    populateFridgeDietSegment(data.diet);
                     }
                 }
             })
         }
-        function populateFridgeDietSegment(recomendedCalories){
-            $('#target-calories').text(recomendedCalories);
-            $('#target-calories').val(recomendedCalories);
+        function populateFridgeDietSegment(diet){
+            $("#categories-container").empty();
+            $("#adverse-effects-container").empty();
+            $('#target-calories').text(diet.recomendedCalories);
+            $('#target-calories').val(diet.recomendedCalories);
+            for(var i=0; i<diet.categories.length; i++){
+            var template = $('#category-template').clone();
+            template.text(diet.categories[i].name)
+            if(diet.categories[i].type==="Adverse Effects"){
+               $("#adverse-effects-container").append(template);
+            }
+            else{
+                $("#categories-container").append(template);
+            }
+            template.show();
+            }
+            if($("#adverse-effects-container").children().length==0)
+            {   var adverseEffectsTemplate = $('#category-template').clone();
+                adverseEffectsTemplate.text("None");
+                $("#adverse-effects-container").append(adverseEffectsTemplate);
+                adverseEffectsTemplate.show();
+
+            }
+            if($("#categories-container").children().length==0)
+            {   
+                var adverseEffectsTemplate = $('#category-template').clone();
+                adverseEffectsTemplate.text("None");
+                $("#category-container").append(adverseEffectsTemplate);
+                adverseEffectsTemplate.show();
+                
+
+            }
+
         }
         function populateFridgeSegment(data){
             var currentCalories =0;
