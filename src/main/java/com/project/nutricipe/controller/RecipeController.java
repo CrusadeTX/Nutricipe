@@ -5,9 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nutricipe.bean.ProductBean;
@@ -16,6 +21,7 @@ import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.RecipeRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
+import com.project.nutricipe.services.RecipeService;
 
 @RestController
 public class RecipeController {
@@ -71,6 +77,21 @@ public List<RecipeBean> getLastFiveRecipes(@AuthenticationPrincipal UserPrincipa
 		return null;
 	}
 }
+@PostMapping(path="/recipe/product/diet")
+public ResponseEntity<List<RecipeBean>> getRecipesByCategoriesAndProducts(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value = "productIds") List<String> productIds) {
+	
+	if(productIds!=null) {
+		List<Integer> listProductIds = new ArrayList<Integer>();
+		for(String id : productIds ) {
+			System.out.println(id);
+			listProductIds.add(Integer.parseInt(id));
+		}
+		UserBean user = principal.getLoggedInUser();
+		ResponseEntity<List<RecipeBean>> response = RecipeService.getRecipesByCategoriesAndProducts(user, listProductIds);
+		return response;
+	}
+	return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 
 
+}
 }

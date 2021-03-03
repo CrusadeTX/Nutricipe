@@ -57,7 +57,7 @@ public class GetCurrentUserTest {
 			principal = new UserPrincipal(null,roles);
 		}
 
-		userController = new UserController(null, null, null, null, null);
+		userController = new UserController(null, null, null, null, null,null);
 	}
 	@Test
 	public void testGetCurrentUser() {

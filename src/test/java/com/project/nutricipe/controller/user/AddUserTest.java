@@ -18,14 +18,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.project.nutricipe.bean.FridgeBean;
 import com.project.nutricipe.bean.RoleBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.controller.UserController;
 import com.project.nutricipe.repo.DietRepo;
+import com.project.nutricipe.repo.FridgeRepo;
 import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
@@ -71,6 +74,7 @@ public class AddUserTest {
 	private UserRepo userRepo;
 	private UserPrincipal principal;
 	private RoleRepo roleRepo;
+	private FridgeRepo fridgeRepo;
 	// private DietRepo dietRepo= new DietRepo();
 	private PasswordEncoder encoder = new BCryptPasswordEncoder();
 	@Rule
@@ -84,6 +88,10 @@ public class AddUserTest {
 		Set<RoleBean> roles = new HashSet<>(Arrays.asList(role));
 		roleRepo = mock(RoleRepo.class);
 		userRepo = mock(UserRepo.class);
+		fridgeRepo = mock(FridgeRepo.class);
+		FridgeBean fridge = new FridgeBean();
+		fridge.setId(99);
+		 Mockito.when(fridgeRepo.saveAndFlush(fridge)).thenReturn(fridge);
 		if (loggedUser != null) {
 			loggedUser.setRoles(roles);
 			principal = new UserPrincipal(loggedUser, roles);
@@ -105,7 +113,7 @@ public class AddUserTest {
 		users.add(user2);
 		doReturn(users).when(userRepo).findAll();
 		doReturn(role).when(roleRepo).findRoleByCode("ROLE_USER");
-		userController = new UserController(userRepo, null, roleRepo, null, encoder);
+		userController = new UserController(userRepo, null, roleRepo, null, encoder,fridgeRepo);
 	}
 
 	@Test

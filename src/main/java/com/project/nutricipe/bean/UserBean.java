@@ -109,6 +109,7 @@ public class UserBean {
 	@PreRemove
 	public void removeRelations() {
 		roles.forEach(role -> role.removeUser(this));
+		diet = null;
 		}
 	
 }

@@ -86,7 +86,7 @@ public class DeleteUserByIdTest {
 		} else {
 			doReturn(Optional.empty()).when(userRepo).findById(id);
 		}
-		userController = new UserController(userRepo, null, null, null, encoder);
+		userController = new UserController(userRepo, null, null, null, encoder,null);
 	}
 
 	@Test

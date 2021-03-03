@@ -111,7 +111,7 @@ public class UpdateUserTest {
 		users.add(user2);
 		doReturn(users).when(userRepo).findAll();
 		//doReturn(role).when(roleRepo).findRoleByCode("ROLE_USER");
-		userController = new UserController(userRepo, null, null, null, encoder);
+		userController = new UserController(userRepo, null, null, null, encoder,null);
 	}
 
 	@Test

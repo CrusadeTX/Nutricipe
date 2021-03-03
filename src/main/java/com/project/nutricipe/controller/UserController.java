@@ -41,12 +41,13 @@ public class UserController {
 	private FridgeRepo fridgeRepo;
 
 	public UserController(UserRepo userRepo, WebSecurityConfig webSecurityConfig, RoleRepo roleRepo, DietRepo dietRepo,
-			PasswordEncoder passwordEncoder) {
+			PasswordEncoder passwordEncoder,FridgeRepo fridgeRepo) {
 		this.userRepo = userRepo;
 		this.webSecurityConfig = webSecurityConfig;
 		this.roleRepo = roleRepo;
 		this.dietRepo = dietRepo;
 		this.passwordEncoder = passwordEncoder;
+		this.fridgeRepo = fridgeRepo;
 	}
 
 	@GetMapping(path = "/user/all")

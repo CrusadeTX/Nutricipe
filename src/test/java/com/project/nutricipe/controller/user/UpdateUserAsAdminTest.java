@@ -108,7 +108,7 @@ public class UpdateUserAsAdminTest {
 		doReturn(users).when(userRepo).findAll();
 		doReturn(user1).when(userRepo).getOne(id);
 		//doReturn(role).when(roleRepo).findRoleByCode("ROLE_USER");
-		userController = new UserController(userRepo, null, null, null, encoder);
+		userController = new UserController(userRepo, null, null, null, encoder,null);
 	}
 
 	@Test

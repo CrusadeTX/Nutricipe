@@ -76,7 +76,7 @@ public class GetAllUsersTest {
 		users.add(user1);
 		users.add(user2);
 		doReturn(users).when(userRepo).findAll();
-		userController = new UserController(userRepo, null, null, null, encoder);
+		userController = new UserController(userRepo, null, null, null, encoder,null);
 	}
 
 	@Test

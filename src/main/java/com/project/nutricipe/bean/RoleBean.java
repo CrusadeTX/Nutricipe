@@ -57,10 +57,13 @@ public class RoleBean {
 		
 	}
 	public void removeUser(UserBean user) {
-		for(UserBean foundUser : users) {
-			if(foundUser.getId()== user.getId()) {
-				users.remove(user);
-			}
+		//for(UserBean foundUser : users) {
+			//if(foundUser.getId()== user.getId()) {
+				//users.remove(user);
+			//}
+		//}
+		if(users.contains(user)) {
+			users.remove(user);
 		}
 		
 		
