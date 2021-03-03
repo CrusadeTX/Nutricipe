@@ -172,7 +172,7 @@
         </div>
         <div class="text-center">
             <button class="btn btn-success btn-act mb-3 mx-2" type="button">Add</button>
-            <button class="btn btn-primary   mb-3 mx-2" type="button">More</button>
+            <button class="btn btn-primary mb-3 mx-2" type="button">More</button>
         </div>
     </div>
     <div id="empty-template">
@@ -247,6 +247,14 @@
         function HideRecipesSegment(){
             $('#toggle-recipes').text("Show");
             $('#recipes').css("cssText","display: none !important;")
+        }
+        function ShowRecipesSegment(){
+            $('#toggle-recipes').text("Hide");
+            $('#recipes').css("cssText","display: flex !important;")
+        }
+        function ShowProductsSegment(){
+            $('#toggle-products').text("Hide");
+            $('#products').css("cssText","display: flex !important;")
         }
         function hoverOverLink(){
             $('#toggle-products').hover(function(){
@@ -516,6 +524,9 @@
             })
         }
         function populateRecipesSegment(recipe){
+            if($('#toggle-recipes').text()==="Show"){
+                ShowRecipesSegment();
+            }
             var template = $('#card-template').clone();
             template.attr('id', 'recipe-card-'+recipe.id);
             template.find('h5').text(recipe.name);
@@ -523,6 +534,8 @@
             var img = template.find('img');
             img.attr("src",recipe.imagePath);
             img.show();
+            var button = template.find('.btn-act');
+            button.remove();
             $('#recipes').append(template);
             template.show();
         }
@@ -541,6 +554,9 @@
             })
         }
         function populateProductsSegment(product){
+            if($('#toggle-products').text()==="Show"){
+                ShowProductsSegment();
+            }
             var template = $('#card-template').clone();
             template.attr('id', 'product-card-'+product.id);
             template.find('h5').text(product.name);
@@ -551,6 +567,12 @@
             var button = template.find('.btn-act')
             button.on('click',function(){
                 addProductToFridge(product.id)
+            })
+            var moreButton = template.find('.btn-primary')
+            moreButton.on('click',function(){
+                sessionStorage.setItem("productId", product.id);
+                window.location.assign("product.html");
+                alert('clicked')
             })
             $('#products').append(template);
             template.show();
