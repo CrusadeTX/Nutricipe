@@ -536,6 +536,13 @@
             img.show();
             var button = template.find('.btn-act');
             button.remove();
+            var moreButton = template.find('.btn-primary')
+            moreButton.on('click',function(){
+                sessionStorage.setItem("recipeId", recipe.id);
+                window.location.assign("recipe.html");
+                //alert('clicked')
+            })
+
             $('#recipes').append(template);
             template.show();
         }
@@ -572,7 +579,7 @@
             moreButton.on('click',function(){
                 sessionStorage.setItem("productId", product.id);
                 window.location.assign("product.html");
-                alert('clicked')
+               //alert('clicked')
             })
             $('#products').append(template);
             template.show();

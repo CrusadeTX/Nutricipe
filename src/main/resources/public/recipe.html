@@ -55,6 +55,20 @@
                     <img id="element-image" class="img-fluid" src="assets/images/lasagna.jpg">
                 </div>
                 <div id="details-container" class="col-6">
+                    <h3 id="category-heading" class="text-center">Categories</h3>
+                    <div class="row">
+                    <div id="categories" class="d-flex justify-content-center w-100">
+                       <!-- <span id="adverse-effect-template" 
+                        class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                        Lactose</span>
+                        <span id="adverse-effect-template" 
+                        class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                        Lactose</span>
+                        <span id="adverse-effect-template" 
+                        class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+                        Lactose</span>-->
+                    </div>
+                    </div>
                     <div class="row">
                         <h3 id="nutrition-heading" class="text-center w-100 my-3">Nutrition</h3>
                         <div id="nutrition-info" class="d-flex justify-content-center w-100 align-items-center">
@@ -95,10 +109,13 @@
             </div>
         </div>
     </div>
+    <span id="category-template" style="display:none;"
+    class="text-center text-white rounded px-1  ml-2 my-1 bg-danger">
+    Lactose</span>
 </body>
 <script>
      $(document).ready(function (){     
-         getProduct();
+         getRecipe();
         function populateWebPage(data){
             $('#element-image').attr("src",data.imagePath);
             $('#heading').text(data.name);
@@ -107,13 +124,19 @@
             $('#fats').text(data.fats);
             $('#calories').text(data.calories);
             $('#element-description').text(data.description);
+            for(var i=0; i<data.categories.length; i++){
+            var template = $('#category-template').clone();
+            template.text(data.categories[i].name)
+            $('#categories').append(template);
+            template.show();
+            }
 
 
         }
-        function getProduct(){
-            var id =sessionStorage.getItem("productId");
+        function getRecipe(){
+            var id =sessionStorage.getItem("recipeId");
             $.ajax({
-                url: "/product/"+id,
+                url: "/recipe/"+id,
                 method: "GET",
                 success: function (data) {
                     if (data != null) {
