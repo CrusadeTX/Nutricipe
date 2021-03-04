@@ -114,7 +114,22 @@ public class RecipeService {
 		}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}		
+	}
+	public  static ResponseEntity<List<ProductBean>> getRecipeProducts(int recipeId){
+		Optional<RecipeBean> recipe = recipeRepo.findById(recipeId);
+		List<ProductBean> recipeProducts;
+		if(recipe.isPresent()) {
+			recipeProducts=new ArrayList<>(recipe.get().getProducts());
+			if(recipeProducts!=null) {
+				return new ResponseEntity<>(recipeProducts,HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
 		}
-		
+		else {
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 	}
 }

@@ -94,4 +94,17 @@ public ResponseEntity<List<RecipeBean>> getRecipesByCategoriesAndProducts(@Authe
 
 
 }
+@PostMapping(path="/recipe/products")
+public ResponseEntity<List<ProductBean>> getRecipeProducts(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value = "recipeId") String recipeId) {
+	int id=0;
+	if(recipeId!=null) {
+		 id = (Integer.parseInt(recipeId));
+		
+		ResponseEntity<List<ProductBean>> response = RecipeService.getRecipeProducts(id);
+		return response;
+	}
+	return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+
+
+}
 }
