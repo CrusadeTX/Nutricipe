@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="CATEGORY")
 @JsonIgnoreProperties({"recipes","diets"})
-public class CategoryBean {
+public class CategoryBean implements Comparable<CategoryBean> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -70,6 +70,34 @@ public class CategoryBean {
 	public void setDiets(Set<DietBean> diets) {
 		this.diets = diets;
 	}
+	@Override
+    public boolean equals(Object o) { 
+
+        // If the object is compared with itself then return true
+        if (o == this) { 
+            return true; 
+        } 
+
+        /* Check if o is an instance of Complex or not 
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof CategoryBean)) { 
+            return false; 
+        } 
+
+        // typecast o to Complex so that we can compare data members
+        CategoryBean c = (CategoryBean) o; 
+
+        // Compare the data members and return accordingly
+        return this.getId()==c.getId(); 
+    }
+	@Override
+	public int compareTo(CategoryBean category) {
+		if (this.getId() == 0 || category.getId() == 0) { 
+		      return 0; 
+		    } 
+		    return Integer.compare(this.getId(), category.getId());
+		  }
+	
 
 	
 }
