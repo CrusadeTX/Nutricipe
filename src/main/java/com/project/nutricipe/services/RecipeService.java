@@ -52,6 +52,7 @@ public class RecipeService {
 				
 					for(RecipeBean recipe : recipes) {
 						boolean adverseEffectMatch= false;
+						boolean added = false;
 						List<CategoryBean> recipeCategories = new ArrayList<>(recipe.getCategories());
 						//if(java.util.Collections.disjoint(recipeCategories,dietCategories)) {
 							//recipesWithRequestedCategories.add(recipe);
@@ -66,12 +67,17 @@ public class RecipeService {
 								if(hasAdverseEffects) {
 									if(dietCategory.getId() == recipeCategory.getId()) {
 										adverseEffectMatch=true;
+										if(added) {
+											recipesWithRequestedCategories.remove(recipe);
+										}
+										
 										
 									}
 								}
-								else 
+								
 								if(!adverseEffectMatch)	{
 								recipesWithRequestedCategories.add(recipe);
+								added=true;
 								}
 								
 								

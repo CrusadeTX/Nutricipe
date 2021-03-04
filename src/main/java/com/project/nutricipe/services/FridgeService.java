@@ -26,9 +26,12 @@ public class FridgeService {
 		this.userRepo = userRepo;
 	}
 public  static FridgeBean getUserFridge(UserBean user) {
+	if(user!=null) {
 	int id = user.getFridge().getId();
 	Optional<FridgeBean> fridge = fridgeRepo.findById(id);
 	return fridge.get();
+	}
+	return null;
 }	
 	
 

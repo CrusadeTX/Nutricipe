@@ -37,6 +37,13 @@ public class FridgeBean {
 	private Set<ProductBean> products;
 	@OneToOne(mappedBy = "fridge")
 	private UserBean user;
+	public FridgeBean() {
+		
+	}
+	public FridgeBean(int id, double totalCalories) {
+		this.id =id;
+		this.totalCalories = totalCalories;
+	}
 	public int getId() {
 		return id;
 	}
