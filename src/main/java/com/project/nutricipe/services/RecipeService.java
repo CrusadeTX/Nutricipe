@@ -49,7 +49,7 @@ public class RecipeService {
 			List<CategoryBean> dietCategories = new ArrayList<>(diet.get().getCategories());
 			List<RecipeBean> recipes = recipeRepo.findAll();
 			if(dietCategories!=null) {
-				
+				System.out.println("dietCategories isnt null");
 					for(RecipeBean recipe : recipes) {
 						boolean adverseEffectMatch= false;
 						boolean added = false;
@@ -89,11 +89,12 @@ public class RecipeService {
 					System.out.println("================");
 					System.out.println(recipe.getName());
 					}
+				System.out.println(recipesWithRequestedCategories.size());
 				for(CategoryBean category :dietCategories ) {
 					System.out.println("================");
 					System.out.println(category.getName());
 					}
-				
+				if(recipesWithRequestedCategories.size()>0) {
 				for(RecipeBean recipe : recipesWithRequestedCategories) {
 					int count =0;
 					Set<ProductBean> recipeProducts = recipe.getProducts();
@@ -114,7 +115,32 @@ public class RecipeService {
 						result.add(recipe);
 					}
 				}
+				
 				return new ResponseEntity<>(result,HttpStatus.OK);
+				}
+				if(recipesWithRequestedCategories.size()==0) {
+					for(RecipeBean recipe : recipes) {
+						int count =0;
+						Set<ProductBean> recipeProducts = recipe.getProducts();
+						for(ProductBean recipeProduct: recipeProducts) {
+							for(int productId : productIds) {
+								if(recipeProduct.getId()==productId) {
+									count++;
+								}
+								
+							}
+							
+						}
+						System.out.println("**********");
+						System.out.println(recipe.getName());
+						System.out.println(recipeProducts.size());
+						System.out.println(count);
+						if(recipeProducts.size()==count) {
+							result.add(recipe);
+						}
+					}
+				return new ResponseEntity<>(result,HttpStatus.OK);
+				}
 			}
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}

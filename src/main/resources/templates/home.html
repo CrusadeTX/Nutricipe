@@ -145,7 +145,7 @@
     </div>
     <div id="fridge-element-template" style="display: none;" class="border-top w-100">
         <div class="d-flex">
-            <img class="card-img-top thumbnail" src="assets/images/3.jpg"
+            <img class="card-img-top thumbnail" src=""
                 alt="Card image cap">
             <div id="card-body " class="mt-2">
                 <div class="row">
@@ -216,10 +216,21 @@
                             console.log(response);
                             clearRecipeContainer();
                             HideProductsSegment();
+                            if(response.responseJSON.length>0){
                         response.responseJSON.forEach(function(recipe) {
                         populateRecipesSegment(recipe);
 
                         });
+                        }
+                        else{
+                        ShowRecipesSegment();
+                        var template = $('#empty-template').clone();
+                        template.find('h5').text("No Recipes have been found");
+                        $('#recipes').append(template);
+                        template.show();
+                    
+                    
+                        }
                        
                     
                             
@@ -520,6 +531,7 @@
                         });
                        
                     }
+                    
                 }
             })
         }

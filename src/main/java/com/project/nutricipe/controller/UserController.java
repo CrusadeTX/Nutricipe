@@ -82,7 +82,9 @@ public class UserController {
 		UserBean loggedUser = principal.getLoggedInUser();
 		UserBean user = loggedUser;
 		List<String> result = new ArrayList<String>();
-		if (email == null || username == null || password == null || repeatPassword == null || diet_Id == null) {
+		System.out.print("diet_Id: ");
+		System.out.println(diet_Id);
+		if (email == null || username == null || password == null || repeatPassword == null || diet_Id == null || diet_Id=="") {
 			result.add("Input parameters cant be null!");
 			return result;
 		}
@@ -127,6 +129,7 @@ public class UserController {
 							user.setDiet(diet.get());
 						}
 					}
+					
 					userRepo.saveAndFlush(user);
 
 					result.add("User has been successfully updated!");
