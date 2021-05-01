@@ -5,16 +5,23 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.nutricipe.bean.ProductBean;
+import com.project.nutricipe.bean.RecipeBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.ProductRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
+import com.project.nutricipe.services.ProductService;
+import com.project.nutricipe.services.RecipeService;
 
 @RestController
 public class ProductController {
@@ -65,6 +72,19 @@ public class ProductController {
 		} else {
 			return null;
 		}
+	}
+	@PostMapping(path="/product/search")
+	public ResponseEntity<List<ProductBean>> getProductBySearchString(@RequestParam(value = "searchTerm") String query) {
+		//int id=0;
+		if(query!=null) {
+			 
+			
+			ResponseEntity<List<ProductBean>> response = ProductService.getProductBySearchString(query.trim());
+			return response;
+		}
+		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+
+
 	}
 
 }

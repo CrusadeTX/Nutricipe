@@ -107,4 +107,17 @@ public ResponseEntity<List<ProductBean>> getRecipeProducts(@AuthenticationPrinci
 
 
 }
+@PostMapping(path="/recipe/search")
+public ResponseEntity<List<RecipeBean>> getRecipeBySearchString(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value = "searchTerm") String query) {
+	//int id=0;
+	if(query!=null) {
+		 
+		
+		ResponseEntity<List<RecipeBean>> response = RecipeService.getRecipeBySearchString(query.trim());
+		return response;
+	}
+	return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+
+
+}
 }

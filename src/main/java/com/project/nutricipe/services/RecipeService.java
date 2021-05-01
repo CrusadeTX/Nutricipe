@@ -164,4 +164,29 @@ public class RecipeService {
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 	}
+	public  static ResponseEntity<List<RecipeBean>> getRecipeBySearchString(String query){
+		List<RecipeBean> allRecipes = recipeRepo.findAll();
+		for (RecipeBean recipe : allRecipes) {
+			//System.out.println("Recipe:");
+		
+			//System.out.println(recipe.getName());
+		}
+	
+		List<RecipeBean> result = new ArrayList<RecipeBean>();
+		for(RecipeBean recipe : allRecipes) {
+			if(recipe.getName().toLowerCase().contains(query.toLowerCase())) {
+				result.add(recipe);
+				System.out.println("Recult Recipe:");
+				
+				System.out.println(recipe.getName());
+				
+			}
+		}
+		if(result.size()>0) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		
+	}
+	
 }

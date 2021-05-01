@@ -61,7 +61,7 @@
                         </div>
                         <div class="custom-control">
                             <select id="select-search-type" class="form-control">
-                                <option value="recipe" selected>Recipe</option>
+                                <option value="recipe" selected >Recipe</option>
                                 <option value="product">Product</option>
                             </select>
                         </div>
@@ -211,20 +211,23 @@
             }
         })
         function Search(searchTerm, searchType){
-            $.ajax({
-            		url: "/search",
+            switch(searchType){
+                case "recipe": {
+                    $.ajax({
+            		url: "/recipe/search",
             		method: "POST",
                     //contentType: "application/json",
                     //traditional: true,
             		data : {
             			searchTerm: searchTerm,
-                        searchType: searchType,
             		},
             		complete : function(response){
                         if(response.status==200){
                             console.log(response);
                             clearRecipeContainer();
+                            clearProductContainer();
                             HideProductsSegment();
+                            console.log(response);
                             if(response.responseJSON.length>0){
                         response.responseJSON.forEach(function(recipe) {
                         populateRecipesSegment(recipe);
@@ -258,6 +261,62 @@
             			alert("Something went terribly wrong!!!");
             		}
             	})
+                    
+                }break;
+                case "product": {
+                    $.ajax({
+            		url: "product/search",
+            		method: "POST",
+                    //contentType: "application/json",
+                    //traditional: true,
+            		data : {
+            			searchTerm: searchTerm,
+            		},
+            		complete : function(response){
+                        if(response.status==200){
+                            console.log(response);
+                            clearProductContainer();
+                            clearRecipeContainer();
+                            HideRecipesSegment();
+                            if(response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(product) {
+                        populateProductsSegment(product);
+
+                        });
+                        }
+                        else{
+                        ShowProductsSegment();
+                        var template = $('#empty-template').clone();
+                        template.find('h5').text("No Products have been found");
+                        $('#products').append(template);
+                        template.show();
+                    
+                    
+                        }
+                       
+                    
+                            
+                        }
+                        if(response.status==401){
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
+
+                        }
+                        if(response.status==404){
+                            alert("Resource couldnt be found!");
+
+                        }
+            		},
+            		fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
+            	})
+
+                }break;
+                default:
+                    alert("Incorrect Search Term!")
+            }
+
 
         }
         function GetRecipesFromFridge(productIds){
