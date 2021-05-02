@@ -70,6 +70,8 @@
                 <div class="d-flex align-items-center col-lg-2 col-12">
                     <button id="search-btn"
                         class="btn btn-danger text-center btn-block lg-btn my-2 my-lg-0">Search</button>
+                        <button id="clear-btn"
+                        class="btn btn-danger text-center btn-block lg-btn ml-2 my-2 my-lg-0">Clear</button>
                 </div>
             </div>
         </div>
@@ -195,12 +197,24 @@
         getLastFiveRecipes();
         getFridge();
         hoverOverLink();
+        $('#clear-btn').hide();
+        $('#clear-btn').on('click',function(){
+            $('#clear-btn').hide();
+            $('#search-text').text("");
+            clearRecipeContainer();
+            clearProductContainer();
+            getLastFiveProducts();
+            getLastFiveRecipes();
+            
+        })
         $('#search-btn').on('click',function(){
+            
             var searchTerm = $('#search-text').val().trim();
             var searchType = $('#select-search-type').val().trim();
             if(searchTerm.length>0){
                 if(searchType.length>0){
                 Search(searchTerm, searchType);
+                $('#clear-btn').show();
                 }
                 else{
                     alert('Incorrect Search Type!');
@@ -252,7 +266,15 @@
 
                         }
                         if(response.status==404){
-                            alert("Resource couldnt be found!");
+                            clearProductContainer();
+                            HideProductsSegment();
+                            clearRecipeContainer();
+                            ShowRecipesSegment();
+                            //alert("Resource couldnt be found!");
+                            var template = $('#empty-template').clone();
+                            template.find('h5').text("No Recipes have been found");
+                            $('#recipes').append(template);
+                            template.show();
 
                         }
             		},
@@ -302,7 +324,15 @@
 
                         }
                         if(response.status==404){
-                            alert("Resource couldnt be found!");
+                            //alert("Resource couldnt be found!");
+                            clearRecipeContainer();
+                            HideRecipesSegment();
+                            clearProductContainer();
+                            ShowProductsSegment();
+                            var template = $('#empty-template').clone();
+                            template.find('h5').text("No Products have been found");
+                            $('#products').append(template);
+                            template.show();
 
                         }
             		},
