@@ -43,3 +43,8 @@ input:valid {
     top: 0;
     z-index: 1000;
 }
+.fixed-button-right{
+    position: absolute;
+    right: 0;
+    
+}

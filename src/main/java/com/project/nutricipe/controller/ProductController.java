@@ -1,8 +1,14 @@
 package com.project.nutricipe.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.nutricipe.bean.ProductBean;
 import com.project.nutricipe.bean.RecipeBean;
@@ -84,6 +91,31 @@ public class ProductController {
 		}
 		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 
+
+	}
+	@PostMapping(path="/product/upload")
+	public String uploadProductImage(@RequestParam(value = "image") MultipartFile file) {
+		//int id=0;
+		String userDirectory = Paths.get("")
+		        .toAbsolutePath()
+		        .toString();
+		String uploadsPath = userDirectory + "\\src\\main\\resources\\public\\assets\\images\\";
+		//Path path = Paths.get(uploadsPath);
+		//Files.copy(file.getInputStream(), path);
+		//Files.co
+		//return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.'));
+		String filename = new Random().nextInt(999999) + "_" + System.currentTimeMillis();
+		File targetFile = new File(uploadsPath + filename + fileExtension);
+		try {
+		byte[] bytes = file.getBytes();
+		file.transferTo(targetFile);
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		String uploadedDirectory = targetFile.getAbsolutePath();
+		return uploadedDirectory;
 
 	}
 
