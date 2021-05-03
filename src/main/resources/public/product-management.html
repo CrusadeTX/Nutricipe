@@ -43,6 +43,15 @@
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger"> Create Product</h3>
+                <form id="image-uploader"action="POST" name="image-uploader">
+                    <div class="form-group">
+                        <label for="product-image" class="text-danger">Product Image:</label>
+                        <div>
+                        <input type="file" id="product-image" name="productImage" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        <button id="product-image-upload-btn" type="submit" class="btn btn-danger fixed-button-right mx-5">Upload</button>
+                        </div>
+                        </div>
+                </form>
             <form id="product-form" method="POST">
                 <div class="form-group">
                     <label for="product-name" class="text-danger">Name:</label>
@@ -87,15 +96,6 @@
                 <input id="product-image-path" type="hidden">
                 <div class="text-center">
                 </form>
-                <form id="image-uploader"action="POST" name="image-uploader">
-                    <div class="form-group">
-                        <label for="product-image" class="text-danger">Product Image:</label>
-                        <div>
-                        <input type="file" id="product-image" name="productImage" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                        <button id="product-image-upload-btn" type="submit" class="btn btn-danger fixed-button-right mx-5">Upload</button>
-                        </div>
-                        </div>
-                </form>
                 <button id="product-submit" type="button" class="btn btn-success">Create</button>
                 </div>
 
@@ -128,7 +128,7 @@
             {
 
             
-            if (image.size>0 && image.size <=10000000){
+            if (image.size>0 && image.size <=1048576){
                 $.ajax({
                 //processData: false,
                 
@@ -143,14 +143,19 @@
                 contentType: false,
                 success: function (data) {
                     if (data != null) {
-                        
+                        if(data == "Image failed to upload!"){
+                            alert("Image failed to upload")
+                        }
+                        else{
                         $('#product-image-path').val(data);
+                        alert("Image was uploaded successfully!")
+                        }
                     }
                 }
             })
             }
             else{
-                alert("Please select a valid image and try again!")
+                alert("Image exceeds 1 MB! Please choose a smaller image!")
             }
         }
         else{
@@ -161,6 +166,11 @@
             alert("Please select an image!")
         }
         }
+
+        
+        $('#product-submit').click(function(){
+            CreateProduct();
+})
         function CreateProduct(){
             var name = $('#product-name').val();
             var description = $('#product-description').val();
@@ -169,6 +179,69 @@
             var carbohydrates = $('#product-carbohydrates').val();
             var calories = $('#product-calories').val();
             var imagePath = $('#product-image-path').val();
+            var weight = $('#product-weight').val();
+            if(name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || imagePath ==="" || weight ==="")
+                {
+                	alert("Please fill in the requested fields");
+                	return
+                	
+                }
+                //var isNumber = /^\d+\.\d+$/.test(proteins);
+                if(testIfNumber(proteins)){
+                    alert("Proteins must be a numebr! Please enter a valid number!");
+                    return
+                }
+                if(testIfNumber(calories)){
+                    alert("Calories must be a numebr! Please enter a valid number!");
+                    return
+                }
+                if(testIfNumber(fats)){
+                    alert("Fats must be a numebr! Please enter a valid number!");
+                    return
+                }
+                if(testIfNumber(carbohydrates)){
+                    alert("Carbohydrates must be a numebr! Please enter a valid number!");
+                    return
+                }
+                if(testIfNumber(weight)){
+                    alert("Proteins must be a numebr! Please enter a valid number!");
+                    return
+                }
+                $.ajax({
+    			url: "/product",
+    			method: "POST",
+                data:{
+                    
+                    name : name,
+                    description : description,
+                    imagePath : imagePath,
+                    calories : calories,
+                    weight : weight,
+                    carbohydrates : carbohydrates,
+                    proteins : proteins,
+                    fats : fats,
+                },
+    			success: function (data){
+                    data.forEach(element => {
+                        alert(element);
+                       // $('#username-error').hide();
+                        //$('#password-error').hide();
+                        //$('#repeat-password-error').hide();
+                        //$('#email-error').hide();
+                    }
+
+                    );
+    			},
+    			fail: function(){
+    				alert("Something went wrong")
+    			}
+    		})
+
+        }
+        function testIfNumber(number){
+            
+            var isNumber = /^\d+\.\d+$/.test(number);
+            return isNumber;
         }
         function getCurrentUser() {
             $.ajax({

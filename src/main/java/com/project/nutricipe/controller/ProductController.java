@@ -113,8 +113,10 @@ public class ProductController {
 		}
 		catch(IOException e) {
 			e.printStackTrace();
+			return "Image failed to upload!";
 		}
-		String uploadedDirectory = targetFile.getAbsolutePath();
+		String uploadedDirectory = "\\images\\"+filename+fileExtension;
+		
 		return uploadedDirectory;
 
 	}
