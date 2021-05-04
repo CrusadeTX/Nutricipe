@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <label for="product-description" class="text-danger">Description:</label>
                
-                    <input type="text" class="form-control" id="product-description" name="description" required placeholder="">
+                    <textarea class="form-control" id="product-description" name="description" required placeholder="" rows="4" cols="50"></textarea>
 
                 </div>
                 
@@ -96,7 +96,7 @@
                 <input id="product-image-path" type="hidden">
                 <div class="text-center">
                 </form>
-                <button id="product-submit" type="button" class="btn btn-success">Create</button>
+                <button id="product-submit" type="button" class="btn btn-success">Update</button>
                 </div>
 
             </div>
@@ -257,12 +257,14 @@
     			complete : function(response){
             			if(response.status==200){
                             alert("Product has been updated successfully!")
+                            window.location.assign("/home");
             			}
                         if(response.status==404){
                             alert("The Product you are trying to update couldn't be found!")
             			}
                         if(response.status==401){
                             alert("You are not authorized to perform this operation. Please log in and try again!");
+                            window.location.assign("/logout");
 
                         }
                         if(response.status==400){
