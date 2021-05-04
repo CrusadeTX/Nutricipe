@@ -42,7 +42,7 @@
             </div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
-                <h3 class="text-center text-danger"> Create Product</h3>
+                <h3 class="text-center text-danger"> Edit Product</h3>
                 <form id="image-uploader"action="POST" name="image-uploader">
                     <div class="form-group">
                         <label for="product-image" class="text-danger">Product Image:</label>
@@ -92,7 +92,7 @@
 
                 </div>
                 <input type="hidden" name="action" value="create-product">
-                <input id="user-diet-id" type="hidden">
+                <input id="product-id" type="hidden">
                 <input id="product-image-path" type="hidden">
                 <div class="text-center">
                 </form>
@@ -108,6 +108,37 @@
     $(document).ready(function(){
     	getCurrentUser();
         clearImagePath();
+        loadProduct();
+        function loadProduct(){
+            var id =sessionStorage.getItem("productId");
+            $.ajax({
+				url: "/product/"+id,
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        
+							populateProductTextFields(data);
+                          
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+
+        }
+        function populateProductTextFields(data){
+            $('#product-name').val(data.name);
+            $('#product-description').val(data.description);
+            $('#product-proteins').val(data.proteins);
+            $('#product-fats').val(data.fats);
+            $('#product-carbohydrates').val(data.carbohydrates);
+            $('#product-calories').val(data.calories);
+            $('#product-image-path').val(data.imagePath);
+            $('#product-weight').val(data.weight);
+            $('#product-id').val(data.id);
+        }
         function clearImagePath(){
             $('#product-image-path').val("");
         }
@@ -169,9 +200,9 @@
 
         
         $('#product-submit').click(function(){
-            CreateProduct();
+            UpdateProduct();
 })
-        function CreateProduct(){
+        function UpdateProduct(){
             var name = $('#product-name').val();
             var description = $('#product-description').val();
             var proteins = $('#product-proteins').val();
@@ -180,7 +211,8 @@
             var calories = $('#product-calories').val();
             var imagePath = $('#product-image-path').val();
             var weight = $('#product-weight').val();
-            if(name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || imagePath ==="" || weight ==="")
+            var id = $('#product-id').val();
+            if(id ==="" || name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || imagePath ==="" || weight ==="")
                 {
                 	alert("Please fill in the requested fields");
                 	return
@@ -209,7 +241,7 @@
                 }
                 $.ajax({
     			url: "/product",
-    			method: "POST",
+    			method: "PUT",
                 data:{
                     
                     name : name,
@@ -220,10 +252,14 @@
                     carbohydrates : carbohydrates,
                     proteins : proteins,
                     fats : fats,
+                    id : id,
                 },
     			complete : function(response){
-            			if(response.status==201){
-                            alert("Product has been created successfully!")
+            			if(response.status==200){
+                            alert("Product has been updated successfully!")
+            			}
+                        if(response.status==404){
+                            alert("The Product you are trying to update couldn't be found!")
             			}
                         if(response.status==401){
                             alert("You are not authorized to perform this operation. Please log in and try again!");
@@ -234,7 +270,7 @@
 
                         }
                         if(response.status==500){
-                            alert("Product couldn't be created!");
+                            alert("Product couldn't be updated!");
 
                         }
             		},
