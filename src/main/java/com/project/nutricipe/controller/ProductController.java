@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -126,7 +128,7 @@ public class ProductController {
 			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats){
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
-			ResponseEntity<ProductBean> result = ProductService.CreateProduct(name, description, imagePath, calories, weight, carbs, proteins, fats);
+			ResponseEntity<ProductBean> result = ProductService.createProduct(name, description, imagePath, calories, weight, carbs, proteins, fats);
 			return result;
 		}
 		else {
@@ -135,5 +137,32 @@ public class ProductController {
 		
 		
 	}
-
+	@DeleteMapping(path="/product/{id}")
+	public ResponseEntity<Boolean> createProduct(@AuthenticationPrincipal UserPrincipal principal, @PathVariable int id){
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			ResponseEntity<Boolean> result = ProductService.deleteProduct(id);
+			return result;
+		}
+		else {
+			return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+		}
+		
+		
+	}
+	@PutMapping(path="/product")
+	public ResponseEntity<ProductBean> updateProduct(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value="name") String name, @RequestParam(value="description") String description,
+			@RequestParam(value="imagePath") String imagePath, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
+			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats, @RequestParam(value="id") String id){
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			ResponseEntity<ProductBean> result = ProductService.updateProduct(id,name, description, imagePath, calories, weight, carbs, proteins, fats);
+			return result;
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		
+		
+	}
 }
