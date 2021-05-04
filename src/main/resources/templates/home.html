@@ -687,7 +687,7 @@ $('#new-recipe-btn').click(function(){
         })
         function getLastFiveRecipes(){
             $.ajax({
-                url: "/recipe/lastfive",
+                url: "/recipe/all",
                 method: "GET",
                 success: function (data) {
                     if (data != null) {
@@ -726,7 +726,7 @@ $('#new-recipe-btn').click(function(){
         }
         function getLastFiveProducts(){
             $.ajax({
-                url: "/product/lastfive",
+                url: "/product/all",
                 method: "GET",
                 success: function (data) {
                     if (data != null) {

@@ -115,10 +115,25 @@ public class ProductController {
 			e.printStackTrace();
 			return "Image failed to upload!";
 		}
-		String uploadedDirectory = "\\images\\"+filename+fileExtension;
+		String uploadedDirectory = "/assets/images/"+filename+fileExtension;
 		
 		return uploadedDirectory;
 
+	}
+	@PostMapping(path="/product")
+	public ResponseEntity<ProductBean> createProduct(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value="name") String name, @RequestParam(value="description") String description,
+			@RequestParam(value="imagePath") String imagePath, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
+			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats){
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			ResponseEntity<ProductBean> result = ProductService.CreateProduct(name, description, imagePath, calories, weight, carbs, proteins, fats);
+			return result;
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		
+		
 	}
 
 }

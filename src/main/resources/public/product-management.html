@@ -221,20 +221,27 @@
                     proteins : proteins,
                     fats : fats,
                 },
-    			success: function (data){
-                    data.forEach(element => {
-                        alert(element);
-                       // $('#username-error').hide();
-                        //$('#password-error').hide();
-                        //$('#repeat-password-error').hide();
-                        //$('#email-error').hide();
-                    }
+    			complete : function(response){
+            			if(response.status==201){
+                            alert("Product has been created successfully!")
+            			}
+                        if(response.status==401){
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
 
-                    );
-    			},
-    			fail: function(){
-    				alert("Something went wrong")
-    			}
+                        }
+                        if(response.status==400){
+                            alert("Please provide valid input parameters!");
+
+                        }
+                        if(response.status==500){
+                            alert("Product couldn't be created!");
+
+                        }
+            		},
+            		fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
     		})
 
         }
