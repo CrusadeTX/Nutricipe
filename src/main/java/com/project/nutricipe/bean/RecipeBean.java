@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -45,6 +46,11 @@ public class RecipeBean {
 	private Set<CategoryBean> categories;
 	@ManyToMany(mappedBy = "recipes")
 	private Set<ProductBean> products;
+	@PreRemove
+	public void removeRelations() {
+		products =null;
+		categories =null;
+		}
 	public int getId() {
 		return id;
 	}

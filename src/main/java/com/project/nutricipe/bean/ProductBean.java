@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -54,6 +55,11 @@ public class ProductBean {
     		//)
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "products")
     private Set<FridgeBean> fridges;
+	@PreRemove
+	public void removeRelations() {
+		fridges.forEach(fridge -> fridge.removeProduct(this));
+		//recipes.forEach(recipe -> recipe.removeProduct(this));
+		}
 	public int getId() {
 		return id;
 	}

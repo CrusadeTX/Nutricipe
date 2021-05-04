@@ -47,8 +47,10 @@
         </div>
         <div class="row mt-3 d-flex mx-0 mx-lg-0">
             <div id="main-container" class="col-12 justify-content-center order-2 order-lg-1">
-                <div id="heading-container">
+                <div id="heading-container" class="d-flex justify-content-between">
+                    <button id="product-edit-btn" class="btn btn-info btn-act my-2 text-center" type="button">Edit</button>
                     <h1 id="heading" class="text-center my-2">This is the Heading</h1>
+                    <button id="product-delete-btn" class="btn btn-danger btn-act my-2 text-center" type="button">Delete</button>
                 </div>
                 <div class="row my-3">
                 <div id="image-container" class="col-6">
@@ -157,9 +159,36 @@
             console.log(isAdmin);
             if (!isAdmin) {
                 $("#users-link").remove();
+                $("#product-edit-btn").remove();
+                $("#product-delete-btn").remove();
             }
 
         }
+        $("#product-edit-btn").on('click', function(){
+            //var id =sessionStorage.getItem("productId");
+            window.location.assign("product-management.html");
+        })
+        $("#product-delete-btn").on('click', function(){
+            var id =sessionStorage.getItem("productId");
+            $.ajax({
+				url: "/product/"+id,
+				method: "DELETE",
+				complete: function (data) {
+					if (data.status == 200) {
+						alert("Delete Successful")
+						window.location.assign("/home");
+					}
+					if (data.status == 401) {
+						alert("Delete Failed!!! You arent authorized to perform this operation")
+                        window.location.assign("/logout");
+					}
+					if (data.status == 404) {
+						alert("Delete Failed!!! No such product exists")
+					}
+				}
+			})
+
+        })
 
     })
 </script>

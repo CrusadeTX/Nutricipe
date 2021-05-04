@@ -44,6 +44,16 @@ public class FridgeBean {
 		this.id =id;
 		this.totalCalories = totalCalories;
 	}
+	public void removeProduct(ProductBean product) {
+		//for(UserBean foundUser : users) {
+			//if(foundUser.getId()== user.getId()) {
+				//users.remove(user);
+			//}
+		//}
+		if(products.contains(product)) {
+			products.remove(product);
+		}
+	}
 	public int getId() {
 		return id;
 	}
