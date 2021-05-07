@@ -26,13 +26,13 @@ import com.project.nutricipe.services.CategoryService;
 
 @RestController
 public class CategoryController {
-	@Autowired
-	private CategoryRepo categoryRepo;
-	private UserRepo userRepo;
-public CategoryController(CategoryRepo categoryRepo, UserRepo userRepo) {
-	this.categoryRepo = categoryRepo;
-	this.userRepo = userRepo;
-}
+	//@Autowired
+	//private CategoryRepo categoryRepo;
+	//private UserRepo userRepo;
+//public CategoryController(CategoryRepo categoryRepo, UserRepo userRepo) {
+	//this.categoryRepo = categoryRepo;
+	//this.userRepo = userRepo;
+//}
 
 @GetMapping(path = "/category")
 public ResponseEntity<List<CategoryBean>> getAllCategories(@AuthenticationPrincipal UserPrincipal principal) {

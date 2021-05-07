@@ -16,6 +16,9 @@ import com.project.nutricipe.repo.CategoryRepo;
 public class CategoryService {
 @Autowired
 private static CategoryRepo categoryRepo;
+public CategoryService() {
+	
+}
 
 public  static ResponseEntity<List<CategoryBean>> getAllCategories(){
 	List<CategoryBean> result = categoryRepo.findAll();
@@ -47,10 +50,11 @@ public static ResponseEntity<CategoryBean> createCategory (String name, String t
 		if(name!=null && type!=null) {
 		List<CategoryBean> foundCategories = categoryRepo.findAll();
 		String formattedName = name.trim().toLowerCase();
+		String formattedType = type.trim();
 		boolean categoryNameExists = false;
 		if(foundCategories!=null) {
 			for(CategoryBean category : foundCategories) {
-				if(category.getName().toLowerCase().equals(formattedName)) {
+				if(category.getName().toLowerCase().equals(formattedName)&& category.getType().toLowerCase().trim().equals(formattedType.toLowerCase())) {
 					categoryNameExists = true;
 				}
 			}
@@ -99,10 +103,11 @@ public static ResponseEntity<CategoryBean> updateCategory (String id, String nam
 		int categoryId = Integer.parseInt(id);
 		List<CategoryBean> foundCategories = categoryRepo.findAll();
 		String formattedName = name.trim().toLowerCase();
+		String formattedType = type.trim();
 		boolean categoryNameExists = false;
 		if(foundCategories!=null) {
 			for(CategoryBean category : foundCategories) {
-				if(category.getName().toLowerCase().equals(formattedName)) {
+				if(category.getName().toLowerCase().equals(formattedName)&& category.getType().toLowerCase().trim().equals(formattedType.toLowerCase())) {
 					categoryNameExists = true;
 				}
 			}
