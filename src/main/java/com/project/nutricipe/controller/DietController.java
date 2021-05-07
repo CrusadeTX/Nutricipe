@@ -4,18 +4,26 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.nutricipe.bean.CategoryBean;
 import com.project.nutricipe.bean.DietBean;
 import com.project.nutricipe.bean.ProductBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.DietRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
+import com.project.nutricipe.services.CategoryService;
+import com.project.nutricipe.services.DietService;
 
 @RestController
 public class DietController {
@@ -42,6 +50,36 @@ public class DietController {
 			return null;
 		}
 
+
+	}
+	@PostMapping(path = "/diet")
+	public ResponseEntity<DietBean> createDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories ) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			return DietService.createDiet(name, recCalories);
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+	@PutMapping(path = "/diet/{id}")
+	public ResponseEntity<DietBean> updateDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories,@PathVariable String id) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			return DietService.updateDiet(id,name, recCalories);
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+	@DeleteMapping(path = "/diet/{id}")
+	public ResponseEntity<Boolean> deleteDiet(@AuthenticationPrincipal UserPrincipal principal,@PathVariable String id){
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			return DietService.deleteDiet(id);
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
 
 	}
 

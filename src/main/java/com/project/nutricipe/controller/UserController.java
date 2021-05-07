@@ -102,7 +102,7 @@ public class UserController {
 			if (password.equals(repeatPassword)) {
 				user.setEmail(email.trim().toLowerCase());
 				user.setPassword(passwordEncoder.encode(password));
-				user.setUsername(username.trim().toLowerCase());
+				user.setUsername(username.trim());
 				foundUsers = userRepo.findAll();
 				for (UserBean foundUser : foundUsers) {
 					if (foundUser.getUsername().equals(username.trim()) && foundUser.getId() != id) {

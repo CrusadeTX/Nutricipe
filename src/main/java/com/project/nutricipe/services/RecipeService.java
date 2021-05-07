@@ -19,6 +19,7 @@ import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.DietRepo;
 import com.project.nutricipe.repo.ProductRepo;
 import com.project.nutricipe.repo.RecipeRepo;
+import com.project.nutricipe.utilities.Utilities;
 import com.project.nutricipe.bean.RecipeBean;
 import java.util.Collections;
 
@@ -188,5 +189,28 @@ public class RecipeService {
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		
 	}
+	public static ResponseEntity<RecipeBean> createRecipe(String name, String description, String imagePath, String weight, List<ProductBean> products, List<CategoryBean> categories){
+		return null;
+	}
+	public static ResponseEntity<RecipeBean> updateRecipe(String id, String name, String description, String imagePath, String weight, List<ProductBean> products, List<CategoryBean> categories){
+		return null;
+	}
+	public static ResponseEntity<Boolean> deleteRecipe(String id){
+		if(Utilities.tryParseInt(id)) {
+			Optional<RecipeBean> optionalRecipe = recipeRepo.findById(Integer.parseInt(id));
+			if (optionalRecipe.isPresent()) {
+				RecipeBean recipe = optionalRecipe.get();
+				recipeRepo.delete(recipe);
+				return new ResponseEntity<>(true, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+			}
+			}
+			else {
+				return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+			}
+	}
+	
 	
 }
