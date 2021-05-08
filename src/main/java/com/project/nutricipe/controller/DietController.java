@@ -52,21 +52,31 @@ public class DietController {
 
 
 	}
-	@PostMapping(path = "/diet")
-	public ResponseEntity<DietBean> createDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories ) {
+	@GetMapping(path = "/diet")
+	public ResponseEntity<List<DietBean>> retrieveAllDiets(@AuthenticationPrincipal UserPrincipal principal) {
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
-			return DietService.createDiet(name, recCalories);
+			return DietService.getAllDiets();
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+	@PostMapping(path = "/diet")
+	public ResponseEntity<DietBean> createDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories,@RequestParam (value="categoryIds")List<String> categoryIds) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			return DietService.createDiet(name, recCalories, categoryIds);
 		} else {
 			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
 		}
 
 	}
 	@PutMapping(path = "/diet/{id}")
-	public ResponseEntity<DietBean> updateDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories,@PathVariable String id) {
+	public ResponseEntity<DietBean> updateDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories, @RequestParam (value="categoryIds")List<String> categoryIds,@PathVariable String id) {
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
-			return DietService.updateDiet(id,name, recCalories);
+			return DietService.updateDiet(id,name, recCalories, categoryIds);
 		} else {
 			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
 		}

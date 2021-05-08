@@ -1,21 +1,30 @@
 package com.project.nutricipe.services;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-
+import com.project.nutricipe.bean.CategoryBean;
 import com.project.nutricipe.bean.DietBean;
+import com.project.nutricipe.repo.CategoryRepo;
 import com.project.nutricipe.repo.DietRepo;
 import com.project.nutricipe.utilities.Utilities;
 @Service
 public class DietService {
 @Autowired
 private static DietRepo dietRepo;
+@Autowired
+private static CategoryRepo categoryRepo;
+public DietService(DietRepo dietRepo, CategoryRepo categoryRepo) {
+	this.dietRepo = dietRepo;
+	this.categoryRepo = categoryRepo;
+}
 public  static ResponseEntity<List<DietBean>> getAllDiets(){
 	List<DietBean> result = dietRepo.findAll();
 	if(result!=null) {
@@ -65,10 +74,11 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 			}
 	}
 
-	public static ResponseEntity<DietBean> updateDiet(String id, String name, String recCalories) {
+	public static ResponseEntity<DietBean> updateDiet(String id, String name, String recCalories, List<String> categoryIds) {
 		if(Utilities.tryParseInt(id) && name!=null && recCalories !=null && Utilities.tryParseDouble(recCalories.trim())) {
 			int dietId = Integer.parseInt(id);
 			double parsedRecCalories = Double.parseDouble(recCalories);
+			Set<CategoryBean> categories = new HashSet<CategoryBean>();
 			List<DietBean> foundDiets = dietRepo.findAll();
 			String formattedName = name.trim().toLowerCase();
 			boolean dietNameExists = false;
@@ -87,9 +97,25 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 			Optional<DietBean> optionalDiet = dietRepo.findById(dietId);
 			
 			if(optionalDiet.isPresent()) {
+				
 			DietBean diet = optionalDiet.get();
+			
 			diet.setName(formattedName);
 			diet.setRecomendedCalories(parsedRecCalories);
+			if(categoryIds !=null) {
+				for (String categoryId : categoryIds) {
+					if(Utilities.tryParseInt(id)) {
+						Optional<CategoryBean> optionalCategory = categoryRepo.findById(Integer.parseInt(categoryId));
+						if(optionalCategory.isPresent()) {
+							CategoryBean foundCategory = optionalCategory.get();
+							categories.add(foundCategory);
+						}
+						
+					}
+				}
+				diet.setCategories(categories);
+				
+			}
 			DietBean result = dietRepo.saveAndFlush(diet);
 			if(result != null) {
 				return new ResponseEntity<>(result, HttpStatus.OK);
@@ -109,11 +135,12 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 		}
 	}
 
-	public static ResponseEntity<DietBean> createDiet(String name, String recCalories) {
+	public static ResponseEntity<DietBean> createDiet(String name, String recCalories,List<String> categoryIds) {
 		if(name!=null && Utilities.tryParseDouble(recCalories.trim())) {
 			List<DietBean> foundDiets = dietRepo.findAll();
 			String formattedName = name.trim().toLowerCase();
 			double parsedRecCalories = Double.parseDouble(recCalories);
+			Set<CategoryBean> categories = new HashSet<CategoryBean>();
 			boolean dietNameExists = false;
 			if(foundDiets!=null) {
 				for(DietBean diet : foundDiets) {
@@ -126,10 +153,24 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
 			}
 			else
-			{
+			{	
+				if(categoryIds !=null) {
+				for (String id : categoryIds) {
+					if(Utilities.tryParseInt(id)) {
+						Optional<CategoryBean> optionalCategory = categoryRepo.findById(Integer.parseInt(id));
+						if(optionalCategory.isPresent()) {
+							CategoryBean foundCategory = optionalCategory.get();
+							categories.add(foundCategory);
+						}
+						
+					}
+				}
+				
+			}
 				DietBean diet = new DietBean();
 				diet.setName(formattedName);
 				diet.setRecomendedCalories(parsedRecCalories);
+				diet.setCategories(categories);
 				DietBean result = dietRepo.saveAndFlush(diet);
 			if(result != null) {
 				return new ResponseEntity<>(result, HttpStatus.CREATED);

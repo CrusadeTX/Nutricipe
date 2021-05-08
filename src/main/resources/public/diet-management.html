@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Nutricipe</title>
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+		integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+	<script src="assets/js/jquery/jquery-3.5.1.js"></script>
+	<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+		integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/styles/style.css">
+	<!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">-->
+
+</head>
+
+<body>
+	<div class="container-lg container-fluid ">
+		<div class="fixed-header">
+			<div class="row bg-danger shadow py-4">
+				<div class="col text-white">
+					<h1 class="text-center mb-0">Nutricipe</h1>
+					<div class="text-center">
+						<span>Nutricious Recipes Galore</span>
+					</div>
+				</div>
+			</div>
+			<div class="row bg-danger justify-content-center">
+				<span id="current-user-username"
+				class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
+			<a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
+			<a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
+			<a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
+			<a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+			<a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+			<a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+			<a id="diets-link" class="nav-item nav-link text-white" href="diet-management.html">Diets</a>
+			<a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
+			<a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
+			</div>
+		</div>
+		<div class="container">
+
+
+			<div class="row mt-4">
+
+				<div class="col-sm-4 ">
+
+
+					<div class="panel-heading">
+						<h3 class="text-center text-danger">Manage Diet:</h3>
+					</div>
+
+					<div id="registration-row" class="row d-flex justify-content-center my-3">
+						<div class="col shadow p-4">
+
+							<form id="register-form" action="register" method="POST">
+								<div class="form-group">
+									<label for="diet-name-form" class="text-danger">Name:</label>
+									<input type="text" class="form-control" id="diet-name-form" name="dietName" required
+										placeholder="">
+								</div>
+								<div class="form-group">
+									<label for="diet-calories-form" class="text-danger">Type:</label>
+									<input type="text" class="form-control" id="diet-calories-form" name="dietRecCalories" required
+										placeholder="">
+								</div>
+                                <div class="form-group">
+                                <label for="categories-container" class="text-danger">Categories:</label>
+                                <div id="categories-container" style="overflow-y:scroll; max-height : 300px">
+
+                                </div>
+                                </div>
+								<div class="text-center">
+									<input type="hidden" name="action" value="register">
+									<input type="hidden" id="user-id" name="User-current">
+                                    <input type="hidden" id="diet-id" name="dietId">
+									<button id="submit-diet" type="button" class="btn btn-success">Add</button>
+									<button id="update-diet" type="button" class="btn btn-primary">Update</button>
+									<button id="clear-diet" type="button" class="btn btn-danger">Clear</button>
+									<!--  <button id="back" class="btn btn-danger" type="button">Back</button>-->
+								</div>
+                                 
+
+							</form>
+						</div>
+
+					</div>
+
+
+				</div>
+				<div class="col-sm-8">
+					<div class="panel-heading">
+						<h3 class="text-center text-danger">Diets:</h3>
+					</div>
+					<div id="diet-container" class="d-flex flex-wrap justify-content-center">
+
+
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div id="diet-template" style="display: none;" class="shadow m-2">
+		<div class="card-body">
+			<p id="diet-name" class="card-text border-bottom">Name</p>
+			<p id="diet-calories" class="card-text border-bottom">Type</p>
+			<div class="text-center">
+				<button class="btn btn-danger btn-act mb-3 mx-2" type="button">Remove</button>
+				<button class="btn btn-primary mb-3 mx-2" type="button">Edit</button>
+			</div>
+		</div>
+	</div>
+    <div id="category-element-template" style="display: none;" class="border-top w-100">
+        <div class="d-flex">
+            <div id="card-body " class="mt-2">
+                <div class="row">
+                    <div class="col">
+                        <span class="card-text">Name</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="btn btn-success btn-act mr-3  my-2" value="Add">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+	$(document).ready(function () {
+        var SelectedCategories = [];
+		getCurrentUser();
+		clearFields();
+		fetchAllDiets();
+        fetchAllCategories()
+        function fetchAllCategories(){
+            $.ajax({
+				url: "/category",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(category) {
+                            populateCategoryContainerInitially(category);
+                            
+                        });
+                        attachCategoryOnClickEvents();
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+        function populateCategoryContainerInitially(category){
+            var template = $('#category-element-template').clone();
+            template.attr('id', 'category-element-'+category.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(category.name);
+            //template.find
+            //var img = template.find('img');
+            //img.attr("src",product.imagePath);
+            //img.show();
+            $('#categories-container').append(template);
+           
+            template.show();
+            
+            }
+            
+            function attachCategoryOnClickEvents(){
+            //var container = $('#fridge-elements-container');
+            $('#categories-container').children().each(function () {
+                //var productIds=[];
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+                //productIds.push(numericalId);
+                var Catbutton = currentElement.find('.btn-act');
+                currentElement.find('.btn-act').on('click',function(){
+                    console.log("why")
+                    if(currentElement.find('.btn-act').val()==="Add"){
+                        SelectedCategories.push(numericalId);
+                       //handleClick(numericalId,"add",Catbutton);
+                       Catbutton.val('Remove');
+                       Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+                       return
+                    }
+                    if(currentElement.find('.btn-act').val()==="Remove"){
+                    //handleClick(numericalId,"remove",Catbutton);
+                    var index = SelectedCategories.indexOf(numericalId);
+                    if(index>-1){
+                    SelectedCategories.splice(index,1);
+                    Catbutton.val('Add');
+                    Catbutton.removeClass("btn-danger");
+                    Catbutton.addClass("btn-success");
+                    return
+                    
+                    }
+                }
+                })
+            })
+        }
+        /*function handleClick(id,type,element){
+            console.log("ahhaha")
+            if(type==="add"){
+                SelectedCategories.push(id);
+                element.html("Remove")
+            }
+            if(type==="remove"){
+                var index = SelectedCategories.indexOf(id);
+                if(index>-1){
+                    SelectedCategories.splice(index,1);
+                    element.html("Add");
+                    
+                    }
+
+            }
+        }*/
+
+        
+            
+
+        
+		//getDiets();
+		$('#update-diet').attr("disabled", true);
+		$('#update-diet').hide();
+		$('#submit-diet').show();
+		$('#clear-diet').hide();
+		$('#clear-diet').on('click', function(){
+			$('#clear-diet').hide();
+			$('#update-diet').attr("disabled", true);
+			$('#update-diet').hide();
+			$('#submit-diet').show();
+			$('#diet-name-form').val("");
+			$('#diet-calories-form').val("");
+
+		})
+        /*function getDiets(){
+            $.ajax({
+				url: "/diet/all",
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        for(i=0;i<data.length;i++){
+							(function(i){populateDietDropdown(data[i])})(i);
+                          }
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+		}
+
+        function populateDietDropdown(diet){
+            var dropDown = $('#select-diet');
+            dropDown.append('<option value=' + diet.id + '>' + diet.name + '</option>');
+        }*/
+		function fetchAllDiets() {
+
+            //response.responseJSON.length>0
+			$.ajax({
+				url: "/diet",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(diet) {
+                        populateDietContainer(diet);
+                        });
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+
+		function populateDietContainer(diet) {
+			var template = $('#diet-template').clone();
+			template.removeAttr("style");
+			template.addClass("d-flex");
+			template.attr('id', 'diet-card-' + diet.id);
+			template.find('#diet-name').text(diet.name);
+			template.find('#diet-calories').text(diet.recomendedCalories);
+			$('#update-diet').removeAttr("disabled")
+			//alert(post.text)
+			var button = template.find('.btn-act');
+			button.html("Remove");
+			button.on('click', function () {
+
+				deleteDietById(diet.id, template);
+
+
+			})
+			template.find('.btn-primary').on('click', function () {
+				$('#update-diet').removeAttr("disabled")
+				$('#update-diet').show();
+				$('#submit-diet').attr("disabled", true)
+				$('#submit-diet').hide();
+				$('#clear-diet').show();
+				updatePressed = true
+
+				//$('#create-update-quote').text("Edit Quote:");
+				$('#diet-id').val(diet.id);
+				$('#diet-name-form').val(diet.name);
+				$('#diet-calories-form').val(diet.recomendedCalories);
+				//$('#select-diet').val(user.diet.id);
+
+				//$('#submit-custom-quote').html("Update Quote")
+				//$('#submit-custom-quote').attr("id","update-custom-quote")
+				//$('#custom-quote-id').val(quote.id);
+
+			})
+
+
+			$('#diet-container').append(template);
+			template.show();
+		}
+
+		function addDiet(name, recCalories) {
+			if (name != '' && type != '') {
+				$.ajax({
+					url: "/diet",
+					method: "POST",
+					data: {
+						name: name,
+						recCalories: recCalories,
+					},
+					complete: function (response) {
+						/*if (response.includes("Error")) {
+							alert(response)
+						}
+						else {
+
+
+							alert("User has been created successfully")
+							fetchAllUsers();
+							clearFields();
+							$('#register-username').text('');
+
+
+						}*/
+                        if (response.status == 409){
+                            alert("A diet with the specified name already exists, please choose another one!");
+                        }
+                        if (response.status == 201){
+                            alert("Diet has been created successfully!");
+                            fetchAllDiets();
+                            clearFields();
+                        }
+                        if (response.status == 400){
+                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                        }
+                        if (response.status == 500){
+                            alert("Category creation failed!");
+                        }
+                        if (response.status == 401){
+                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                        }
+					}
+					
+				})
+			}
+			else {
+				alert("Please fill in all fields");
+			}
+
+		}
+
+		$('#update-diet').on('click', function () {
+			updateDiet();
+		})
+		$('#submit-diet').on('click', function () {
+			$('#diet-name-form').val();
+			$('#diet-calories-form').val();
+			var name = $('#diet-name-form').val();
+			var recCalories = $('#diet-calories-form').val();
+			//var password = $('#register-pass').val();
+			//var repeatPassword = $('#confirm-register-pass').val();
+			//var dietId = $('#select-diet').val();
+
+
+			if (name === "" || recCalories === "") {
+				alert("Please fill in the requested fields");
+				return
+
+			}
+			addDiet(name, recCalories);
+
+
+
+
+
+			//if (username!='' && email!='' && password!='' && repeatPassword!=''){
+			//addUser(email,username,password,repeatPassword);
+			//}
+			//else{
+			//	alert("Please fill all fields")
+			//}
+		})
+		function clearFields() {
+			$('#diet-name-form').val('');
+			$('#diet-name-form').text('');
+			$('#diet-category-form').val('');
+			$('#diet-category-form').text('');
+			//$("#register-pass").val('');
+			//$("#register-pass").text('');
+			//$('#confirm-register-pass').val('');
+			//$('#confirm-register-pass').text('');
+			$('#diet-container').empty();
+			$('#update-diet').attr("disabled", true);
+			$('#update-diet').hide();
+			$('#submit-diet').removeAttr("disabled");
+			$('#submit-diet').show();
+			$('#clear-diet').hide();
+			//$('#select-diet').val('');
+
+
+
+		}
+		function deleteDietById(id, template) {
+			$.ajax({
+				url: "/diet/"+ id,
+				method: "DELETE",
+				complete: function (data) {
+					if (data.status == 200) {
+						alert("Delete Successful")
+						template.remove();
+					}
+					if (data.status == 401) {
+						alert("Delete Failed!!!")
+					}
+					if (data.status == 404) {
+						alert("Delete Failed!!! No such user exists")
+					}
+                    if (data.status == 400) {
+						alert("Input parameters are invalid! Delete operation failed!")
+					}
+				}
+			})
+		}
+
+
+
+
+
+		function getCurrentUser() {
+			$.ajax({
+				url: "/user/current",
+				method: "GET",
+				success: function (data) {
+					if (data != null) {
+						visualiseCurrentUser(data);
+						//showLoggedUsername(user.username);
+					}
+				}
+			})
+
+		}
+
+		function visualiseCurrentUser(user) {
+			$('#current-user-username').text(user.username)
+			$('#current-user').val(user.id)
+		}
+
+
+		function updateDiet() {
+			var dietId = $('#diet-id').val();
+			var name = $('#diet-name-form').val();
+			var recCalories = $('#diet-calories-form').val();
+			//var password = $('#register-pass').val();
+			//var repeatPassword = $('#confirm-register-pass').val();
+			//var dietId = $('#select-diet').val();
+			if (name === "" || recCalories === "") {
+				alert("Please fill in the requested fields");
+				return
+
+			}
+			//if (!email.includes('@') || !email.includes('.')) {
+			//	alert("Email is not valid");
+			//	return
+			//}
+			//if (password != repeatPassword) {
+			//	alert("Password must be confirmed");
+			//	return
+			//}
+
+			$.ajax({
+				url: "/diet/"+dietId,
+				method: "PUT",
+				data: {
+					name: name,
+					recCalories: recCalories,
+				},
+				success: function (response) {
+                        if (response.status == 409){
+                            alert("A diet with the specified name already exists, please choose another one!");
+                        }
+                        if (response.status == 201){
+                            alert("Diet has been updated successfully!");
+                            fetchAllDiets();
+                            clearFields();
+                            updatePressed = false;
+                        }
+                        if (response.status == 400){
+                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                        }
+                        if (response.status == 500){
+                            alert("Diet update failed!");
+                        }
+                        if (response.status == 401){
+                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                        }
+				}
+				
+			})
+		}
+		function showLoggedUsername(username) {
+			$('#logged-user-name').text(username);
+
+		}
+
+
+	})
+
+
+
+
+</script>
+
+</html>

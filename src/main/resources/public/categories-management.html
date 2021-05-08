@@ -45,8 +45,8 @@
 			<a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
 			<a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
 			<a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
-			<a id="diets-link" class="nav-item nav-link text-white" href="diets.html">Diets</a>
-			<a id="categories-link" class="nav-item nav-link text-white" href="categories.html">Categories</a>
+			<a id="diets-link" class="nav-item nav-link text-white" href="diet-management.html">Diets</a>
+			<a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
 			<a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
 			</div>
 		</div>
@@ -68,12 +68,12 @@
 							<form id="register-form" action="register" method="POST">
 								<div class="form-group">
 									<label for="category-name-form" class="text-danger">Name:</label>
-									<input type="text" class="form-control" id="category-name" name="categoryName" required
+									<input type="text" class="form-control" id="category-name-form" name="categoryName" required
 										placeholder="">
 								</div>
 								<div class="form-group">
 									<label for="category-type-form" class="text-danger">Type:</label>
-									<input type="text" class="form-control" id="category-type" name="categoryType" required
+									<input type="text" class="form-control" id="category-type-form" name="categoryType" required
 										placeholder="">
 								</div>
 								<div class="text-center">
@@ -82,6 +82,7 @@
                                     <input type="hidden" id="category-id" name="categoryId">
 									<button id="submit-category" type="button" class="btn btn-success">Add</button>
 									<button id="update-category" type="button" class="btn btn-primary">Update</button>
+									<button id="clear-category" type="button" class="btn btn-danger">Clear</button>
 									<!--  <button id="back" class="btn btn-danger" type="button">Back</button>-->
 								</div>
 							</form>
@@ -127,7 +128,16 @@
 		$('#update-category').attr("disabled", true);
 		$('#update-category').hide();
 		$('#submit-category').show();
-	
+		$('#clear-category').hide();
+		$('#clear-category').on('click', function(){
+			$('#clear-category').hide();
+			$('#update-category').attr("disabled", true);
+			$('#update-category').hide();
+			$('#submit-category').show();
+			$('#category-name-form').val("");
+			$('#category-type-form').val("");
+
+		})
         /*function getDiets(){
             $.ajax({
 				url: "/diet/all",
@@ -208,10 +218,11 @@
 				$('#update-category').show();
 				$('#submit-category').attr("disabled", true)
 				$('#submit-category').hide();
+				$('#clear-category').show();
 				updatePressed = true
 
 				//$('#create-update-quote').text("Edit Quote:");
-				$('#category-id').val(user.id);
+				$('#category-id').val(category.id);
 				$('#category-name-form').val(category.name);
 				$('#category-type-form').val(category.type);
 				//$('#select-diet').val(user.diet.id);
@@ -322,6 +333,7 @@
 			$('#update-category').hide();
 			$('#submit-category').removeAttr("disabled");
 			$('#submit-category').show();
+			$('#clear-category').hide();
 			//$('#select-diet').val('');
 
 

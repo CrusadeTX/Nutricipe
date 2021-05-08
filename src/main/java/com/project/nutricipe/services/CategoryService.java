@@ -16,8 +16,8 @@ import com.project.nutricipe.repo.CategoryRepo;
 public class CategoryService {
 @Autowired
 private static CategoryRepo categoryRepo;
-public CategoryService() {
-	
+public CategoryService(CategoryRepo categoryRepo) {
+	this.categoryRepo = categoryRepo;
 }
 
 public  static ResponseEntity<List<CategoryBean>> getAllCategories(){
