@@ -42,6 +42,8 @@ public class ProductBean {
 	private double weight;
 	@Column(name="CALORIES")
 	private double calories;
+	@Column(name="AUTHOR_ID")
+	private int authorId;
 	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(name="product_recipe",
     		joinColumns = @JoinColumn(name="PRODUCT_ID"), 
@@ -126,6 +128,13 @@ public class ProductBean {
 	public void setFridges(Set<FridgeBean> fridges) {
 		this.fridges = fridges;
 	}
+	public int getAuthorId() {
+		return authorId;
+	}
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+	
 	
 
 	

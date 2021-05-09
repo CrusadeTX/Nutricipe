@@ -10,8 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,7 +39,12 @@ public class DietBean {
 	private String name;
 	@Column(name="REC_CALORIES")
 	private double recomendedCalories;
-	@ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER)
+	//@ManyToMany(mappedBy = "diets", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="DIET_CATEGORY",
+	joinColumns = @JoinColumn(name="DIET_ID"), 
+	inverseJoinColumns = @JoinColumn(name="CATEGORY_ID")
+	)
 	private Set<CategoryBean> categories;
 	@OneToMany(mappedBy = "diet",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<UserBean> users;
@@ -70,6 +78,10 @@ public class DietBean {
 	public void setUsers(Set<UserBean> users) {
 		this.users = users;
 	}
+	@PreRemove
+	public void removeRelations() {
+		categories.forEach(category -> category.removeDiet(this));
+		}
 
 	
 	

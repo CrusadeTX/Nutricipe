@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,17 +29,19 @@ public class CategoryBean implements Comparable<CategoryBean> {
 	private String name;
 	@Column(name="type", nullable=false, unique=false, length = 255)
 	private String type;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="RECIPE_CATEGORY",
-	joinColumns = @JoinColumn(name="CATEGORY_ID"), 
-	inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
-	)
+	//@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    //@JoinTable(name="RECIPE_CATEGORY",
+	//joinColumns = @JoinColumn(name="CATEGORY_ID"), 
+	//inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
+	//)
+	@ManyToMany(mappedBy = "categories")
 	private Set<RecipeBean> recipes;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="DIET_CATEGORY",
-	joinColumns = @JoinColumn(name="CATEGORY_ID"), 
-	inverseJoinColumns = @JoinColumn(name="DIET_ID")
-	)
+	//@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    //@JoinTable(name="DIET_CATEGORY",
+	//joinColumns = @JoinColumn(name="CATEGORY_ID"), 
+	//inverseJoinColumns = @JoinColumn(name="DIET_ID")
+	//)
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
 	private Set<DietBean> diets;
 	public int getId() {
 		return id;
@@ -97,6 +100,23 @@ public class CategoryBean implements Comparable<CategoryBean> {
 		    } 
 		    return Integer.compare(this.getId(), category.getId());
 		  }
+	@PreRemove
+	public void removeRelations() {
+		diets = null;
+		recipes = null;
+		}
+	public void removeDiet(DietBean diet) {
+		if(diets.contains(diet)) {
+			diets.remove(diet);
+		}
+	}
+	public void removeRecipe(RecipeBean recipe) {
+		if(recipes.contains(recipe)) {
+			recipes.remove(recipe);
+			
+		}
+		
+	}
 	
 
 	

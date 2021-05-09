@@ -66,6 +66,9 @@ public class DietController {
 	public ResponseEntity<DietBean> createDiet(@AuthenticationPrincipal UserPrincipal principal, @RequestParam (value="name")String name,@RequestParam(value="recCalories") String recCalories,@RequestParam (value="categoryIds")List<String> categoryIds) {
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
+			for(String id : categoryIds) {
+				System.out.println(id);
+			}
 			return DietService.createDiet(name, recCalories, categoryIds);
 		} else {
 			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);

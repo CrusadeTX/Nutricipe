@@ -42,7 +42,14 @@ public class RecipeBean {
 	private double proteins;
 	@Column(name="CARBOHYDRATES")
 	private double carbohydrates;
-	@ManyToMany(mappedBy = "recipes")
+	@Column(name="AUTHOR_ID")
+	private int authorId;
+	//@ManyToMany(mappedBy = "recipes")
+	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="RECIPE_CATEGORY",
+	joinColumns = @JoinColumn(name="RECIPE_ID"), 
+	inverseJoinColumns = @JoinColumn(name="CATEGORY_ID")
+	)
 	private Set<CategoryBean> categories;
 	@ManyToMany(mappedBy = "recipes")
 	private Set<ProductBean> products;
@@ -116,6 +123,12 @@ public class RecipeBean {
 	}
 	public void setProducts(Set<ProductBean> products) {
 		this.products = products;
+	}
+	public int getAuthorId() {
+		return authorId;
+	}
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
 	}
 	
 }

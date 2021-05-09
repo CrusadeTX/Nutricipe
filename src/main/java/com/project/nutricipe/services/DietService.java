@@ -155,10 +155,13 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 			else
 			{	
 				if(categoryIds !=null) {
+					System.out.println("category ids isnt null");
 				for (String id : categoryIds) {
 					if(Utilities.tryParseInt(id)) {
 						Optional<CategoryBean> optionalCategory = categoryRepo.findById(Integer.parseInt(id));
+						System.out.println("searching for a category");
 						if(optionalCategory.isPresent()) {
+							System.out.println("a category has been found");
 							CategoryBean foundCategory = optionalCategory.get();
 							categories.add(foundCategory);
 						}
@@ -170,7 +173,11 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 				DietBean diet = new DietBean();
 				diet.setName(formattedName);
 				diet.setRecomendedCalories(parsedRecCalories);
+				
 				diet.setCategories(categories);
+				for(CategoryBean category : diet.getCategories()) {
+					System.out.println("Category:" + category.getName());
+				}
 				DietBean result = dietRepo.saveAndFlush(diet);
 			if(result != null) {
 				return new ResponseEntity<>(result, HttpStatus.CREATED);
