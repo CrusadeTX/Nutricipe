@@ -86,6 +86,7 @@
 									<input type="hidden" name="action" value="register">
 									<input type="hidden" id="user-id" name="User-current">
                                     <input type="hidden" id="diet-id" name="dietId">
+									<input type="hidden" id="category-diet-ids" name="categoryDietId">
 									<button id="submit-diet" type="button" class="btn btn-success">Add</button>
 									<button id="update-diet" type="button" class="btn btn-primary">Update</button>
 									<button id="clear-diet" type="button" class="btn btn-danger">Clear</button>
@@ -149,7 +150,11 @@
 		getCurrentUser();
 		clearFields();
 		fetchAllDiets();
-        fetchAllCategories()
+        fetchAllCategories();
+		function clearCategories(){
+			$('#categories-container').empty();
+			SelectedCategories = [];
+		}
         function fetchAllCategories(){
             $.ajax({
 				url: "/category",
@@ -201,14 +206,28 @@
             }
             
             function attachCategoryOnClickEvents(){
-            //var container = $('#fridge-elements-container');
-            $('#categories-container').children().each(function () {
+            var container = $('#categories-container');
+            container.children().each(function () {
                 //var productIds=[];
                 var currentElement = $(this);
                 var id = currentElement.attr('id');
                 var numericalId = id.split('-').reverse()[0];
+				var idsOfDietCategories = delimitCategoryIds();
+				
                 //productIds.push(numericalId);
                 var Catbutton = currentElement.find('.btn-act');
+				if(idsOfDietCategories){
+				idsOfDietCategories.forEach(function(idOfDietCategories){
+					if(numericalId == idOfDietCategories){
+						SelectedCategories.push(numericalId);
+						Catbutton.val("Remove");
+						Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+					}
+				})
+				}
                 currentElement.find('.btn-act').on('click',function(){
                     console.log("why")
                     if(currentElement.find('.btn-act').val()==="Add"){
@@ -235,6 +254,7 @@
                 }
                 })
             })
+			//container = null;
         }
         /*function handleClick(id,type,element){
             console.log("ahhaha")
@@ -269,6 +289,9 @@
 			$('#submit-diet').show();
 			$('#diet-name-form').val("");
 			$('#diet-calories-form').val("");
+			clearCategories();
+			fetchAllCategories();
+			
 
 		})
         /*function getDiets(){
@@ -316,6 +339,7 @@
                         if (response.responseJSON.length>0){
                         response.responseJSON.forEach(function(diet) {
                         populateDietContainer(diet);
+						console.log(response)
                         });
                         }
 
@@ -347,17 +371,30 @@
 
 			})
 			template.find('.btn-primary').on('click', function () {
+				$("#category-diet-ids").val("")
 				$('#update-diet').removeAttr("disabled")
 				$('#update-diet').show();
 				$('#submit-diet').attr("disabled", true)
 				$('#submit-diet').hide();
 				$('#clear-diet').show();
 				updatePressed = true
+				
 
 				//$('#create-update-quote').text("Edit Quote:");
 				$('#diet-id').val(diet.id);
 				$('#diet-name-form').val(diet.name);
 				$('#diet-calories-form').val(diet.recomendedCalories);
+				if(diet.categories){
+					diet.categories.forEach(function(category){
+						var value = $("#category-diet-ids").val()
+						$("#category-diet-ids").val(value+category.id+",")
+					})
+					//console.log($("#category-diet-ids").val())
+					var result = delimitCategoryIds();
+					console.log(result);
+					clearCategories()
+					fetchAllCategories();
+				}
 				//$('#select-diet').val(user.diet.id);
 
 				//$('#submit-custom-quote').html("Update Quote")
@@ -369,6 +406,17 @@
 
 			$('#diet-container').append(template);
 			template.show();
+		}
+		function delimitCategoryIds(){
+			var Ids = $("#category-diet-ids").val()
+			if(Ids!=null && Ids !=""){
+				var formattedIds = Ids.substring(0,Ids.length-1)
+				console.log(formattedIds);
+				var output = [];
+				output = formattedIds.split(',');
+				return output
+
+			}
 		}
 
 		function addDiet(name, recCalories,categoryIds) {
@@ -472,6 +520,8 @@
 			$('#submit-diet').show();
 			$('#clear-diet').hide();
 			//$('#select-diet').val('');
+			clearCategories()
+			//fetchAllCategories();
 
 
 
