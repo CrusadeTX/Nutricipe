@@ -79,21 +79,21 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 			int dietId = Integer.parseInt(id);
 			double parsedRecCalories = Double.parseDouble(recCalories);
 			Set<CategoryBean> categories = new HashSet<CategoryBean>();
-			List<DietBean> foundDiets = dietRepo.findAll();
+			//List<DietBean> foundDiets = dietRepo.findAll();
 			String formattedName = name.trim().toLowerCase();
-			boolean dietNameExists = false;
-			if(foundDiets!=null) {
-				for(DietBean diet : foundDiets) {
-					if(diet.getName().toLowerCase().equals(formattedName)) {
-						dietNameExists = true;
-					}
-				}
-			}
-			if(dietNameExists) {
-				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-			}
-			else
-			{
+			//boolean dietNameExists = false;
+			//if(foundDiets!=null) {
+				//for(DietBean diet : foundDiets) {
+					//if(diet.getName().toLowerCase().equals(formattedName)) {
+						//dietNameExists = true;
+					//}
+				//}
+			//}
+			//if(dietNameExists) {
+				//return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+			//}
+			//else
+			//{
 			Optional<DietBean> optionalDiet = dietRepo.findById(dietId);
 			
 			if(optionalDiet.isPresent()) {
@@ -128,7 +128,7 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 			else {
 				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
-		}
+		//}
 	}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

@@ -72,7 +72,7 @@
 										placeholder="">
 								</div>
 								<div class="form-group">
-									<label for="diet-calories-form" class="text-danger">Type:</label>
+									<label for="diet-calories-form" class="text-danger">Recomended Daily Calories:</label>
 									<input type="text" class="form-control" id="diet-calories-form" name="dietRecCalories" required
 										placeholder="">
 								</div>
@@ -153,7 +153,7 @@
         fetchAllCategories();
 		function clearCategories(){
 			$('#categories-container').empty();
-			SelectedCategories = [];
+			SelectedCategories.splice(0,SelectedCategories.length);
 		}
         function fetchAllCategories(){
             $.ajax({
@@ -286,9 +286,11 @@
 			$('#clear-diet').hide();
 			$('#update-diet').attr("disabled", true);
 			$('#update-diet').hide();
+			$('#submit-diet').removeAttr("disabled")
 			$('#submit-diet').show();
 			$('#diet-name-form').val("");
 			$('#diet-calories-form').val("");
+			$("#category-diet-ids").val("");
 			clearCategories();
 			fetchAllCategories();
 			
@@ -452,6 +454,8 @@
                             fetchAllDiets();
                             clearFields();
 							SelectedCategories.splice(0,SelectedCategories.length);
+							clearCategories();
+							fetchAllCategories();
                         }
                         if (response.status == 400){
                             alert("You have supplied invalid input parameters. Please fill the required fields again!");
@@ -474,7 +478,20 @@
 		}
 
 		$('#update-diet').on('click', function () {
-			updateDiet();
+			var name = $('#diet-name-form').val();
+			var recCalories = $('#diet-calories-form').val();
+			if (name === "" || recCalories === "") {
+				alert("Please fill in the requested fields");
+				return
+
+			}
+			if(/^\d+\.\d+$/.test(recCalories.trim()) || /\d/.test(recCalories.trim())){
+				updateDiet();
+			}
+			else{
+				alert("Recomended Calories should contain only numbers!");
+				return
+			}
 		})
 		$('#submit-diet').on('click', function () {
 			$('#diet-name-form').val();
@@ -491,7 +508,14 @@
 				return
 
 			}
-			addDiet(name, recCalories, SelectedCategories);
+			if(/^\d+\.\d+$/.test(recCalories.trim()) || /\d/.test(recCalories.trim())){
+				addDiet(name, recCalories, SelectedCategories);
+			}
+			else{
+				alert("Recomended Calories should contain only numbers!");
+				return
+			}
+			
 
 
 
@@ -509,6 +533,8 @@
 			$('#diet-name-form').text('');
 			$('#diet-category-form').val('');
 			$('#diet-category-form').text('');
+			$('#diet-calories-form').val('');
+			$('#diet-calories-form').text('');
 			//$("#register-pass").val('');
 			//$("#register-pass").text('');
 			//$('#confirm-register-pass').val('');
@@ -519,8 +545,9 @@
 			$('#submit-diet').removeAttr("disabled");
 			$('#submit-diet').show();
 			$('#clear-diet').hide();
+			$("#category-diet-ids").val("");
 			//$('#select-diet').val('');
-			clearCategories()
+			//clearCategories()
 			//fetchAllCategories();
 
 
@@ -576,6 +603,7 @@
 			var dietId = $('#diet-id').val();
 			var name = $('#diet-name-form').val();
 			var recCalories = $('#diet-calories-form').val();
+			var categoryIds = delimitCategoryIds();
 			//var password = $('#register-pass').val();
 			//var repeatPassword = $('#confirm-register-pass').val();
 			//var dietId = $('#select-diet').val();
@@ -596,18 +624,23 @@
 			$.ajax({
 				url: "/diet/"+dietId,
 				method: "PUT",
+				traditional: true,
 				data: {
 					name: name,
 					recCalories: recCalories,
+					categoryIds: SelectedCategories,
 				},
-				success: function (response) {
-                        if (response.status == 409){
-                            alert("A diet with the specified name already exists, please choose another one!");
-                        }
-                        if (response.status == 201){
+				complete: function (response) {
+                        //if (response.status == 409){
+                         //   alert("A diet with the specified name already exists, please choose another one!");
+                        //}
+                        if (response.status == 200){
                             alert("Diet has been updated successfully!");
                             fetchAllDiets();
                             clearFields();
+							SelectedCategories.splice(0,SelectedCategories.length);
+							clearCategories();
+							fetchAllCategories();
                             updatePressed = false;
                         }
                         if (response.status == 400){
