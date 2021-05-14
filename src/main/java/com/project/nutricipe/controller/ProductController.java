@@ -125,10 +125,10 @@ public class ProductController {
 	@PostMapping(path="/product")
 	public ResponseEntity<ProductBean> createProduct(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value="name") String name, @RequestParam(value="description") String description,
 			@RequestParam(value="imagePath") String imagePath, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
-			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats){
+			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats, @RequestParam(value="authorId") String authorId){
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
-			ResponseEntity<ProductBean> result = ProductService.createProduct(name, description, imagePath, calories, weight, carbs, proteins, fats);
+			ResponseEntity<ProductBean> result = ProductService.createProduct(name, description, imagePath, calories, weight, carbs, proteins, fats, authorId);
 			return result;
 		}
 		else {

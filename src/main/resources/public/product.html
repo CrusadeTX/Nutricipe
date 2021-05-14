@@ -48,9 +48,15 @@
         <div class="row mt-3 d-flex mx-0 mx-lg-0">
             <div id="main-container" class="col-12 justify-content-center order-2 order-lg-1">
                 <div id="heading-container" class="d-flex justify-content-between">
+                    <div class="col-3 w-100 text-center">
                     <button id="product-edit-btn" class="btn btn-info btn-act my-2 text-center" type="button">Edit</button>
+                    </div>
+                    <div class="col-6 w-100 text-center">
                     <h1 id="heading" class="text-center my-2">This is the Heading</h1>
+                    </div>
+                    <div class="col-3 w-100 text-center">
                     <button id="product-delete-btn" class="btn btn-danger btn-act my-2 text-center" type="button">Delete</button>
+                    </div>
                 </div>
                 <div class="row my-3">
                 <div id="image-container" class="col-6">
@@ -97,6 +103,8 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="current-user"name="currentUser">
+    <input type="hidden" id="product-author" name="productAuthor">
 </body>
 <script>
      $(document).ready(function (){     
@@ -109,6 +117,7 @@
             $('#fats').text(data.fats);
             $('#calories').text(data.calories);
             $('#element-description').text(data.description);
+            $('#product-author').val(data.authorId)
 
 
         }
@@ -148,6 +157,7 @@
         }
         function hideAdminElements(user) {
             var isAdmin = false;
+            var authorId = $("#product-author").val();
             for (i = 0; i < user.roles.length; i++) {
                 console.log(user.roles[i].code)
                 if (user.roles[i].code == "ROLE_ADMIN") {
@@ -157,10 +167,16 @@
 
             }
             console.log(isAdmin);
-            if (!isAdmin) {
+            if(!isAdmin){
                 $("#users-link").remove();
-                $("#product-edit-btn").remove();
-                $("#product-delete-btn").remove();
+            }
+            if (isAdmin || user.id == authorId ) {
+                $("#product-edit-btn").show();
+                $("#product-delete-btn").show();
+            }
+            else{
+                $("#product-edit-btn").hide();
+                $("#product-delete-btn").hide();
             }
 
         }

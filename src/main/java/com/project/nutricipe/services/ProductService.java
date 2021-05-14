@@ -43,18 +43,20 @@ public class ProductService {
 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		
 	}
-	public static ResponseEntity<ProductBean> createProduct (String name, String description, String imagePath, String caloriesString, String weightString, String carbsString, String proteinsString, String fatsString){
+	public static ResponseEntity<ProductBean> createProduct (String name, String description, String imagePath, String caloriesString, String weightString, String carbsString, String proteinsString, String fatsString, String authorId){
 		double calories = 0;
 		double weight =0;
 		double proteins=0;
 		double carbs=0;
 		double fats =0;
-		if(tryParseDouble(caloriesString) && tryParseDouble(weightString) && tryParseDouble(carbsString) && tryParseDouble(proteinsString) && tryParseDouble(fatsString)) {
+		int authorIdInt = 0;
+		if(tryParseDouble(caloriesString) && tryParseDouble(weightString) && tryParseDouble(carbsString) && tryParseDouble(proteinsString) && tryParseDouble(fatsString) && tryParseInt(authorId)) {
 			calories = Double.parseDouble(caloriesString);
 			weight = Double.parseDouble(weightString);
 			proteins = Double.parseDouble(proteinsString);
 			carbs = Double.parseDouble(carbsString);
 			fats = Double.parseDouble(fatsString);
+			authorIdInt = Integer.parseInt(authorId);
 			ProductBean product = new ProductBean();
 			product.setCalories(calories);
 			product.setCarbohydrates(carbs);
@@ -64,6 +66,7 @@ public class ProductService {
 			product.setName(name);
 			product.setImagePath(imagePath);
 			product.setDescription(description);
+			product.setAuthorId(authorIdInt);
 			ProductBean result = productRepo.saveAndFlush(product);
 			if(result != null) {
 				return new ResponseEntity<>(result, HttpStatus.CREATED);

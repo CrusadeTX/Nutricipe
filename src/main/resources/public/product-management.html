@@ -94,6 +94,7 @@
                 <input type="hidden" name="action" value="create-product">
                 <input id="user-diet-id" type="hidden">
                 <input id="product-image-path" type="hidden">
+                <input type="hidden" id="current-user"name="currentUser">
                 <div class="text-center">
                 </form>
                 <button id="product-submit" type="button" class="btn btn-success">Create</button>
@@ -180,6 +181,7 @@
             var calories = $('#product-calories').val();
             var imagePath = $('#product-image-path').val();
             var weight = $('#product-weight').val();
+            var authorId = $('#current-user').val();
             if(name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || imagePath ==="" || weight ==="")
                 {
                 	alert("Please fill in the requested fields");
@@ -188,23 +190,27 @@
                 }
                 //var isNumber = /^\d+\.\d+$/.test(proteins);
                 if(testIfNumber(proteins)){
-                    alert("Proteins must be a numebr! Please enter a valid number!");
+                    alert("Proteins must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(calories)){
-                    alert("Calories must be a numebr! Please enter a valid number!");
+                    alert("Calories must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(fats)){
-                    alert("Fats must be a numebr! Please enter a valid number!");
+                    alert("Fats must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(carbohydrates)){
-                    alert("Carbohydrates must be a numebr! Please enter a valid number!");
+                    alert("Carbohydrates must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(weight)){
-                    alert("Proteins must be a numebr! Please enter a valid number!");
+                    alert("Proteins must be a number! Please enter a valid number!");
+                    return
+                }
+                if(testIfNumber(authorId)){
+                    alert("User couldnt be retrieved.Please refresh the page and try again!")
                     return
                 }
                 $.ajax({
@@ -220,10 +226,12 @@
                     carbohydrates : carbohydrates,
                     proteins : proteins,
                     fats : fats,
+                    authorId: authorId,
                 },
     			complete : function(response){
             			if(response.status==201){
-                            alert("Product has been created successfully!")
+                            alert("Product has been created successfully!");
+                            window.location.assign("/home");
             			}
                         if(response.status==401){
                             alert("You are not authorized to perform this operation. Please log in and try again!");
