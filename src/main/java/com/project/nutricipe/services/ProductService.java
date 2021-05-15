@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.nutricipe.bean.CategoryBean;
 import com.project.nutricipe.bean.ProductBean;
 import com.project.nutricipe.bean.RecipeBean;
 import com.project.nutricipe.bean.UserBean;
@@ -51,6 +52,21 @@ public class ProductService {
 		double fats =0;
 		int authorIdInt = 0;
 		if(tryParseDouble(caloriesString) && tryParseDouble(weightString) && tryParseDouble(carbsString) && tryParseDouble(proteinsString) && tryParseDouble(fatsString) && tryParseInt(authorId)) {
+			List<ProductBean> foundProducts = productRepo.findAll();
+			String formattedName = name.trim().toLowerCase();
+			boolean productNameExists = false;
+			if(foundProducts!=null) {
+				for(ProductBean productBean : foundProducts) {
+					if(productBean.getName().toLowerCase().equals(formattedName)) {
+						productNameExists = true;
+					}
+				}
+			}
+			if(productNameExists) {
+				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+			}
+			else
+			{
 			calories = Double.parseDouble(caloriesString);
 			weight = Double.parseDouble(weightString);
 			proteins = Double.parseDouble(proteinsString);
@@ -75,6 +91,7 @@ public class ProductService {
 			else {
 				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
+		}
 		}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -114,16 +131,39 @@ public class ProductService {
 		double carbs=0;
 		double fats =0;
 		int productId=0;
+		
 		if(tryParseInt(id) && tryParseDouble(caloriesString) && tryParseDouble(weightString) && tryParseDouble(carbsString) && tryParseDouble(proteinsString) && tryParseDouble(fatsString)) {
+			productId = Integer.parseInt(id);
+			List<ProductBean> foundProducts = productRepo.findAll();
+			String formattedName = name.trim().toLowerCase();
+			Optional<ProductBean> optionalProduct = productRepo.findById(productId);
+			ProductBean product = new ProductBean();
+			if(optionalProduct.isPresent()) {
+				 product = optionalProduct.get();
+			}
+			boolean productNameExists = false;
+			if(foundProducts!=null) {
+				for(ProductBean productBean : foundProducts) {
+					if(productBean.getName().toLowerCase().equals(formattedName)&&!(product.getName().toLowerCase().equals(productBean.getName().toLowerCase()))) {
+						productNameExists = true;
+					}
+				}
+			}
+			if(productNameExists) {
+				return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+			}
+			else
+			{
+			
 			calories = Double.parseDouble(caloriesString);
 			weight = Double.parseDouble(weightString);
 			proteins = Double.parseDouble(proteinsString);
 			carbs = Double.parseDouble(carbsString);
 			fats = Double.parseDouble(fatsString);
-			productId = Integer.parseInt(id);
-			Optional<ProductBean> optionalProduct = productRepo.findById(productId);
+			
+			
 			if(optionalProduct.isPresent()) {
-			ProductBean product = optionalProduct.get();
+			//product = optionalProduct.get();
 			product.setCalories(calories);
 			product.setCarbohydrates(carbs);
 			product.setProteins(proteins);
@@ -144,6 +184,7 @@ public class ProductService {
 			else {
 				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			}
+		}
 		}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

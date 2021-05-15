@@ -291,6 +291,7 @@
 
 		$('#update-category').on('click', function () {
 			updateCategory();
+			
 		})
 		$('#submit-category').on('click', function () {
 			$('#category-name-form').val();
@@ -414,11 +415,11 @@
 					name: name,
 					type: type,
 				},
-				success: function (response) {
+				complete: function (response) {
                         if (response.status == 409){
                             alert("A category with the specified name already exists in the specified category, please choose another one!");
                         }
-                        if (response.status == 201){
+                        if (response.status == 200){
                             alert("Category has been updated successfully!");
                             fetchAllCategories();
                             clearFields();

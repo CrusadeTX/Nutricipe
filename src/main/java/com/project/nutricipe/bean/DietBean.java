@@ -82,6 +82,12 @@ public class DietBean {
 	public void removeRelations() {
 		categories.forEach(category -> category.removeDiet(this));
 		}
+	public void removeCategory(CategoryBean category) {
+		if(categories.contains(category)) {
+			categories.remove(category);
+			
+		}
+	}
 
 	
 	

@@ -44,12 +44,14 @@ public class ProductBean {
 	private double calories;
 	@Column(name="AUTHOR_ID")
 	private int authorId;
-	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinTable(name="product_recipe",
-    		joinColumns = @JoinColumn(name="PRODUCT_ID"), 
-    		inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
-    		)
-    private Set<RecipeBean> recipes;
+	//@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    //@JoinTable(name="product_recipe",
+    		//joinColumns = @JoinColumn(name="PRODUCT_ID"), 
+    		//inverseJoinColumns = @JoinColumn(name="RECIPE_ID")
+    		//)
+    //private Set<RecipeBean> recipes;
+	@ManyToMany(mappedBy = "products")
+	private Set<RecipeBean> recipes;
 	//@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     //@JoinTable(name="PRODUCT_FRIDGE",
     		//joinColumns = @JoinColumn(name="PRODUCT_ID"), 
@@ -60,7 +62,7 @@ public class ProductBean {
 	@PreRemove
 	public void removeRelations() {
 		fridges.forEach(fridge -> fridge.removeProduct(this));
-		//recipes.forEach(recipe -> recipe.removeProduct(this));
+		recipes.forEach(recipe->recipe.removeProduct(this));
 		}
 	public int getId() {
 		return id;
@@ -133,6 +135,13 @@ public class ProductBean {
 	}
 	public void setAuthorId(int authorId) {
 		this.authorId = authorId;
+	}
+	public void removeRecipe(RecipeBean recipe) {
+		if(recipes.contains(recipe)) {
+			recipes.remove(recipe);
+			
+		}
+		
 	}
 	
 	

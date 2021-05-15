@@ -104,10 +104,15 @@ public static ResponseEntity<CategoryBean> updateCategory (String id, String nam
 		List<CategoryBean> foundCategories = categoryRepo.findAll();
 		String formattedName = name.trim().toLowerCase();
 		String formattedType = type.trim();
+		Optional<CategoryBean> optionalCategory = categoryRepo.findById(categoryId);
+		CategoryBean category = new CategoryBean();
+		if(optionalCategory.isPresent()) {
+		 category = optionalCategory.get();
+		}
 		boolean categoryNameExists = false;
 		if(foundCategories!=null) {
-			for(CategoryBean category : foundCategories) {
-				if(category.getName().toLowerCase().equals(formattedName)&& category.getType().toLowerCase().trim().equals(formattedType.toLowerCase())) {
+			for(CategoryBean categoryBean : foundCategories) {
+				if(categoryBean.getName().toLowerCase().equals(formattedName)&& categoryBean.getType().toLowerCase().trim().equals(formattedType.toLowerCase())&&!(category.getName().toLowerCase().equals(categoryBean.getName().toLowerCase()))) {
 					categoryNameExists = true;
 				}
 			}
@@ -117,11 +122,11 @@ public static ResponseEntity<CategoryBean> updateCategory (String id, String nam
 		}
 		else
 		{
-		Optional<CategoryBean> optionalCategory = categoryRepo.findById(categoryId);
+		//Optional<CategoryBean> optionalCategory = categoryRepo.findById(categoryId);
 		
 		if(optionalCategory.isPresent()) {
-		CategoryBean category = optionalCategory.get();
-		category.setName(formattedName);
+		//CategoryBean category = optionalCategory.get();
+		category.setName(name.trim());
 		category.setType(type.trim());
 		CategoryBean result = categoryRepo.saveAndFlush(category);
 		if(result != null) {

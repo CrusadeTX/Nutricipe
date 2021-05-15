@@ -51,10 +51,17 @@ public class RecipeBean {
 	inverseJoinColumns = @JoinColumn(name="CATEGORY_ID")
 	)
 	private Set<CategoryBean> categories;
-	@ManyToMany(mappedBy = "recipes")
-	private Set<ProductBean> products;
+	//@ManyToMany(mappedBy = "recipes")
+	//private Set<ProductBean> products;
+	@ManyToMany( fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(name="RECIPE_PRODUCT",
+    		joinColumns = @JoinColumn(name="RECIPE_ID"), 
+    		inverseJoinColumns = @JoinColumn(name="PRODUCT_ID")
+    		)
+    private Set<ProductBean> products;
 	@PreRemove
 	public void removeRelations() {
+		products.forEach(product ->product.removeRecipe(this));
 		products =null;
 		categories =null;
 		}
@@ -129,6 +136,20 @@ public class RecipeBean {
 	}
 	public void setAuthorId(int authorId) {
 		this.authorId = authorId;
+	}
+	public void removeProduct(ProductBean product) {
+		if(products.contains(product)) {
+			products.remove(product);
+			
+		}
+		
+	}
+	public void removeCategory(CategoryBean category) {
+		if(categories.contains(category)) {
+			categories.remove(category);
+			
+		}
+		
 	}
 	
 }

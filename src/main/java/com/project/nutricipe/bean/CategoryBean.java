@@ -102,8 +102,8 @@ public class CategoryBean implements Comparable<CategoryBean> {
 		  }
 	@PreRemove
 	public void removeRelations() {
-		diets = null;
-		recipes = null;
+		diets.forEach(diet->diet.removeCategory(this));
+		recipes.forEach(recipe->recipe.removeCategory(this));
 		}
 	public void removeDiet(DietBean diet) {
 		if(diets.contains(diet)) {

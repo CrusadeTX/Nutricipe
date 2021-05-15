@@ -138,7 +138,7 @@ public class ProductController {
 		
 	}
 	@DeleteMapping(path="/product/{id}")
-	public ResponseEntity<Boolean> createProduct(@AuthenticationPrincipal UserPrincipal principal, @PathVariable int id){
+	public ResponseEntity<Boolean> deleteProduct(@AuthenticationPrincipal UserPrincipal principal, @PathVariable int id){
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
 			ResponseEntity<Boolean> result = ProductService.deleteProduct(id);

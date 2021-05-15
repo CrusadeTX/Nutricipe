@@ -245,6 +245,10 @@
                             alert("Product couldn't be created!");
 
                         }
+                        if(response.status==409){
+                            alert("Product couldn't be created! A Product with the specified name already exists. Please choose another one!");
+
+                        }
             		},
             		fail : function(){
             			

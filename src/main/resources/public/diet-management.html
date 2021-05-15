@@ -653,6 +653,9 @@
                         if (response.status == 401){
                             alert("You are unauthorized to perform this operation. Please log in and try again!");
                         }
+						if (response.status == 409){
+                            alert("A diet with the specified name already exists, please choose another one!");
+                        }
 				}
 				
 			})
