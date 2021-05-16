@@ -41,59 +41,72 @@
             </div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
-                <h3 class="text-center text-danger"> Create Product</h3>
+                <h3 class="text-center text-danger"> Create Recipe</h3>
                 <form id="image-uploader"action="POST" name="image-uploader">
                     <div class="form-group">
-                        <label for="product-image" class="text-danger">Product Image:</label>
+                        <label for="product-image" class="text-danger">Recipe Image:</label>
                         <div>
-                        <input type="file" id="product-image" name="productImage" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                        <button id="product-image-upload-btn" type="submit" class="btn btn-danger fixed-button-right mx-5">Upload</button>
+                        <input type="file" id="recipe-image" name="recipeImage" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        <!-- <button id="recipe-image-upload-btn" type="submit" class="btn btn-danger fixed-button-right mx-5">Upload</button> -->
                         </div>
                         </div>
                 </form>
-            <form id="product-form" method="POST">
+            <form id="recipe-form" method="POST">
                 <div class="form-group">
-                    <label for="product-name" class="text-danger">Name:</label>
-                    <input type="text" class="form-control" id="product-name" name="name" required placeholder="">
+                    <label for="recipe-name" class="text-danger">Name:</label>
+                    <input type="text" class="form-control" id="recipe-name" name="name" required placeholder="">
                 </div>
 
                 <div class="form-group">
-                    <label for="product-description" class="text-danger">Description:</label>
-               
-                    <textarea class="form-control" id="product-description" name="description" required placeholder="" rows="4" cols="50"></textarea>
+                    <label for="recipe-description" class="text-danger">Description:</label>
+                    <textarea class="form-control" id="recipe-description" name="description" required placeholder="" rows="4" cols="50"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="products-container" class="text-danger">Products:</label>
+                    <div id="products-container" style="overflow-y:scroll; max-height : 300px">
 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categories-container" class="text-danger">Categories:</label>
+                    <div id="categories-container" style="overflow-y:scroll; max-height : 300px">
+
+                    </div>
                 </div>
                 
   
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="product-calories" class="text-danger">Calories:</label>
                     <input type="text" class="form-control" id="product-calories" name="calories" required placeholder="">
-                </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="product-weight" class="text-danger">Weight</label>
                     <input type="text" class="form-control" id="product-weight" name="weight" required placeholder="">
 
-                </div>
-                <div class="form-group">
+                </div> -->
+                <!-- <div class="form-group">
                     <label for="product-carbohydrates" class="text-danger">Carbohydrates</label>
                     <input type="text" class="form-control" id="product-carbohydrates" name="carbohydrates" required placeholder="">
 
-                </div> 
-                <div class="form-group">
+                </div>  -->
+                <!-- <div class="form-group">
                     <label for="product-proteins" class="text-danger">Proteins</label>
                     <input type="text" class="form-control" id="product-proteins" name="proteins" required placeholder="">
 
-                </div>
-                <div class="form-group">
+                </div> -->
+                <!-- <div class="form-group">
                     <label for="product-fats" class="text-danger">Fats</label>
                     <input type="text" class="form-control" id="product-fats" name="fats" required placeholder="">
 
-                </div>
-                <input type="hidden" name="action" value="create-product">
+                </div> -->
+                <input type="hidden" name="action" value="create-recipe">
                 <input id="user-diet-id" type="hidden">
-                <input id="product-image-path" type="hidden">
+                <input id="recipe-image-path" type="hidden">
                 <input type="hidden" id="current-user"name="currentUser">
+                <input type="hidden" id="product-id" name="productId">
+                <input type="hidden" id="category-recipe-ids" name="categoryRecipeIds">
+                <input type="hidden" id="product-recipe-ids" name="productRecipeIds">
                 <div class="text-center">
                 </form>
                 <button id="product-submit" type="button" class="btn btn-success">Create</button>
@@ -103,13 +116,275 @@
 
         </div>
 </div>
+<div id="category-element-template" style="display: none;" class="border-top w-100">
+    <div class="d-flex">
+        <div id="card-body " class="mt-2">
+            <div class="row">
+                <div class="col">
+                    <span class="card-text">Name</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-success btn-act mr-3  my-2" value="Add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="product-element-template" style="display: none;" class="border-top w-100">
+    <div class="d-flex">
+        <img class="card-img-top thumbnail" src=""
+            alt="Card image cap">
+        <div id="card-body " class="mt-2">
+            <div class="row">
+                <div class="col">
+                    <span class="card-text">Name fsdfdgfdgfdgfd sdfsdgd</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-success btn-act mr-3  my-2" value="Add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     $(document).ready(function(){
+        var SelectedCategories =[];
+        var SelectedProducts =[];
+
     	getCurrentUser();
         clearImagePath();
+        fetchAllCategories();
+        fetchAllProducts();
+        function fetchAllCategories(){
+            $.ajax({
+				url: "/category",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(category) {
+                            populateCategoryContainerInitially(category);
+                            
+                        });
+                        attachCategoryOnClickEvents();
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+        function fetchAllProducts(){
+            $.ajax({
+				url: "/product",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(product) {
+                            populateProductContainerInitially(product);
+                            
+                        });
+                        attachProductOnClickEvents();
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+        function populateCategoryContainerInitially(category){
+            var template = $('#category-element-template').clone();
+            template.attr('id', 'category-element-'+category.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(category.name);
+            //template.find
+            //var img = template.find('img');
+            //img.attr("src",product.imagePath);
+            //img.show();
+            $('#categories-container').append(template);
+           
+            template.show();
+            
+            }
+            function populateProductContainerInitially(product){
+            var template = $('#product-element-template').clone();
+            template.attr('id', 'product-element-'+product.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(product.name);
+            //template.find
+            var img = template.find('img');
+            img.attr("src",product.imagePath);
+            img.show();
+            $('#products-container').append(template);
+           
+            template.show();
+            
+            }
+            
+            function attachCategoryOnClickEvents(){
+            var container = $('#categories-container');
+            container.children().each(function () {
+                //var productIds=[];
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+				var idsOfDietCategories = delimitCategoryIds();
+				
+                //productIds.push(numericalId);
+                var Catbutton = currentElement.find('.btn-act');
+				if(idsOfDietCategories){
+				idsOfDietCategories.forEach(function(idOfDietCategories){
+					if(numericalId == idOfDietCategories){
+						SelectedCategories.push(numericalId);
+						Catbutton.val("Remove");
+						Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+					}
+				})
+				}
+                currentElement.find('.btn-act').on('click',function(){
+                    console.log("why")
+                    if(currentElement.find('.btn-act').val()==="Add"){
+                        SelectedCategories.push(numericalId);
+                       //handleClick(numericalId,"add",Catbutton);
+                       Catbutton.val('Remove');
+                       Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+                       return
+                    }
+                    if(currentElement.find('.btn-act').val()==="Remove"){
+                    //handleClick(numericalId,"remove",Catbutton);
+                    var index = SelectedCategories.indexOf(numericalId);
+                    if(index>-1){
+                    SelectedCategories.splice(index,1);
+                    Catbutton.val('Add');
+                    Catbutton.removeClass("btn-danger");
+                    Catbutton.addClass("btn-success");
+                    return
+                    
+                    }
+                }
+                })
+            })
+			//container = null;
+        }
+        function attachProductOnClickEvents(){
+            var container = $('#products-container');
+            container.children().each(function () {
+                //var productIds=[];
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+				var idsOfRecipeProducts = delimitProductIds();
+				
+                //productIds.push(numericalId);
+                var Catbutton = currentElement.find('.btn-act');
+				if(idsOfRecipeProducts){
+                    idsOfRecipeProducts.forEach(function(idOfRecipeProducts){
+					if(numericalId == idOfRecipeProducts){
+						SelectedProducts.push(numericalId);
+						Catbutton.val("Remove");
+						Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedProducts);
+					}
+				})
+				}
+                currentElement.find('.btn-act').on('click',function(){
+                    console.log("why")
+                    if(currentElement.find('.btn-act').val()==="Add"){
+                        SelectedProducts.push(numericalId);
+                       //handleClick(numericalId,"add",Catbutton);
+                       Catbutton.val('Remove');
+                       Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedProducts);
+                       return
+                    }
+                    if(currentElement.find('.btn-act').val()==="Remove"){
+                    //handleClick(numericalId,"remove",Catbutton);
+                    var index = SelectedProducts.indexOf(numericalId);
+                    if(index>-1){
+                    SelectedProducts.splice(index,1);
+                    Catbutton.val('Add');
+                    Catbutton.removeClass("btn-danger");
+                    Catbutton.addClass("btn-success");
+                    return
+                    
+                    }
+                }
+                })
+            })
+			//container = null;
+        }
+        function delimitCategoryIds(){
+			var Ids = $("#category-recipe-ids").val()
+			if(Ids!=null && Ids !=""){
+				var formattedIds = Ids.substring(0,Ids.length-1)
+				console.log(formattedIds);
+				var output = [];
+				output = formattedIds.split(',');
+				return output
+
+			}
+		}
+        function delimitProductIds(){
+			var Ids = $("#product-recipe-ids").val()
+			if(Ids!=null && Ids !=""){
+				var formattedIds = Ids.substring(0,Ids.length-1)
+				console.log(formattedIds);
+				var output = [];
+				output = formattedIds.split(',');
+				return output
+
+			}
+		}
         function clearImagePath(){
-            $('#product-image-path').val("");
+            $('#recipe-image-path').val("");
         }
         $("#image-uploader").submit(function(event){
             event.preventDefault();
@@ -147,7 +422,7 @@
                             alert("Image failed to upload")
                         }
                         else{
-                        $('#product-image-path').val(data);
+                        $('#recipe-image-path').val(data);
                         alert("Image was uploaded successfully!")
                         }
                     }

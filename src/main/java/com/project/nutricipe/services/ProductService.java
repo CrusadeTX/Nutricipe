@@ -190,6 +190,16 @@ public class ProductService {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+	public static ResponseEntity<List<ProductBean>> getAllProducts() {
+		
+		List<ProductBean> result = productRepo.findAll();
+		if(result!=null) {
+		
+		
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	}
 	
 
 }

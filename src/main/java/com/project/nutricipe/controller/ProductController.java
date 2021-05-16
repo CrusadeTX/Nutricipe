@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.nutricipe.bean.CategoryBean;
 import com.project.nutricipe.bean.ProductBean;
 import com.project.nutricipe.bean.RecipeBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.ProductRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
+import com.project.nutricipe.services.CategoryService;
 import com.project.nutricipe.services.ProductService;
 import com.project.nutricipe.services.RecipeService;
 
@@ -164,5 +166,14 @@ public class ProductController {
 		}
 		
 		
+	}
+	@GetMapping(path = "/product")
+	public ResponseEntity<List<ProductBean>> retrieveAllProducts(@AuthenticationPrincipal UserPrincipal principal) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			return ProductService.getAllProducts();
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
 	}
 }
