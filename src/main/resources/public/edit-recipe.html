@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+        <title>Nutricipe</title>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <script src="assets/js/jquery/jquery-3.5.1.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        --><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="assets/styles/style.css">
+   <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">-->
+
+</head>
+<body>
+<div class="container-lg container-fluid ">
+    <div class="row bg-danger shadow py-4">
+    <div class="col text-white">
+        <h1 class="text-center mb-0">Nutricipe</h1>
+        <div class="text-center">
+            <span>Nutricious Recipes Galore</span>
+        </div> 
+    </div> 
+</div>
+<div class="row bg-danger justify-content-center">
+                <span id="current-user-username"
+                    class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
+                <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
+                <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
+                <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
+                <a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+                <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+                <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+                <a id="diets-link" class="nav-item nav-link text-white" href="diets.html">Diets</a>
+                <a id="categories-link" class="nav-item nav-link text-white" href="categories.html">Categories</a>
+                <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
+            </div>
+                    <div id="registration-row" class="row d-flex justify-content-center my-5">
+            <div class="col-6 shadow p-4">
+                <h3 class="text-center text-danger"> Edit Recipe</h3>
+                <form id="image-uploader"action="POST" name="image-uploader">
+                    <div class="form-group">
+                        <label for="product-image" class="text-danger">Recipe Image:</label>
+                        <div>
+                        <input type="file" id="recipe-image" name="recipeImage" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        <!-- <button id="recipe-image-upload-btn" type="submit" class="btn btn-danger fixed-button-right mx-5">Upload</button> -->
+                        </div>
+                        </div>
+                </form>
+            <form id="recipe-form" method="POST">
+                <div class="form-group">
+                    <label for="recipe-name" class="text-danger">Name:</label>
+                    <input type="text" class="form-control" id="recipe-name" name="name" required placeholder="">
+                </div>
+
+                <div class="form-group">
+                    <label for="recipe-description" class="text-danger">Description:</label>
+                    <textarea class="form-control" id="recipe-description" name="description" required placeholder="" rows="4" cols="50"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="products-container" class="text-danger">Products:</label>
+                    <div id="products-container" style="overflow-y:scroll; max-height : 300px">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categories-container" class="text-danger">Categories:</label>
+                    <div id="categories-container" style="overflow-y:scroll; max-height : 300px">
+
+                    </div>
+                </div>
+                
+  
+                <!-- <div class="form-group">
+                    <label for="product-calories" class="text-danger">Calories:</label>
+                    <input type="text" class="form-control" id="product-calories" name="calories" required placeholder="">
+                </div> -->
+
+                <!-- <div class="form-group">
+                    <label for="product-weight" class="text-danger">Weight</label>
+                    <input type="text" class="form-control" id="product-weight" name="weight" required placeholder="">
+
+                </div> -->
+                <!-- <div class="form-group">
+                    <label for="product-carbohydrates" class="text-danger">Carbohydrates</label>
+                    <input type="text" class="form-control" id="product-carbohydrates" name="carbohydrates" required placeholder="">
+
+                </div>  -->
+                <!-- <div class="form-group">
+                    <label for="product-proteins" class="text-danger">Proteins</label>
+                    <input type="text" class="form-control" id="product-proteins" name="proteins" required placeholder="">
+
+                </div> -->
+                <!-- <div class="form-group">
+                    <label for="product-fats" class="text-danger">Fats</label>
+                    <input type="text" class="form-control" id="product-fats" name="fats" required placeholder="">
+
+                </div> -->
+                <input type="hidden" name="action" value="create-recipe">
+                <input id="user-diet-id" type="hidden">
+                <input id="recipe-image-path" type="hidden">
+                <input type="hidden" id="current-user"name="currentUser">
+                <input type="hidden" id="recipe-id" name="recipeId">
+                <input type="hidden" id="category-recipe-ids" name="categoryRecipeIds">
+                <input type="hidden" id="product-recipe-ids" name="productRecipeIds">
+                <div class="text-center">
+                </form>
+                <button id="product-submit" type="button" class="btn btn-success">Create</button>
+                </div>
+
+            </div>
+
+        </div>
+</div>
+<div id="category-element-template" style="display: none;" class="border-top w-100">
+    <div class="d-flex">
+        <div id="card-body " class="mt-2">
+            <div class="row">
+                <div class="col">
+                    <span class="card-text">Name</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-success btn-act mr-3  my-2" value="Add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="product-element-template" style="display: none;" class="border-top w-100">
+    <div class="d-flex">
+        <img class="card-img-top thumbnail" src=""
+            alt="Card image cap">
+        <div id="card-body " class="mt-2">
+            <div class="row">
+                <div class="col">
+                    <span class="card-text">Name fsdfdgfdgfdgfd sdfsdgd</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="button" class="btn btn-success btn-act mr-3  my-2" value="Add">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+        var SelectedCategories =[];
+        var SelectedProducts =[];
+
+    	getCurrentUser();
+        clearImagePath();
+        loadRecipe();
+        fetchAllCategories();
+        fetchAllProducts();
+        function loadRecipe(){
+            var id =sessionStorage.getItem("recipeId");
+            $.ajax({
+				url: "/recipe/"+id,
+				method: "GET",
+				success: function (data) {
+					if(data){
+                        
+							populateRecipeFields(data);
+                          
+                    }
+				},
+				fail: function () {
+
+					alert("Something went wrong!")
+				}
+			})
+        }
+        function populateRecipeFields(data){
+            console.log(data);
+            $('#recipe-name').val(data.name);
+            $('#recipe-description').val(data.description);
+            //$('#product-proteins').val(data.proteins);
+            //$('#product-fats').val(data.fats);
+            //$('#product-carbohydrates').val(data.carbohydrates);
+           // $('#product-calories').val(data.calories);
+            $('#recipe-image-path').val(data.imagePath);
+            //$('#product-weight').val(data.weight);
+            $('#recipe-id').val(data.id);
+            if(data.categories){
+					data.categories.forEach(function(category){
+						var value = $("#category-recipe-ids").val()
+						$("#category-recipe-ids").val(value+category.id+",")
+					})
+                }
+
+            if(data.products){
+					data.products.forEach(function(product){
+						var value = $("#product-recipe-ids").val()
+						$("#product-recipe-ids").val(value+product.id+",")
+					})
+                    
+					console.log(delimitCategoryIds());
+                    console.log(delimitProductIds());
+        
+        }
+        }
+        function fetchAllCategories(){
+            $.ajax({
+				url: "/category",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(category) {
+                            populateCategoryContainerInitially(category);
+                            
+                        });
+                        attachCategoryOnClickEvents();
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+        function fetchAllProducts(){
+            $.ajax({
+				url: "/product",
+				method: "GET",
+				complete: function (response) {
+					/*if (response !== null) {
+						for (i = 0; i < response.length; i++) {
+							(function (i) { populateUserContainer(response[i], i) })(i);
+						}
+					}
+					else {
+						alert("Please login and try again!");
+						windows.location.href = "/login?logout";
+					}*/
+                    if (response.status == 401){
+                        alert("You are unauthorized to perform this operation. Please log in again!");
+                    }
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(product) {
+                            populateProductContainerInitially(product);
+                            
+                        });
+                        attachProductOnClickEvents();
+                        }
+
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
+				}
+			})
+
+
+		}
+        function populateCategoryContainerInitially(category){
+            var template = $('#category-element-template').clone();
+            template.attr('id', 'category-element-'+category.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(category.name);
+            //template.find
+            //var img = template.find('img');
+            //img.attr("src",product.imagePath);
+            //img.show();
+            $('#categories-container').append(template);
+           
+            template.show();
+            
+            }
+            function populateProductContainerInitially(product){
+            var template = $('#product-element-template').clone();
+            template.attr('id', 'product-element-'+product.id);
+            //template.find('h5').text(recipe.name);
+            template.find('span').text(product.name);
+            //template.find
+            var img = template.find('img');
+            img.attr("src",product.imagePath);
+            img.show();
+            $('#products-container').append(template);
+           
+            template.show();
+            
+            }
+            
+            function attachCategoryOnClickEvents(){
+            var container = $('#categories-container');
+            container.children().each(function () {
+                //var productIds=[];
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+				var idsOfDietCategories = delimitCategoryIds();
+				
+                //productIds.push(numericalId);
+                var Catbutton = currentElement.find('.btn-act');
+				if(idsOfDietCategories){
+				idsOfDietCategories.forEach(function(idOfDietCategories){
+					if(numericalId == idOfDietCategories){
+						SelectedCategories.push(numericalId);
+						Catbutton.val("Remove");
+						Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+					}
+				})
+				}
+                currentElement.find('.btn-act').on('click',function(){
+                    console.log("why")
+                    if(currentElement.find('.btn-act').val()==="Add"){
+                        SelectedCategories.push(numericalId);
+                       //handleClick(numericalId,"add",Catbutton);
+                       Catbutton.val('Remove');
+                       Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedCategories);
+                       return
+                    }
+                    if(currentElement.find('.btn-act').val()==="Remove"){
+                    //handleClick(numericalId,"remove",Catbutton);
+                    var index = SelectedCategories.indexOf(numericalId);
+                    if(index>-1){
+                    SelectedCategories.splice(index,1);
+                    Catbutton.val('Add');
+                    Catbutton.removeClass("btn-danger");
+                    Catbutton.addClass("btn-success");
+                    return
+                    
+                    }
+                }
+                })
+            })
+			//container = null;
+        }
+        function attachProductOnClickEvents(){
+            var container = $('#products-container');
+            container.children().each(function () {
+                //var productIds=[];
+                var currentElement = $(this);
+                var id = currentElement.attr('id');
+                var numericalId = id.split('-').reverse()[0];
+				var idsOfRecipeProducts = delimitProductIds();
+				
+                //productIds.push(numericalId);
+                var Catbutton = currentElement.find('.btn-act');
+				if(idsOfRecipeProducts){
+                    idsOfRecipeProducts.forEach(function(idOfRecipeProducts){
+					if(numericalId == idOfRecipeProducts){
+						SelectedProducts.push(numericalId);
+						Catbutton.val("Remove");
+						Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedProducts);
+					}
+				})
+				}
+                currentElement.find('.btn-act').on('click',function(){
+                    console.log("why")
+                    if(currentElement.find('.btn-act').val()==="Add"){
+                        SelectedProducts.push(numericalId);
+                       //handleClick(numericalId,"add",Catbutton);
+                       Catbutton.val('Remove');
+                       Catbutton.removeClass("btn-success");
+                       Catbutton.addClass("btn-danger");
+                       console.log(Catbutton.val())
+                       console.log(SelectedProducts);
+                       return
+                    }
+                    if(currentElement.find('.btn-act').val()==="Remove"){
+                    //handleClick(numericalId,"remove",Catbutton);
+                    var index = SelectedProducts.indexOf(numericalId);
+                    if(index>-1){
+                    SelectedProducts.splice(index,1);
+                    Catbutton.val('Add');
+                    Catbutton.removeClass("btn-danger");
+                    Catbutton.addClass("btn-success");
+                    return
+                    
+                    }
+                }
+                })
+            })
+			//container = null;
+        }
+        function delimitCategoryIds(){
+			var Ids = $("#category-recipe-ids").val()
+			if(Ids!=null && Ids !=""){
+				var formattedIds = Ids.substring(0,Ids.length-1)
+				console.log(formattedIds);
+				var output = [];
+				output = formattedIds.split(',');
+				return output
+
+			}
+		}
+        function delimitProductIds(){
+			var Ids = $("#product-recipe-ids").val()
+			if(Ids!=null && Ids !=""){
+				var formattedIds = Ids.substring(0,Ids.length-1)
+				console.log(formattedIds);
+				var output = [];
+				output = formattedIds.split(',');
+				return output
+
+			}
+		}
+        function clearImagePath(){
+            $('#recipe-image-path').val("");
+        }
+        //$("#image-uploader").submit(function(event){
+          //  event.preventDefault();
+           // UploadImage();
+        //});
+        /*function UploadImage(){
+            var formData = new FormData();
+            var image = $('#product-image')[0].files[0];
+            formData.append('image',  $('#product-image')[0].files[0]);
+            console.log(formData);
+            if(image){
+            var imgname  =  $('input[type=file]').val();
+            var size  =  $('#product-image')[0].files[0].size;
+            var ext =  imgname.substr( (imgname.lastIndexOf('.') +1) );
+            if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='gif' || ext=='PNG' || ext=='JPG' || ext=='JPEG')
+            {
+
+            
+            if (image.size>0 && image.size <=1048576){
+                $.ajax({
+                //processData: false,
+                
+                
+                url: "/product/upload",
+                method: "POST",
+                data: formData, //{
+                    //image : $('#product-image')[0].files[0]
+                    //data
+                //},
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data != null) {
+                        if(data == "Image failed to upload!"){
+                            alert("Image failed to upload")
+                        }
+                        else{
+                        $('#recipe-image-path').val(data);
+                        alert("Image was uploaded successfully!")
+                        }
+                    }
+                }
+            })
+            }
+            else{
+                alert("Image exceeds 1 MB! Please choose a smaller image!")
+            }
+        }
+        else{
+            alert("You have selected an unsupported file!")
+        }
+        }
+        else{
+            alert("Please select an image!")
+        }
+        }*/
+
+        
+        $('#product-submit').click(function(){
+            UpdateRecipe();
+})
+        function UpdateRecipe(){
+            var imageIsValid = false;
+            var formData = new FormData();
+            var image = $('#recipe-image')[0].files[0];
+            formData.append('image',  $('#recipe-image')[0].files[0]);
+            console.log(formData);
+            if(image){
+            var imgname  =  $('input[type=file]').val();
+            var size  =  $('#recipe-image')[0].files[0].size;
+            var ext =  imgname.substr( (imgname.lastIndexOf('.') +1) );
+            if(ext=='jpg' || ext=='jpeg' || ext=='png' || ext=='gif' || ext=='PNG' || ext=='JPG' || ext=='JPEG')
+            {
+            if (image.size>0 && image.size <=1048576){
+                imageIsValid = true;
+            }
+            else{
+                alert("Image exceeds 1 MB! Please choose a smaller image!")
+                return
+            }
+        }
+        else{
+            alert("You have selected an unsupported file!")
+            return
+        }
+        }
+        else{
+            var imagePath = $('#ecipe-image-path').val();
+            if(imagePath!=""){
+                imageIsValid = true;
+            }
+            else{
+            alert("Please select an image!")
+            return
+            }
+        }   
+            var recipeId =$('#recipe-id').val();
+            var name = $('#recipe-name').val();
+            var description = $('#recipe-description').val();
+            //var proteins = $('#product-proteins').val();
+            //var fats = $('#product-fats').val();
+            //var carbohydrates = $('#product-carbohydrates').val();
+            //var calories = $('#product-calories').val();
+            //var imagePath = $('#product-image-path').val();
+            //var weight = $('#product-weight').val();
+            var authorId = $('#current-user').val();
+     
+            if(name==="" || description==="" || SelectedCategories.size==0||SelectedProducts.size==0)
+                {
+                	alert("Please fill in the requested fields");
+                	return
+                	
+                }
+                //var isNumber = /^\d+\.\d+$/.test(proteins);
+                if(testIfNumber(authorId)){
+                    alert("User couldnt be retrieved.Please refresh the page and try again!")
+                    return
+                }
+                if(!imageIsValid){
+                    alert("Please choose another image and try again!")
+                    return
+                }
+            formData.append('name',name);
+            formData.append('description', description);
+            formData.append('authorId',authorId);
+            for(var i=0;i<SelectedCategories.length;i++){
+                formData.append('categoryIds',SelectedCategories[i]);
+            }
+            for(var i=0;i<SelectedProducts.length;i++){
+                formData.append('productIds',SelectedProducts[i]);
+            }
+                $.ajax({
+    			url: "/recipe/"+recipeId,
+    			method: "PUT",
+                processData: false,
+                contentType: false,
+                traditional: true,
+                data: formData,/*{
+                    
+                    name : name,
+                    description : description,
+                    authorId: authorId,
+                    categoryIds: SelectedCategories,
+                    productIds: SelectedProducts,
+                    image: formData,
+                },*/
+    			complete : function(response){
+            			if(response.status==201){
+                            alert("Product has been created successfully!");
+                            SelectedCategories.splice(0,SelectedCategories.length);
+                            SelectedProducts.splice(0,SelectedProducts.length);
+                            window.location.assign("/home");
+            			}
+                        if(response.status==401){
+                            SelectedCategories.splice(0,SelectedCategories.length);
+                            SelectedProducts.splice(0,SelectedProducts.length);
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
+
+                        }
+                        if(response.status==400){
+                            alert("Please provide valid input parameters!");
+
+                        }
+                        if(response.status==500){
+                            alert("Product couldn't be created!");
+
+                        }
+            		},
+            		fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
+    		})
+
+        }
+        function testIfNumber(number){
+            
+            var isNumber = /^\d+\.\d+$/.test(number);
+            return isNumber;
+        }
+        function getCurrentUser() {
+            $.ajax({
+                url: "/user/current",
+                method: "GET",
+                success: function (data) {
+                    if (data != null) {
+                        visualiseCurrentUser(data);
+                        hideAdminElements(data);
+                        
+                    }
+                }
+            })
+
+        }
+        function visualiseCurrentUser(user) {
+            $('#current-user-username').text(user.username)
+            $('#user-diet-id').val(user.diet.id);
+            console.log(user)
+            $('#current-user').val(user.id)
+        }
+        function hideAdminElements(user) {
+            var isAdmin = false;
+            for (i = 0; i < user.roles.length; i++) {
+                console.log(user.roles[i].code)
+                if (user.roles[i].code == "ROLE_ADMIN") {
+
+                    isAdmin = true;
+                }
+
+            }
+            console.log(isAdmin);
+            if (!isAdmin) {
+                $("#users-link").remove();
+            }
+
+        }
+        $('#username-error').hide();
+        $('#password-error').hide();
+        $('#repeat-password-error').hide();
+        $('#email-error').hide();
+    	//getUser();
+
+        /*function getUser(){
+            $.ajax({
+    			url: "/user/current",
+    			method: "GET",
+    			success: function (data){
+                    if(data === null){
+                        alert("No logged in user")
+                        windows.location.href="/login?logout";
+                    }
+                    else{
+                        populateUserForm(data);
+                    }
+    			},
+    			fail: function(){
+    				windows.location.href="/login?logout";
+    			}
+    		})
+    	}*/
+        
+       /* function populateUserForm(user){
+            $('#register-user').val(user.username);
+            $('#register-email').val(user.email);
+            $('#product-submit').on('click', function(){
+                var username = $('#register-user').val().trim();
+                var password = $('#register-pass').val().trim();
+                var repeatPassword = $('#confirm-register-pass').val().trim();
+                var email = $('#register-email').val().trim();
+                var dietId = $('#select-diet').val();
+                if(username==="" || email==="" || password ==="" || repeatPassword==="")
+                {
+                	alert("Please fill in the requested fields");
+                	return
+                	
+                }
+                if(!email.includes('@') || !email.includes('.')){
+                	alert("Email is not valid");
+                	return
+                }
+                if(password != repeatPassword){
+                	alert("Password must be confirmed");
+                	return
+                }
+                
+                $.ajax({
+    			url: "/user/update",
+    			method: "POST",
+                data:{
+                    id : user.id,
+                    username : username,
+                    password : password,
+                    repeatPassword : repeatPassword,
+                    email : email,
+                    diet : dietId,
+                },
+    			success: function (data){
+                    data.forEach(element => {
+                        alert(element);
+                       // $('#username-error').hide();
+                        //$('#password-error').hide();
+                        //$('#repeat-password-error').hide();
+                        //$('#email-error').hide();
+                    }
+
+                    );
+    			},
+    			fail: function(){
+    				alert("Something went wrong")
+    			}
+    		})
+        
+           
+
+            })
+         
+            
+        }*/
+
+    
+
+
+
+
+    })
+</script>
+</html>

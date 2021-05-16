@@ -304,7 +304,7 @@ public class RecipeService {
 			if(foundRecipes != null) {
 				
 				for (RecipeBean recipe : foundRecipes) {
-					if(recipe.getName().toLowerCase().equals(formattedName) && !(recipe.getName().equals(originalRecipe.getName().toLowerCase()))) {
+					if(recipe.getName().toLowerCase().equals(formattedName) && !(recipe.getName().toLowerCase().equals(originalRecipe.getName().toLowerCase()))) {
 						
 						recipeNameExists = true;
 						break;

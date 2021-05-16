@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name="RECIPE")
 //@JsonIgnoreProperties({"categories","products"})
-@JsonIgnoreProperties({"products"})
+//@JsonIgnoreProperties({"products"})
 public class RecipeBean {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
