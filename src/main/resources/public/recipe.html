@@ -47,8 +47,16 @@
         </div>
         <div class="row mt-3 d-flex mx-0 mx-lg-0">
             <div id="main-container" class="col-12 justify-content-center order-2 order-lg-1">
-                <div id="heading-container">
+                <div id="heading-container" class="d-flex justify-content-between">
+                    <div class="col-3 w-100 text-center">
+                    <button id="recipe-edit-btn" class="btn btn-info btn-act my-2 text-center" type="button">Edit</button>
+                    </div>
+                    <div class="col-6 w-100 text-center">
                     <h1 id="heading" class="text-center my-2">This is the Heading</h1>
+                    </div>
+                    <div class="col-3 w-100 text-center">
+                    <button id="recipe-delete-btn" class="btn btn-danger btn-act my-2 text-center" type="button">Delete</button>
+                    </div>
                 </div>
                 <div class="row my-3">
                 <div id="image-container" class="col-6">
@@ -140,6 +148,7 @@
         <h5 class="text-center text-danger"></h5>
     </div>
     <input type="hidden" id="current-user"name="currentUser">
+    <input type="hidden" id="recipe-author" name="productAuthor">
 </body>
 <script>
      $(document).ready(function (){     
@@ -196,6 +205,7 @@
             $('#ingredients-container').empty();
         }
         function populateWebPage(data){
+            $('#recipe-author').val(data.authorId)
             $('#element-image').attr("src",data.imagePath);
             $('#heading').text(data.name);
             $('#carbs').text(data.carbohydrates);
@@ -248,6 +258,7 @@
         }
         function hideAdminElements(user) {
             var isAdmin = false;
+            var authorId = $("#product-author").val();
             for (i = 0; i < user.roles.length; i++) {
                 console.log(user.roles[i].code)
                 if (user.roles[i].code == "ROLE_ADMIN") {
@@ -257,11 +268,43 @@
 
             }
             console.log(isAdmin);
-            if (!isAdmin) {
+            if(!isAdmin){
                 $("#users-link").remove();
+            }
+            if (isAdmin || user.id == authorId ) {
+                $("#recipe-edit-btn").show();
+                $("#recipe-delete-btn").show();
+            }
+            else{
+                $("#recipe-edit-btn").hide();
+                $("#recipe-delete-btn").hide();
             }
 
         }
+        $("#recipe-delete-btn").on('click', function(){
+            var id =sessionStorage.getItem("recipeId");
+            $.ajax({
+				url: "/recipe/"+id,
+				method: "DELETE",
+				complete: function (data) {
+					if (data.status == 200) {
+						alert("Delete Successful")
+						window.location.assign("/home");
+					}
+					if (data.status == 401) {
+						alert("Delete Failed!!! You arent authorized to perform this operation")
+                        window.location.assign("/logout");
+					}
+					if (data.status == 404) {
+						alert("Delete Failed!!! No such product exists")
+					}
+				}
+			})
+
+        })
+
+    
+        
 
     })
 </script>
