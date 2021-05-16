@@ -80,7 +80,7 @@ public class GetRecipesByCategoriesAndProductsTest {
 		doReturn(Arrays.asList(recipe)).when(recipeRepo).findAll();
 		
 		
-		recipeService = new RecipeService(dietRepo,recipeRepo,null);
+		recipeService = new RecipeService(dietRepo,recipeRepo,null,null);
 		
 		
 	}

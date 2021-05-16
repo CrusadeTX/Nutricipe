@@ -79,7 +79,7 @@ public class GetRecipeProductsTest {
 		//List<UserBean> users = new ArrayList<UserBean>();
 		//users.add(user1);
 		//users.add(user2);
-		recipeService = new RecipeService(null,recipeRepo,null);
+		recipeService = new RecipeService(null,recipeRepo,null,null);
 		
 		
 	}

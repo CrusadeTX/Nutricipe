@@ -40,7 +40,7 @@ public class RecipeService {
 	@Autowired
 	private static CategoryRepo categoryRepo;
 	
-	public RecipeService(DietRepo dietRepo, RecipeRepo recipeRepo, ProductRepo productRepo) {
+	public RecipeService(DietRepo dietRepo, RecipeRepo recipeRepo, ProductRepo productRepo, CategoryRepo categoryRepo) {
 		this.dietRepo = dietRepo;
 		this.recipeRepo = recipeRepo;
 		this.productRepo = productRepo;
