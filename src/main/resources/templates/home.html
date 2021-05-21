@@ -28,7 +28,7 @@
                 <div class="col text-white">
                     <h1 class="text-center mb-0">Nutricipe</h1>
                     <div class="text-center">
-                        <span>Nutricious Recipes galore</span>
+                        <span>Nutricious Recipes Galore</span>
                     </div>
                 </div>
             </div>
@@ -38,9 +38,9 @@
                 <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
                 <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
                 <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
-                <a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+                <!--<a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
                 <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
-                <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>
+                <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>-->
                 <a id="diets-link" class="nav-item nav-link text-white" href="diet-management.html">Diets</a>
                 <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
                 <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
@@ -793,6 +793,11 @@ $('#new-recipe-btn').click(function(){
             console.log(isAdmin);
             if (!isAdmin) {
                 $("#users-link").remove();
+                $("#products-link").remove();
+                $("#diets-link").remove();
+                $("#categories-link").remove();
+                
+
             }
 
         }

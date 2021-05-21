@@ -258,7 +258,7 @@
         }
         function hideAdminElements(user) {
             var isAdmin = false;
-            var authorId = $("#product-author").val();
+            var authorId = $("#recipe-author").val();
             for (i = 0; i < user.roles.length; i++) {
                 console.log(user.roles[i].code)
                 if (user.roles[i].code == "ROLE_ADMIN") {
