@@ -526,7 +526,7 @@
                 },*/
     			complete : function(response){
             			if(response.status==201){
-                            alert("Product has been created successfully!");
+                            alert("Recipe has been created successfully!");
                             SelectedCategories.splice(0,SelectedCategories.length);
                             SelectedProducts.splice(0,SelectedProducts.length);
                             window.location.assign("/home");
@@ -542,7 +542,7 @@
 
                         }
                         if(response.status==500){
-                            alert("Product couldn't be created!");
+                            alert("Recipe couldn't be created!");
 
                         }
             		},

@@ -33,6 +33,7 @@ import com.project.nutricipe.security.UserPrincipal;
 import com.project.nutricipe.services.CategoryService;
 import com.project.nutricipe.services.ProductService;
 import com.project.nutricipe.services.RecipeService;
+import com.project.nutricipe.utilities.Utilities;
 
 @RestController
 public class ProductController {
@@ -126,12 +127,18 @@ public class ProductController {
 	}
 	@PostMapping(path="/product")
 	public ResponseEntity<ProductBean> createProduct(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value="name") String name, @RequestParam(value="description") String description,
-			@RequestParam(value="imagePath") String imagePath, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
+			/*@RequestParam(value="imagePath") String imagePath*/@RequestParam(value = "image") MultipartFile file, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
 			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats, @RequestParam(value="authorId") String authorId){
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
+			String imagePath = Utilities.uploadImage(file);
+			if (imagePath.equals("Image failed to upload!")|| imagePath.equals("No image was provided!")) {
+				return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+			}
+			else {
 			ResponseEntity<ProductBean> result = ProductService.createProduct(name, description, imagePath, calories, weight, carbs, proteins, fats, authorId);
 			return result;
+			}
 		}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -154,12 +161,18 @@ public class ProductController {
 	}
 	@PutMapping(path="/product")
 	public ResponseEntity<ProductBean> updateProduct(@AuthenticationPrincipal UserPrincipal principal, @RequestParam(value="name") String name, @RequestParam(value="description") String description,
-			@RequestParam(value="imagePath") String imagePath, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
+			/*@RequestParam(value="imagePath") String imagePath*/@RequestParam(value = "image",required=false) MultipartFile file, @RequestParam(value="calories") String calories, @RequestParam(value="weight") String weight, @RequestParam(value="carbohydrates") String carbs,
 			@RequestParam(value="proteins") String proteins, @RequestParam(value="fats") String fats, @RequestParam(value="id") String id){
 		UserBean user = principal.getLoggedInUser();
 		if (user != null) {
+			String imagePath = Utilities.uploadImage(file);
+			if (imagePath.equals("Image failed to upload!")) {
+				return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			else {
 			ResponseEntity<ProductBean> result = ProductService.updateProduct(id,name, description, imagePath, calories, weight, carbs, proteins, fats);
 			return result;
+			}
 		}
 		else {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

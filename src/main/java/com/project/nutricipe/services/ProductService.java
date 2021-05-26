@@ -79,9 +79,9 @@ public class ProductService {
 			product.setProteins(proteins);
 			product.setFats(fats);
 			product.setWeight(weight);
-			product.setName(name);
+			product.setName(name.trim());
 			product.setImagePath(imagePath);
-			product.setDescription(description);
+			product.setDescription(description.trim());
 			product.setAuthorId(authorIdInt);
 			ProductBean result = productRepo.saveAndFlush(product);
 			if(result != null) {
@@ -163,15 +163,18 @@ public class ProductService {
 			
 			
 			if(optionalProduct.isPresent()) {
+				if(!imagePath.equals("No image was provided!")) {
+					product.setImagePath(imagePath);
+				}
 			//product = optionalProduct.get();
 			product.setCalories(calories);
 			product.setCarbohydrates(carbs);
 			product.setProteins(proteins);
 			product.setFats(fats);
 			product.setWeight(weight);
-			product.setName(name);
-			product.setImagePath(imagePath);
-			product.setDescription(description);
+			product.setName(name.trim());
+			//product.setImagePath(imagePath);
+			product.setDescription(description.trim());
 			ProductBean result = productRepo.saveAndFlush(product);
 			if(result != null) {
 				return new ResponseEntity<>(result, HttpStatus.OK);
