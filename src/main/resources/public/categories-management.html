@@ -71,10 +71,20 @@
 									<input type="text" class="form-control" id="category-name-form" name="categoryName" required
 										placeholder="">
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label for="category-type-form" class="text-danger">Type:</label>
 									<input type="text" class="form-control" id="category-type-form" name="categoryType" required
 										placeholder="">
+								</div>-->
+								<div class="form-group">
+									<label for="category-type-form-select" class="text-danger">Type:</label>
+									<select type="text" class="form-control" id="category-type-form-select" required>
+										<option value='0' selected>Please select a type</option>
+										<option value='Adverse Effects'>Adverse Effects</option>
+										<option value='Dish Types'>Dish Types</option>
+										<option value='Food Types'>Food Types</option>
+										<option value='Benefit'>Benefit</option>
+									</select>
 								</div>
 								<div class="text-center">
 									<input type="hidden" name="action" value="register">
@@ -133,10 +143,12 @@
 		$('#clear-category').on('click', function(){
 			$('#clear-category').hide();
 			$('#update-category').attr("disabled", true);
+			$('#submit-category').removeAttr("disabled");
 			$('#update-category').hide();
 			$('#submit-category').show();
 			$('#category-name-form').val("");
-			$('#category-type-form').val("");
+			//$('#category-type-form').val("");
+			$('#category-type-form-select').val("0");
 
 		})
         /*function getDiets(){
@@ -184,6 +196,7 @@
                         if (response.responseJSON.length>0){
                         response.responseJSON.forEach(function(category) {
                         populateCategoryContainer(category);
+						//populateCategoryDropdown(category);
                         });
                         }
 
@@ -226,6 +239,8 @@
 				$('#category-id').val(category.id);
 				$('#category-name-form').val(category.name);
 				$('#category-type-form').val(category.type);
+				//$('#category-type-form').val(category.type);
+				$('#category-type-form-select').val(category.type);
 				//$('#select-diet').val(user.diet.id);
 
 				//$('#submit-custom-quote').html("Update Quote")
@@ -297,7 +312,8 @@
 			$('#category-name-form').val();
 			$('#category-type-form').val();
 			var name = $('#category-name-form').val();
-			var type = $('#category-type-form').val();
+			//var type = $('#category-type-form').val();
+			var type = $('#category-type-form-select').val();
 			//var password = $('#register-pass').val();
 			//var repeatPassword = $('#confirm-register-pass').val();
 			//var dietId = $('#select-diet').val();
@@ -305,6 +321,11 @@
 
 			if (name === "" || type === "") {
 				alert("Please fill in the requested fields");
+				return
+
+			}
+			if (type === "0") {
+				alert("Please select a category");
 				return
 
 			}
@@ -324,8 +345,9 @@
 		function clearFields() {
 			$('#category-name-form').val('');
 			$('#category-name-form').text('');
-			$('#category-type-form').val('');
-			$('#category-type-form').text('');
+			$('#category-type-form-select').val("0");
+			//$('#category-type-form').val('');
+			//$('#category-type-form').text('');
 			//$("#register-pass").val('');
 			//$("#register-pass").text('');
 			//$('#confirm-register-pass').val('');
@@ -336,6 +358,16 @@
 			$('#submit-category').removeAttr("disabled");
 			$('#submit-category').show();
 			$('#clear-category').hide();
+			$('#category-id').val();
+			$('#clear-category').hide();
+			//$('#update-category').attr("disabled", true);
+			//$('#submit-category').removeAttr("disabled");
+			//$('#update-category').hide();
+			//$('#submit-category').show();
+			//$('#category-name-form').val("");
+			//$('#category-type-form').val("");
+			$('#category-type-form-select').val("0");
+			
 			//$('#select-diet').val('');
 
 
@@ -349,6 +381,7 @@
 					if (data.status == 200) {
 						alert("Delete Successful")
 						template.remove();
+						clearFields();
 					}
 					if (data.status == 401) {
 						alert("Delete Failed!!!")
@@ -390,12 +423,18 @@
 		function updateCategory() {
 			var categoryId = $('#category-id').val();
 			var name = $('#category-name-form').val();
-			var type = $('#category-type-form').val();
+			//var type = $('#category-type-form').val();
+			var type = $('#category-type-form-select').val();
 			//var password = $('#register-pass').val();
 			//var repeatPassword = $('#confirm-register-pass').val();
 			//var dietId = $('#select-diet').val();
 			if (name === "" || type === "") {
 				alert("Please fill in the requested fields");
+				return
+
+			}
+			if (type === "0") {
+				alert("Please select a category");
 				return
 
 			}
@@ -442,6 +481,10 @@
 			$('#logged-user-name').text(username);
 
 		}
+		//function populateCategoryDropdown(category){
+            //var dropDown = $('#category-type-form-select');
+            //dropDown.append('<option value=' + category.type + '>' + category.type + '</option>');
+        //}
 
 
 	})

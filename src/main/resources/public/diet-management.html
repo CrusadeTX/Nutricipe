@@ -547,6 +547,7 @@
 			$('#submit-diet').show();
 			$('#clear-diet').hide();
 			$("#category-diet-ids").val("");
+			$('#diet-id').val();
 			//$('#select-diet').val('');
 			//clearCategories()
 			//fetchAllCategories();
@@ -562,6 +563,7 @@
 					if (data.status == 200) {
 						alert("Delete Successful")
 						template.remove();
+						clearFields();
 					}
 					if (data.status == 401) {
 						alert("Delete Failed!!!")

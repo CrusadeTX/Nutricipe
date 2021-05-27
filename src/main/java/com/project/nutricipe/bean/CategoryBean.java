@@ -25,7 +25,7 @@ public class CategoryBean implements Comparable<CategoryBean> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name="name", nullable=false, unique=true, length = 255)
+	@Column(name="name", nullable=false, unique=false, length = 255)
 	private String name;
 	@Column(name="type", nullable=false, unique=false, length = 255)
 	private String type;

@@ -88,18 +88,26 @@
         getDiets();
         function getDiets(){
             $.ajax({
-				url: "/diet/all",
+				url: "/diet/initial",
 				method: "GET",
-				success: function (data) {
-					if(data){
+				complete: function (response) {
+					/*if(data){
                         for(i=0;i<data.length;i++){
 							(function(i){populateDietDropdown(data[i])})(i);
                           }
-                    }
-				},
-				fail: function () {
+                    }*/
+                    if (response.status == 200){
+                        if (response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(diet) {
+                        populateDietDropdown(diet);
+						//populateCategoryDropdown(category);
+                        });
+                        }
 
-					alert("Something went wrong!")
+                    }
+                    if (response.status == 404){
+                        alert("The requested resource couldn't be found!");
+                    }
 				}
 			})
 		}

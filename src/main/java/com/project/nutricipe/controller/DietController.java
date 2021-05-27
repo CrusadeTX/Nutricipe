@@ -40,6 +40,10 @@ public class DietController {
 	public List<DietBean> getAllDiets() {
 		return dietRepo.findAll();
 	}
+	@GetMapping(path = "/diet/initial")
+	public ResponseEntity<List<DietBean>> getAllDietsInitially() {
+		return DietService.getAllDiets();
+	}
 
 	@GetMapping(path = "/diet/{id}")
 	public DietBean getDietById(@PathVariable int id) {

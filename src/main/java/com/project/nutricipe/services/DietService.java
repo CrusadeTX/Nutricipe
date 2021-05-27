@@ -1,5 +1,6 @@
 package com.project.nutricipe.services;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +29,29 @@ public DietService(DietRepo dietRepo, CategoryRepo categoryRepo) {
 public  static ResponseEntity<List<DietBean>> getAllDiets(){
 	List<DietBean> result = dietRepo.findAll();
 	if(result!=null) {
+		if(!result.isEmpty()) {
 	
-	
+		System.out.println("result is null===================");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	else {
+		DietBean diet = new DietBean();
+		diet.setName("No Diet");
+		diet.setRecomendedCalories(2000);
+		DietBean resultDiet = dietRepo.saveAndFlush(diet);
+		if(resultDiet!=null) {
+		return new ResponseEntity<>(Arrays.asList(resultDiet),HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+		
+	}
+	else {
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	}
+	
 	
 }
 public static ResponseEntity<DietBean> getDietById(String id) {

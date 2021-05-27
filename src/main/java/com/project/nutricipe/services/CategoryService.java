@@ -51,6 +51,9 @@ public static ResponseEntity<CategoryBean> createCategory (String name, String t
 		List<CategoryBean> foundCategories = categoryRepo.findAll();
 		String formattedName = name.trim().toLowerCase();
 		String formattedType = type.trim();
+		if(!checkIfCategoryTypeIsValid(formattedType)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		boolean categoryNameExists = false;
 		if(foundCategories!=null) {
 			for(CategoryBean category : foundCategories) {
@@ -65,7 +68,7 @@ public static ResponseEntity<CategoryBean> createCategory (String name, String t
 		else
 		{
 		CategoryBean category = new CategoryBean();
-		category.setName(formattedName);
+		category.setName(name.trim());
 		category.setType(type.trim());
 		CategoryBean result = categoryRepo.saveAndFlush(category);
 		if(result != null) {
@@ -104,6 +107,9 @@ public static ResponseEntity<CategoryBean> updateCategory (String id, String nam
 		List<CategoryBean> foundCategories = categoryRepo.findAll();
 		String formattedName = name.trim().toLowerCase();
 		String formattedType = type.trim();
+		if(!checkIfCategoryTypeIsValid(formattedType)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		Optional<CategoryBean> optionalCategory = categoryRepo.findById(categoryId);
 		CategoryBean category = new CategoryBean();
 		if(optionalCategory.isPresent()) {
@@ -153,6 +159,15 @@ private static boolean tryParseInt(String value) {
 		return true;
 	} catch (NumberFormatException e) {
 		return false;
+	}
+}
+private static boolean checkIfCategoryTypeIsValid(String categoryType) {
+	switch(categoryType) {
+	case "Adverse Effects": return true;
+	case "Dish Types": return true;
+	case "Benefit": return true;
+	case "Food Types": return true;
+	default: return false;
 	}
 }
 

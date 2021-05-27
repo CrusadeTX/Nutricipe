@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		 http
 	        .authorizeRequests()
-	          .antMatchers("/public/**", "/resources/**","/resources/public/**","/resources/templates/**", "/register", "/h2-console/**", "/","/diet/all")
+	          .antMatchers("/public/**", "/resources/**","/resources/public/**","/resources/templates/**", "/register", "/h2-console/**", "/","/diet/all","/diet/initial")
 	            .permitAll().antMatchers("/users.html").hasRole("ADMIN").anyRequest().authenticated().and()
 	       .formLogin()
 	         .loginPage("/login").defaultSuccessUrl("/home", true)
