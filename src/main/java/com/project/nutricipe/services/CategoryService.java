@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.nutricipe.bean.CategoryBean;
+import com.project.nutricipe.bean.RecipeBean;
 import com.project.nutricipe.repo.CategoryRepo;
 
 @Service
@@ -169,6 +170,30 @@ private static boolean checkIfCategoryTypeIsValid(String categoryType) {
 	case "Food Types": return true;
 	default: return false;
 	}
+}
+
+public static ResponseEntity<List<CategoryBean>> getCategoryBySearchString(String query) {
+	List<CategoryBean> allCategories = categoryRepo.findAll();
+	for (CategoryBean category : allCategories) {
+		//System.out.println("Recipe:");
+	
+		//System.out.println(recipe.getName());
+	}
+
+	List<CategoryBean> result = new ArrayList<CategoryBean>();
+	for(CategoryBean category : allCategories) {
+		if(category.getName().toLowerCase().contains(query.toLowerCase())) {
+			result.add(category);
+			System.out.println("Result Category:");
+			
+			System.out.println(category.getName());
+			
+		}
+	}
+	if(result.size()>0) {
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 }
 
 

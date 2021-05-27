@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.nutricipe.bean.CategoryBean;
 import com.project.nutricipe.bean.DietBean;
 import com.project.nutricipe.bean.ProductBean;
+import com.project.nutricipe.bean.RecipeBean;
 import com.project.nutricipe.bean.UserBean;
 import com.project.nutricipe.repo.CategoryRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
 import com.project.nutricipe.services.CategoryService;
+import com.project.nutricipe.services.RecipeService;
 
 @RestController
 public class CategoryController {
@@ -33,6 +35,21 @@ public class CategoryController {
 	//this.categoryRepo = categoryRepo;
 	//this.userRepo = userRepo;
 //}
+@PostMapping(path = "/category/search")
+public ResponseEntity<List<CategoryBean>> searchCategories(@AuthenticationPrincipal UserPrincipal principal,@RequestParam (value="searchTerm")String query) {
+		UserBean user = principal.getLoggedInUser();
+		if (user != null) {
+			if(query!=null) {
+				ResponseEntity<List<CategoryBean>> response = CategoryService.getCategoryBySearchString(query.trim());
+				return response;
+			}
+			else {
+				return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+			}
+		} else {
+			return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+		}
+	}
 
 @GetMapping(path = "/category")
 public ResponseEntity<List<CategoryBean>> getAllCategories(@AuthenticationPrincipal UserPrincipal principal) {
