@@ -28,6 +28,8 @@ import com.project.nutricipe.repo.RoleRepo;
 import com.project.nutricipe.repo.UserRepo;
 import com.project.nutricipe.security.UserPrincipal;
 import com.project.nutricipe.security.WebSecurityConfig;
+import com.project.nutricipe.services.DietService;
+import com.project.nutricipe.services.UserService;
 
 @RestController
 public class UserController {
@@ -350,5 +352,19 @@ public class UserController {
 			return false;
 		}
 	}
-
+	@PostMapping(path = "/user/search")
+	public ResponseEntity<List<UserBean>> searchUsers(@AuthenticationPrincipal UserPrincipal principal,@RequestParam (value="searchTerm")String query) {
+			UserBean user = principal.getLoggedInUser();
+			if (user != null) {
+				if(query!=null) {
+					ResponseEntity<List<UserBean>> response = UserService.getUserBySearchString(query.trim());
+					return response;
+				}
+				else {
+					return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+				}
+			} else {
+				return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+			}
+		}
 }

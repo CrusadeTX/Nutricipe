@@ -99,5 +99,20 @@ public class DietController {
 		}
 
 	}
+	@PostMapping(path = "/diet/search")
+	public ResponseEntity<List<DietBean>> searchDiets(@AuthenticationPrincipal UserPrincipal principal,@RequestParam (value="searchTerm")String query) {
+			UserBean user = principal.getLoggedInUser();
+			if (user != null) {
+				if(query!=null) {
+					ResponseEntity<List<DietBean>> response = DietService.getDietBySearchString(query.trim());
+					return response;
+				}
+				else {
+					return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+				}
+			} else {
+				return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+			}
+		}
 
 }

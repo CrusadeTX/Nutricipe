@@ -1,5 +1,6 @@
 package com.project.nutricipe.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -218,6 +219,29 @@ public static ResponseEntity<DietBean> getDietById(String id) {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			}
 		
+	}
+	public static ResponseEntity<List<DietBean>> getDietBySearchString(String query) {
+		List<DietBean> allDiets = dietRepo.findAll();
+		for (DietBean diet : allDiets) {
+			//System.out.println("Recipe:");
+		
+			//System.out.println(recipe.getName());
+		}
+
+		List<DietBean> result = new ArrayList<DietBean>();
+		for(DietBean diet : allDiets) {
+			if(diet.getName().toLowerCase().contains(query.toLowerCase())) {
+				result.add(diet);
+				System.out.println("Result Diet:");
+				
+				System.out.println(diet.getName());
+				
+			}
+		}
+		if(result.size()>0) {
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	}
 
 }

@@ -49,6 +49,38 @@
                 <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
                 <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
 			</div>
+			<!--START OF SEARCH SECTION-->
+		<div class="row shadow p-2 bg-light">
+			<div class="d-flex align-items-center col-lg-2 col-12">
+				<button id="change-view-btn" class="btn btn-danger text-center btn-block lg-btn my-2 my-lg-0"
+					style="display: none;">Change View</button>
+			</div>
+			<div class="d-flex align-items-center col-lg-6 col-12 justify-content-center">
+				<div class="d-flex align-items-center">
+					<span class="text-danger h4">Search: </span>
+				</div>
+				<form class="d-flex align-items-center">
+					<div class="custom-control">
+						<input type="text" class="form-control" id="search-text"
+							placeholder="John">
+					</div>
+					<!--<div class="custom-control">
+						<select id="select-search-type" class="form-control">
+							<option value="recipe" selected >Recipe</option>
+							<option value="product">Product</option>
+						</select>
+					</div>-->
+				</form>
+			</div>
+			
+			<div class="d-flex align-items-center col-lg-2 col-12">
+				<button id="search-btn"
+					class="btn btn-danger text-center btn-block lg-btn my-2 my-lg-0">Search</button>
+					<button id="clear-btn"
+					class="btn btn-danger text-center btn-block lg-btn ml-2 my-2 my-lg-0">Clear</button>
+			</div>
+		</div>
+		<!--END OF SEARCH SECTION-->
 		</div>
 		<div class="container">
 
@@ -122,6 +154,9 @@
 
 		</div>
 	</div>
+	<div id="empty-template">
+        <h5 class="text-center text-danger"></h5>
+    </div>
 
 	<div id="user-template" style="display: none;" class="shadow m-2">
 		<div class="card-body">
@@ -434,6 +469,95 @@
 			$('#logged-user-name').text(username);
 
 		}
+		$('#search-btn').on('click',function(){
+            
+            var searchTerm = $('#search-text').val().trim();
+            //var searchType = $('#select-search-type').val().trim();
+            if(searchTerm.length>0){
+                //if(searchType.length>0){
+                Search(searchTerm);
+                $('#clear-btn').show();
+                //}
+                //else{
+                    //alert('Incorrect Search Type!');
+                //}
+            }
+            else{
+                alert('Please fill out the search field!');
+            }
+        })
+		function Search(searchTerm){
+           
+                 
+                    $.ajax({
+            		url: "/user/search",
+            		method: "POST",
+                    //contentType: "application/json",
+                    //traditional: true,
+            		data : {
+            			searchTerm: searchTerm,
+            		},
+            		complete : function(response){
+                        if(response.status==200){
+                            console.log(response);
+                            clearUserContainer();
+                            //clearProductContainer();
+                            //HideProductsSegment();
+                            console.log(response);
+                            if(response.responseJSON.length>0){
+                        response.responseJSON.forEach(function(user) {
+                        populateUserContainer(user);
+
+                        });
+                        }
+                        else{
+                        var template = $('#empty-template').clone();
+                        template.find('h5').text("No Users have been found");
+                        $('#user-container').append(template);
+                        template.show();
+                        }
+                       
+                    
+                            
+                        }
+                        if(response.status==401){
+                            alert("You are not authorized to perform this operation. Please log in and try again!");
+
+                        }
+                        if(response.status==404){
+                            clearUserContainer();
+                            //HideProductsSegment();
+                            //clearRecipeContainer();
+                            //ShowRecipesSegment();
+                            //alert("Resource couldnt be found!");
+                            var template = $('#empty-template').clone();
+                            template.find('h5').text("No Users have been found");
+                            $('#user-container').append(template);
+                            template.show();
+
+                        }
+            		},
+            		fail : function(){
+            			
+            			alert("Something went terribly wrong!!!");
+            		}
+            	})
+                    
+                
+
+
+        }
+		function clearUserContainer(){
+			$('#user-container').empty();
+		}
+		$('#clear-btn').hide();
+        $('#clear-btn').on('click',function(){
+            $('#clear-btn').hide();
+            $('#search-text').text("");
+			$('#search-text').val("");
+            clearUserContainer();
+            fetchAllUsers();
+        })
 
 
 	})
