@@ -58,8 +58,26 @@ public class RecipeService {
 		if(diet.isPresent()) {
 			List<CategoryBean> dietCategories = new ArrayList<>(diet.get().getCategories());
 			List<RecipeBean> recipes = recipeRepo.findAll();
+	
 			if(dietCategories!=null) {
+				boolean hasDishTypes = false;
+				boolean hasFoodTypes = false;
+				boolean hasBenefit =false;
 				System.out.println("dietCategories isnt null");
+				for (CategoryBean dietCategory : dietCategories) {
+					if(dietCategory.getType().equals("Dish Types")) {
+					hasDishTypes  = true;
+					}
+					if(dietCategory.getType().equals("Dish Food")) {
+						hasFoodTypes  = true;
+					
+				}
+					if(dietCategory.getType().equals("Benefit")) {
+						hasBenefit  = true;
+					
+				}
+				}
+					
 					for(RecipeBean recipe : recipes) {
 						boolean adverseEffectMatch= false;
 						boolean added = false;
@@ -95,6 +113,15 @@ public class RecipeService {
 						}
 					}
 				}
+					if(hasDishTypes) {
+					recipesWithRequestedCategories = getRecipesByCategory(recipesWithRequestedCategories,dietCategories,"Dish Types");
+					}
+					if(hasFoodTypes) {
+					recipesWithRequestedCategories = getRecipesByCategory(recipesWithRequestedCategories,dietCategories,"Food Types");
+					}
+					if(hasBenefit) {
+					recipesWithRequestedCategories = getRecipesByCategory(recipesWithRequestedCategories,dietCategories,"Benefit");
+					}
 				for(RecipeBean recipe : recipesWithRequestedCategories) {
 					System.out.println("================");
 					System.out.println(recipe.getName());
@@ -128,7 +155,7 @@ public class RecipeService {
 				
 				return new ResponseEntity<>(result,HttpStatus.OK);
 				}
-				if(recipesWithRequestedCategories.size()==0) {
+				if(dietCategories.size()==0) {
 					for(RecipeBean recipe : recipes) {
 						int count =0;
 						Set<ProductBean> recipeProducts = recipe.getProducts();
@@ -434,6 +461,68 @@ public class RecipeService {
 		}
 		//return null;
 	}
+	private static Set<RecipeBean> getRecipesByCategory(Set<RecipeBean> recipes,List<CategoryBean> dietCategories, String categoryType){
+		Set<RecipeBean> recipesWithRequestedCategories= new HashSet<RecipeBean>();
+		//List<RecipeBean> result = new ArrayList<RecipeBean>();
+		for(RecipeBean recipe : recipes) {
+			
+			System.out.println("**********INCOMING RECIPES**************");
+			System.out.println(recipe.getName());
+			
+			
+			
+		}
+			System.out.println("dietCategories isnt null");
+				for(RecipeBean recipe : recipes) {
+					boolean categoryMatch= false;
+					boolean added = false;
+					List<CategoryBean> recipeCategories = new ArrayList<>(recipe.getCategories());
+					//if(java.util.Collections.disjoint(recipeCategories,dietCategories)) {
+						//recipesWithRequestedCategories.add(recipe);
+					//} 
+					for(CategoryBean recipeCategory: recipeCategories) {
+						for(CategoryBean dietCategory : dietCategories) {
+						if(dietCategory.getId()==recipeCategory.getId()) {
+							
+							boolean hasCategory = dietCategory.getType().equals(categoryType);
+							System.out.println(hasCategory);
+							System.out.println(dietCategory.getName());
+							if(hasCategory) {
+								if(dietCategory.getId() == recipeCategory.getId()) {
+									categoryMatch=true;
+									if(added) {
+										recipesWithRequestedCategories.remove(recipe);
+									}
+									
+									
+								}
+							}
+							
+							if(categoryMatch)	{
+							recipesWithRequestedCategories.add(recipe);
+							added=true;
+							}
+							
+							
+						}
+					}
+				}
+			}	
+				System.out.println("RECIPES WITH CATEGORY:"+ categoryType);
+				for(RecipeBean recipe : recipesWithRequestedCategories) {
+					
+					System.out.println("**********");
+					System.out.println(recipe.getName());
+					
+					
+					
+				}
+				return recipesWithRequestedCategories;
+		
+		}
+		
+	
+	
 	
 	
 }
