@@ -81,6 +81,7 @@
 			</div>
 		</div>
 		<!--END OF SEARCH SECTION-->
+		<div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
 		</div>
 		<div class="container">
 
@@ -205,7 +206,7 @@
 						windows.location.href = "/login?logout";
 					}*/
                     if (response.status == 401){
-                        alert("You are unauthorized to perform this operation. Please log in again!");
+                        toggleNotification("You are unauthorized to perform this operation. Please log in again!");
                     }
                     if (response.status == 200){
                         if (response.responseJSON.length>0){
@@ -218,7 +219,7 @@
 
                     }
                     if (response.status == 404){
-                        alert("The requested resource couldn't be found!");
+                        toggleNotification("The requested resource couldn't be found!");
                     }
 				}
 			})
@@ -370,7 +371,7 @@
 						windows.location.href = "/login?logout";
 					}*/
                     if (response.status == 401){
-                        alert("You are unauthorized to perform this operation. Please log in again!");
+                        toggleNotification("You are unauthorized to perform this operation. Please log in again!");
                     }
                     if (response.status == 200){
                         if (response.responseJSON.length>0){
@@ -382,7 +383,7 @@
 
                     }
                     if (response.status == 404){
-                        alert("The requested resource couldn't be found!");
+                        toggleNotification("The requested resource couldn't be found!");
                     }
 				}
 			})
@@ -482,10 +483,10 @@
 
 						}*/
                         if (response.status == 409){
-                            alert("A diet with the specified name already exists, please choose another one!");
+                            toggleNotification("A diet with the specified name already exists, please choose another one!");
                         }
                         if (response.status == 201){
-                            alert("Diet has been created successfully!");
+                            toggleNotification("Diet has been created successfully!");
                             fetchAllDiets();
                             clearFields();
 							SelectedCategories.splice(0,SelectedCategories.length);
@@ -493,13 +494,13 @@
 							fetchAllCategories();
                         }
                         if (response.status == 400){
-                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                            toggleNotification("You have supplied invalid input parameters. Please fill the required fields again!");
                         }
                         if (response.status == 500){
-                            alert("Category creation failed!");
+                            toggleNotification("Category creation failed!");
                         }
                         if (response.status == 401){
-                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are unauthorized to perform this operation. Please log in and try again!");
 							SelectedCategories.splice(0,SelectedCategories.length);
                         }
 					}
@@ -507,7 +508,7 @@
 				})
 			}
 			else {
-				alert("Please fill in all fields");
+				toggleNotification("Please fill in all fields");
 			}
 
 		}
@@ -516,7 +517,7 @@
 			var name = $('#diet-name-form').val();
 			var recCalories = $('#diet-calories-form').val();
 			if (name === "" || recCalories === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
@@ -524,7 +525,7 @@
 				updateDiet();
 			}
 			else{
-				alert("Recomended Calories should contain only numbers!");
+				toggleNotification("Recomended Calories should contain only numbers!");
 				return
 			}
 		})
@@ -539,7 +540,7 @@
 
 
 			if (name === "" || recCalories === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
@@ -547,7 +548,7 @@
 				addDiet(name, recCalories, SelectedCategories);
 			}
 			else{
-				alert("Recomended Calories should contain only numbers!");
+				toggleNotification("Recomended Calories should contain only numbers!");
 				return
 			}
 			
@@ -595,18 +596,18 @@
 				method: "DELETE",
 				complete: function (data) {
 					if (data.status == 200) {
-						alert("Delete Successful")
+						toggleNotification("Delete Successful")
 						template.remove();
 						clearFields();
 					}
 					if (data.status == 401) {
-						alert("Delete Failed!!!")
+						toggleNotification("Delete Failed!!!")
 					}
 					if (data.status == 404) {
-						alert("Delete Failed!!! No such user exists")
+						toggleNotification("Delete Failed!!! No such user exists")
 					}
                     if (data.status == 400) {
-						alert("Input parameters are invalid! Delete operation failed!")
+						toggleNotification("Input parameters are invalid! Delete operation failed!")
 					}
 				}
 			})
@@ -668,7 +669,7 @@
 			//var repeatPassword = $('#confirm-register-pass').val();
 			//var dietId = $('#select-diet').val();
 			if (name === "" || recCalories === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
@@ -695,7 +696,7 @@
                          //   alert("A diet with the specified name already exists, please choose another one!");
                         //}
                         if (response.status == 200){
-                            alert("Diet has been updated successfully!");
+                            toggleNotification("Diet has been updated successfully!");
                             fetchAllDiets();
                             clearFields();
 							SelectedCategories.splice(0,SelectedCategories.length);
@@ -704,16 +705,16 @@
                             updatePressed = false;
                         }
                         if (response.status == 400){
-                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                            toggleNotification("You have supplied invalid input parameters. Please fill the required fields again!");
                         }
                         if (response.status == 500){
-                            alert("Diet update failed!");
+                            toggleNotification("Diet update failed!");
                         }
                         if (response.status == 401){
-                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are unauthorized to perform this operation. Please log in and try again!");
                         }
 						if (response.status == 409){
-                            alert("A diet with the specified name already exists, please choose another one!");
+                            toggleNotification("A diet with the specified name already exists, please choose another one!");
                         }
 				}
 				
@@ -737,7 +738,7 @@
                 //}
             }
             else{
-                alert('Please fill out the search field!');
+                toggleNotification('Please fill out the search field!');
             }
         })
 		function Search(searchTerm){
@@ -775,7 +776,7 @@
                             
                         }
                         if(response.status==401){
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
                         if(response.status==404){
@@ -793,7 +794,7 @@
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
             	})
                     
@@ -813,6 +814,16 @@
             fetchAllDiets();
 			
         })
+		function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
+
 
 
 

@@ -28,6 +28,7 @@
 <body>
 	<div class="container-lg container-fluid ">
 		<div class="fixed-header">
+			
 			<div class="row bg-danger shadow py-4">
 				<div class="col text-white">
 					<h1 class="text-center mb-0">Nutricipe</h1>
@@ -81,12 +82,11 @@
 			</div>
 		</div>
 		<!--END OF SEARCH SECTION-->
+		<div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
 		</div>
 		<div class="container">
-
-
+			
 			<div class="row mt-4">
-
 				<div class="col-sm-4 ">
 
 
@@ -144,7 +144,9 @@
 					<div class="panel-heading">
 						<h3 class="text-center text-danger">Users:</h3>
 					</div>
+					<!--<div class="notify"><span id="notifyType" class=""></span></div>-->
 					<div id="user-container" class="d-flex flex-wrap justify-content-center">
+						
 
 
 
@@ -193,7 +195,7 @@
 				},
 				fail: function () {
 
-					alert("Something went wrong!")
+					toggleNotification("Something went wrong!")
 				}
 			})
 		}
@@ -213,12 +215,12 @@
 						}
 					}
 					else {
-						alert("Please login and try again!");
+						toggleNotification("Please login and try again!");
 						windows.location.href = "/login?logout";
 					}
 				},
 				fail: function () {
-					alert("Something went wrong!")
+					toggleNotification("Something went wrong!")
 				}
 			})
 
@@ -280,12 +282,12 @@
 					},
 					success: function (response) {
 						if (response.includes("Error")) {
-							alert(response)
+							toggleNotification(response)
 						}
 						else {
 
 
-							alert("User has been created successfully")
+							toggleNotification("User has been created successfully")
 							fetchAllUsers();
 							clearFields();
 							$('#register-username').text('');
@@ -295,12 +297,12 @@
 					},
 					fail: function () {
 
-						alert("Something went terribly wrong!!!")
+						toggleNotification("Something went terribly wrong!!!")
 					}
 				})
 			}
 			else {
-				alert("Please fill all fields");
+				toggleNotification("Please fill all fields");
 			}
 
 		}
@@ -319,16 +321,16 @@
 
 
 			if (username === "" || email === "" || password === "" || repeatPassword === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
 			if (!email.includes('@') || !email.includes('.')) {
-				alert("Email is not valid");
+				toggleNotification("Email is not valid");
 				return
 			}
 			if (password != repeatPassword) {
-				alert("Password must be confirmed");
+				toggleNotification("Password must be confirmed");
 				return
 			}
 
@@ -371,14 +373,14 @@
 				data: { id: id },
 				complete: function (data) {
 					if (data.status == 200) {
-						alert("Delete Successful")
+						toggleNotification("Delete Successful")
 						template.remove();
 					}
 					if (data.status == 401) {
-						alert("Delete Failed!!!")
+						toggleNotification("Delete Failed!!!")
 					}
 					if (data.status == 404) {
-						alert("Delete Failed!!! No such user exists")
+						toggleNotification("Delete Failed!!! No such user exists")
 					}
 				}
 			})
@@ -416,16 +418,16 @@
 			var repeatPassword = $('#confirm-register-pass').val();
 			var dietId = $('#select-diet').val();
 			if (username === "" || email === "" || password === "" || repeatPassword === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
 			if (!email.includes('@') || !email.includes('.')) {
-				alert("Email is not valid");
+				toggleNotification("Email is not valid");
 				return
 			}
 			if (password != repeatPassword) {
-				alert("Password must be confirmed");
+				toggleNotification("Password must be confirmed");
 				return
 			}
 
@@ -443,7 +445,7 @@
 				success: function (response) {
 					if (response.includes("Error")) {
 						//$('#result-custom-quote').text(response)
-						alert(response)
+						toggleNotification(response)
 					}
 					else {
 						//$('#update-custom-quote').attr("id","submit-custom-quote")
@@ -454,14 +456,14 @@
 						clearFields();
 
 						//$('#result-custom-quote').text("Quote has been created successfully")
-						alert(response);
+						toggleNotification(response);
 						fetchAllUsers();
 
 					}
 				},
 				fail: function () {
 
-					alert("Something went terribly wrong!!!")
+					toggleNotification("Something went terribly wrong!!!")
 				}
 			})
 		}
@@ -483,7 +485,9 @@
                 //}
             }
             else{
-                alert('Please fill out the search field!');
+               //alert('Please fill out the search field!');
+			   toggleNotification("Please fill out the search field");
+
             }
         })
 		function Search(searchTerm){
@@ -521,7 +525,7 @@
                             
                         }
                         if(response.status==401){
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
                         if(response.status==404){
@@ -539,7 +543,7 @@
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
             	})
                     
@@ -561,6 +565,15 @@
 
 
 	})
+	function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
 
 
 

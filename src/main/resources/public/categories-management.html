@@ -81,6 +81,7 @@
 			</div>
 		</div>
 		<!--END OF SEARCH SECTION-->
+		<div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
 		</div>
 	
 		<div class="container">
@@ -225,7 +226,7 @@
 						windows.location.href = "/login?logout";
 					}*/
                     if (response.status == 401){
-                        alert("You are unauthorized to perform this operation. Please log in again!");
+                        toggleNotification("You are unauthorized to perform this operation. Please log in again!");
                     }
                     if (response.status == 200){
                         if (response.responseJSON.length>0){
@@ -237,7 +238,7 @@
 
                     }
                     if (response.status == 404){
-                        alert("The requested resource couldn't be found!");
+                        toggleNotification("The requested resource couldn't be found!");
                     }
 				}
 			})
@@ -313,28 +314,28 @@
 
 						}*/
                         if (response.status == 409){
-                            alert("A category with the specified name already exists in the specified category, please choose another one!");
+                            toggleNotification("A category with the specified name already exists in the specified category, please choose another one!");
                         }
                         if (response.status == 201){
-                            alert("Category has been created successfully!");
+                            toggleNotification("Category has been created successfully!");
                             fetchAllCategories();
                             clearFields();
                         }
                         if (response.status == 400){
-                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                            toggleNotification("You have supplied invalid input parameters. Please fill the required fields again!");
                         }
                         if (response.status == 500){
-                            alert("Category creation failed!");
+                            toggleNotification("Category creation failed!");
                         }
                         if (response.status == 401){
-                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are unauthorized to perform this operation. Please log in and try again!");
                         }
 					}
 					
 				})
 			}
 			else {
-				alert("Please fill in all fields");
+				toggleNotification("Please fill in all fields");
 			}
 
 		}
@@ -355,12 +356,12 @@
 
 
 			if (name === "" || type === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
 			if (type === "0") {
-				alert("Please select a category");
+				toggleNotification("Please select a category");
 				return
 
 			}
@@ -414,18 +415,18 @@
 				method: "DELETE",
 				complete: function (data) {
 					if (data.status == 200) {
-						alert("Delete Successful")
+						toggleNotification("Delete Successful")
 						template.remove();
 						clearFields();
 					}
 					if (data.status == 401) {
-						alert("Delete Failed!!!")
+						toggleNotification("Delete Failed!!!")
 					}
 					if (data.status == 404) {
-						alert("Delete Failed!!! No such user exists")
+						toggleNotification("Delete Failed!!! No such user exists")
 					}
                     if (data.status == 400) {
-						alert("Input parameters are invalid! Delete operation failed!")
+						toggleNotification("Input parameters are invalid! Delete operation failed!")
 					}
 				}
 			})
@@ -464,12 +465,12 @@
 			//var repeatPassword = $('#confirm-register-pass').val();
 			//var dietId = $('#select-diet').val();
 			if (name === "" || type === "") {
-				alert("Please fill in the requested fields");
+				toggleNotification("Please fill in the requested fields");
 				return
 
 			}
 			if (type === "0") {
-				alert("Please select a category");
+				toggleNotification("Please select a category");
 				return
 
 			}
@@ -491,22 +492,22 @@
 				},
 				complete: function (response) {
                         if (response.status == 409){
-                            alert("A category with the specified name already exists in the specified category, please choose another one!");
+                            toggleNotification("A category with the specified name already exists in the specified category, please choose another one!");
                         }
                         if (response.status == 200){
-                            alert("Category has been updated successfully!");
+                            toggleNotification("Category has been updated successfully!");
                             fetchAllCategories();
                             clearFields();
                             updatePressed = false;
                         }
                         if (response.status == 400){
-                            alert("You have supplied invalid input parameters. Please fill the required fields again!");
+                            toggleNotification("You have supplied invalid input parameters. Please fill the required fields again!");
                         }
                         if (response.status == 500){
-                            alert("Category update failed!");
+                            toggleNotification("Category update failed!");
                         }
                         if (response.status == 401){
-                            alert("You are unauthorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are unauthorized to perform this operation. Please log in and try again!");
                         }
 				}
 				
@@ -535,7 +536,7 @@
                 //}
             }
             else{
-                alert('Please fill out the search field!');
+                toggleNotification('Please fill out the search field!');
             }
         })
 		function Search(searchTerm){
@@ -573,7 +574,7 @@
                             
                         }
                         if(response.status==401){
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
                         if(response.status==404){
@@ -591,7 +592,7 @@
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
             	})
                     
@@ -610,6 +611,15 @@
             clearCategoryContainer();
             fetchAllCategories();
         })
+		function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
 	})
 
 

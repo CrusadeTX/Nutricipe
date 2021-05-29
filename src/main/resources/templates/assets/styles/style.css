@@ -37,3 +37,11 @@ input:valid {
 #quote-container{
 	height: fit-content !important;
 }
+.mbar {
+    padding: 5px;
+    margin: 5px;
+    /*background: #eee;*/
+    border: 1px solid rgb(204, 11, 11);
+    z-index: 99;
+  }
+  

@@ -38,6 +38,7 @@
                     <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
                     <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
             </div>
+            <div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger"> Edit Recipe</h3>
@@ -174,7 +175,7 @@
 				},
 				fail: function () {
 
-					alert("Something went wrong!")
+					toggleNotification("Something went wrong!")
 				}
 			})
         }
@@ -222,7 +223,7 @@
 						windows.location.href = "/login?logout";
 					}*/
                     if (response.status == 401){
-                        alert("You are unauthorized to perform this operation. Please log in again!");
+                        toggleNotification("You are unauthorized to perform this operation. Please log in again!");
                     }
                     if (response.status == 200){
                         if (response.responseJSON.length>0){
@@ -235,7 +236,7 @@
 
                     }
                     if (response.status == 404){
-                        alert("The requested resource couldn't be found!");
+                        toggleNotification("The requested resource couldn't be found!");
                     }
 				}
 			})
@@ -257,7 +258,7 @@
 						windows.location.href = "/login?logout";
 					}*/
                     if (response.status == 401){
-                        alert("You are unauthorized to perform this operation. Please log in again!");
+                        toggleNotification("You are unauthorized to perform this operation. Please log in again!");
                     }
                     if (response.status == 200){
                         if (response.responseJSON.length>0){
@@ -270,7 +271,7 @@
 
                     }
                     if (response.status == 404){
-                        alert("The requested resource couldn't be found!");
+                        toggleNotification("The requested resource couldn't be found!");
                     }
 				}
 			})
@@ -509,12 +510,12 @@
                 imageIsValid = true;
             }
             else{
-                alert("Image exceeds 1 MB! Please choose a smaller image!")
+                toggleNotification("Image exceeds 1 MB! Please choose a smaller image!")
                 return
             }
         }
         else{
-            alert("You have selected an unsupported file!")
+            toggleNotification("You have selected an unsupported file!")
             return
         }
         }
@@ -524,7 +525,7 @@
                 imageIsValid = true;
             }
             else{
-            alert("Please select an image!")
+            toggleNotification("Please select an image!")
             return
             }
         }   
@@ -541,17 +542,17 @@
      
             if(name==="" || description==="" || SelectedCategories.size==0||SelectedProducts.size==0)
                 {
-                	alert("Please fill in the requested fields");
+                	toggleNotification("Please fill in the requested fields");
                 	return
                 	
                 }
                 //var isNumber = /^\d+\.\d+$/.test(proteins);
                 if(testIfNumber(authorId)){
-                    alert("User couldnt be retrieved.Please refresh the page and try again!")
+                    toggleNotification("User couldnt be retrieved.Please refresh the page and try again!")
                     return
                 }
                 if(!imageIsValid){
-                    alert("Please choose another image and try again!")
+                    toggleNotification("Please choose another image and try again!")
                     return
                 }
             formData.append('name',name);
@@ -580,7 +581,7 @@
                 },*/
     			complete : function(response){
             			if(response.status==201){
-                            alert("Product has been created successfully!");
+                            toggleNotification("Product has been created successfully!");
                             SelectedCategories.splice(0,SelectedCategories.length);
                             SelectedProducts.splice(0,SelectedProducts.length);
                             window.location.assign("/home");
@@ -588,21 +589,21 @@
                         if(response.status==401){
                             SelectedCategories.splice(0,SelectedCategories.length);
                             SelectedProducts.splice(0,SelectedProducts.length);
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
                         if(response.status==400){
-                            alert("Please provide valid input parameters!");
+                            toggleNotification("Please provide valid input parameters!");
 
                         }
                         if(response.status==500){
-                            alert("Product couldn't be created!");
+                            toggleNotification("Product couldn't be created!");
 
                         }
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
     		})
 
@@ -734,7 +735,15 @@
          
             
         }*/
-
+        function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
     
 
 

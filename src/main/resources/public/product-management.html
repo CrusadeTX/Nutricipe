@@ -19,27 +19,30 @@
 </head>
 <body>
 <div class="container-lg container-fluid ">
+<div class="fixed-header">
     <div class="row bg-danger shadow py-4">
-    <div class="col text-white">
-        <h1 class="text-center mb-0">Nutricipe</h1>
-        <div class="text-center">
-            <span>Nutricious Recipes Galore</span>
-        </div> 
-    </div> 
-</div>
-<div class="row bg-danger justify-content-center">
-                <span id="current-user-username"
-                    class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
-                    <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
-                    <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
-                    <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
-                    <!--<a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
-                    <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
-                    <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>-->
-                    <a id="diets-link" class="nav-item nav-link text-white" href="diet-management.html">Diets</a>
-                    <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
-                    <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
+        <div class="col text-white">
+            <h1 class="text-center mb-0">Nutricipe</h1>
+            <div class="text-center">
+                <span>Nutricious Recipes Galore</span>
             </div>
+        </div>
+    </div>
+    <div class="row bg-danger justify-content-center">
+        <span id="current-user-username"
+        class="bg-white text-danger rounded text-white px-2 py-1 m-2"></span>
+        <a id="home-link" class="nav-item nav-link active text-white" href="/home">Home</a>
+        <a id="profile-link" class="nav-item nav-link text-white" href="profile.html">Profile</a>
+        <a id="users-link" class="nav-item nav-link text-white" href="users.html">Users</a>
+        <!--<a id="products-link" class="nav-item nav-link text-white" href="products.html">Products</a>
+        <a id="nutrients-link" class="nav-item nav-link text-white" href="nutrients.html">Nutrients</a>
+        <a id="recipes-link" class="nav-item nav-link text-white" href="recipes.html">Recipes</a>-->
+        <a id="diets-link" class="nav-item nav-link text-white" href="diet-management.html">Diets</a>
+        <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
+        <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
+    </div>
+<div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
+</div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger"> Create Product</h3>
@@ -188,17 +191,17 @@
                 imageIsValid = true;
             }
             else{
-                alert("Image exceeds 1 MB! Please choose a smaller image!")
+                toggleNotification("Image exceeds 1 MB! Please choose a smaller image!")
                 return
             }
         }
         else{
-            alert("You have selected an unsupported file!")
+            toggleNotification("You have selected an unsupported file!")
             return
         }
         }
         else{
-            alert("Please select an image!")
+            toggleNotification("Please select an image!")
             return
         }
             var name = $('#product-name').val();
@@ -212,33 +215,33 @@
             var authorId = $('#current-user').val();
             if(name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || weight ==="")
                 {
-                	alert("Please fill in the requested fields");
+                	toggleNotification("Please fill in the requested fields");
                 	return
                 	
                 }
                 //var isNumber = /^\d+\.\d+$/.test(proteins);
                 if(testIfNumber(proteins)){
-                    alert("Proteins must be a number! Please enter a valid number!");
+                    toggleNotification("Proteins must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(calories)){
-                    alert("Calories must be a number! Please enter a valid number!");
+                    toggleNotification("Calories must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(fats)){
-                    alert("Fats must be a number! Please enter a valid number!");
+                    toggleNotification("Fats must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(carbohydrates)){
-                    alert("Carbohydrates must be a number! Please enter a valid number!");
+                    toggleNotification("Carbohydrates must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(weight)){
-                    alert("Proteins must be a number! Please enter a valid number!");
+                    toggleNotification("Proteins must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(authorId)){
-                    alert("User couldnt be retrieved.Please refresh the page and try again!")
+                    toggleNotification("User couldnt be retrieved.Please refresh the page and try again!")
                     return
                 }
                 formData.append('name',name);
@@ -270,29 +273,29 @@
                 },*/
     			complete : function(response){
             			if(response.status==201){
-                            alert("Product has been created successfully!");
+                            toggleNotification("Product has been created successfully!");
                             window.location.assign("/home");
             			}
                         if(response.status==401){
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
 
                         }
                         if(response.status==400){
-                            alert("Please provide valid input parameters!");
+                            toggleNotification("Please provide valid input parameters!");
 
                         }
                         if(response.status==500){
-                            alert("Product couldn't be created!");
+                            toggleNotification("Product couldn't be created!");
 
                         }
                         if(response.status==409){
-                            alert("Product couldn't be created! A Product with the specified name already exists. Please choose another one!");
+                            toggleNotification("Product couldn't be created! A Product with the specified name already exists. Please choose another one!");
 
                         }
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
     		})
 
@@ -427,7 +430,15 @@
         }*/
 
     
-
+        function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
 
 
 

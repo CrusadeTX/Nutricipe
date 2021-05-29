@@ -40,6 +40,7 @@
                     <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
                     <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
             </div>
+            <div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger">Edit Profile</h3>
@@ -98,7 +99,7 @@
 				},
 				fail: function () {
 
-					alert("Something went wrong!")
+					toggleNotification("Something went wrong!")
 				}
 			})
 		}
@@ -165,7 +166,7 @@
     			method: "GET",
     			success: function (data){
                     if(data === null){
-                        alert("No logged in user")
+                        toggleNotification("No logged in user")
                         windows.location.href="/login?logout";
                     }
                     else{
@@ -189,16 +190,16 @@
                 var dietId = $('#select-diet').val();
                 if(username==="" || email==="" || password ==="" || repeatPassword==="")
                 {
-                	alert("Please fill in the requested fields");
+                	toggleNotification("Please fill in the requested fields");
                 	return
                 	
                 }
                 if(!email.includes('@') || !email.includes('.')){
-                	alert("Email is not valid");
+                	toggleNotification("Email is not valid");
                 	return
                 }
                 if(password != repeatPassword){
-                	alert("Password must be confirmed");
+                	toggleNotification("Password must be confirmed");
                 	return
                 }
                 
@@ -215,7 +216,7 @@
                 },
     			success: function (data){
                     data.forEach(element => {
-                        alert(element);
+                        toggleNotification(element);
                        // $('#username-error').hide();
                         //$('#password-error').hide();
                         //$('#repeat-password-error').hide();
@@ -225,7 +226,7 @@
                     );
     			},
     			fail: function(){
-    				alert("Something went wrong")
+    				toggleNotification("Something went wrong")
     			}
     		})
         
@@ -235,7 +236,15 @@
          
             
         }
-
+        function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
     
 
 

@@ -40,6 +40,7 @@
                     <a id="categories-link" class="nav-item nav-link text-white" href="categories-management.html">Categories</a>
                     <a id="logout-link" class="nav-item nav-link text-white" href="/logout">Log Out</a>
             </div>
+            <div id="mbar" class="text-center bg-white text-danger font-weight-bold"></div>
                     <div id="registration-row" class="row d-flex justify-content-center my-5">
             <div class="col-6 shadow p-4">
                 <h3 class="text-center text-danger"> Edit Product</h3>
@@ -124,7 +125,7 @@
 				},
 				fail: function () {
 
-					alert("Something went wrong!")
+					toggleNotification("Something went wrong!")
 				}
 			})
 
@@ -219,12 +220,12 @@
                 imageIsValid = true;
             }
             else{
-                alert("Image exceeds 1 MB! Please choose a smaller image!")
+                toggleNotification("Image exceeds 1 MB! Please choose a smaller image!")
                 return
             }
         }
         else{
-            alert("You have selected an unsupported file!")
+            toggleNotification("You have selected an unsupported file!")
             return
         }
         }
@@ -234,7 +235,7 @@
                 imageIsValid = true;
             }
             else{
-            alert("Please select an image!")
+                toggleNotification("Please select an image!")
             return
             }
         } 
@@ -249,29 +250,29 @@
             var id = $('#product-id').val();
             if(id ==="" || name==="" || description==="" || proteins ==="" || fats==="" || carbohydrates === ""|| calories ==="" || weight ==="")
                 {
-                	alert("Please fill in the requested fields");
+                	toggleNotification("Please fill in the requested fields");
                 	return
                 	
                 }
                 //var isNumber = /^\d+\.\d+$/.test(proteins);
                 if(testIfNumber(proteins)){
-                    alert("Proteins must be a number! Please enter a valid number!");
+                    toggleNotification("Proteins must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(calories)){
-                    alert("Calories must be a number! Please enter a valid number!");
+                    toggleNotification("Calories must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(fats)){
-                    alert("Fats must be a number! Please enter a valid number!");
+                    toggleNotification("Fats must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(carbohydrates)){
-                    alert("Carbohydrates must be a number! Please enter a valid number!");
+                    toggleNotification("Carbohydrates must be a number! Please enter a valid number!");
                     return
                 }
                 if(testIfNumber(weight)){
-                    alert("Proteins must be a number! Please enter a valid number!");
+                    toggleNotification("Proteins must be a number! Please enter a valid number!");
                     return
                 }
                 formData.append('name',name);
@@ -303,33 +304,33 @@
                 },*/
     			complete : function(response){
             			if(response.status==200){
-                            alert("Product has been updated successfully!")
+                            toggleNotification("Product has been updated successfully!")
                             window.location.assign("/home");
             			}
                         if(response.status==404){
-                            alert("The Product you are trying to update couldn't be found!")
+                            toggleNotification("The Product you are trying to update couldn't be found!")
             			}
                         if(response.status==401){
-                            alert("You are not authorized to perform this operation. Please log in and try again!");
+                            toggleNotification("You are not authorized to perform this operation. Please log in and try again!");
                             window.location.assign("/logout");
 
                         }
                         if(response.status==400){
-                            alert("Please provide valid input parameters!");
+                            toggleNotification("Please provide valid input parameters!");
 
                         }
                         if(response.status==500){
-                            alert("Product couldn't be updated!");
+                            toggleNotification("Product couldn't be updated!");
 
                         }
                         if(response.status==409){
-                            alert("Product couldn't be created! A Product with the specified name already exists. Please choose another one!");
+                            toggleNotification("Product couldn't be created! A Product with the specified name already exists. Please choose another one!");
 
                         }
             		},
             		fail : function(){
             			
-            			alert("Something went terribly wrong!!!");
+            			toggleNotification("Something went terribly wrong!!!");
             		}
     		})
 
@@ -463,6 +464,15 @@
 
     
 
+        function toggleNotification(message){
+		var bar = document.createElement("div");
+  		bar.innerHTML = message;
+  		bar.classList.add("mbar");
+		document.getElementById("mbar").appendChild(bar);
+		setTimeout(function(){
+			document.getElementById("mbar").removeChild(bar);
+  },2000);
+	}
 
 
 
